@@ -1,0 +1,14 @@
+@mixin flex($aligin-item, $justify-content) {
+    display: flex;
+    align-items: $aligin-item;
+    justify-content: $justify-content;
+  }
+  
+  @mixin max-width($max) {
+    max-width: $max;
+    margin: 0 auto;
+  }
+  
+  @mixin boxShadow($value) {
+    box-shadow: 0 0 $value rgb(6 28 52 / 23%);
+  }

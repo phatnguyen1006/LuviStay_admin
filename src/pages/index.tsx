@@ -7,10 +7,7 @@ const Home: React.FC = () => {
     <div
       style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
     >
-      <Header />
-      <Main />
-      <Cards />
-      <Footer />
+      StackView
     </div>
   );
 };

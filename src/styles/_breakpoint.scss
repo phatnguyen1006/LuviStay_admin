@@ -1,0 +1,48 @@
+//
+@use "./variables" as *;
+
+@mixin screen1199 {
+  @media only screen and (max-width: $screen1199) {
+    @content;
+  }
+}
+@mixin screen950 {
+  @media only screen and (max-width: $screen950) {
+    @content;
+  }
+}
+
+@mixin screen850 {
+  @media only screen and (max-width: $screen850) {
+    @content;
+  }
+}
+
+@mixin screen750 {
+  @media only screen and (max-width: $screen750) {
+    @content;
+  }
+}
+
+@mixin screen650 {
+  @media only screen and (max-width: $screen650) {
+    @content;
+  }
+}
+
+@mixin screen550 {
+  @media only screen and (max-width: $screen550) {
+    @content;
+  }
+}
+
+@mixin screen350 {
+  @media only screen and (max-width: $screen350) {
+    @content;
+  }
+}
+@mixin screen450 {
+  @media only screen and (max-width: $screen450) {
+    @content;
+  }
+}
