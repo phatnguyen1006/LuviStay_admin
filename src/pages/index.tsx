@@ -3,13 +3,13 @@ import React from "react";
 import { Header, Main, Cards, Footer } from "components";
 
 const Home: React.FC = () => {
-  return (
-    <div
-      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
-    >
+	return (
+		<div
+			style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+		>
       StackView
-    </div>
-  );
+		</div>
+	);
 };
 
 export default Home;

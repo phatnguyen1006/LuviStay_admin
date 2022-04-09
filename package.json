@@ -33,6 +33,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.ts src/**/*.tsx src/**/*.js --fix *.js ",
+    "prepare": "husky install",
     "start": "craco start"
   },
   "eslintConfig": {
@@ -54,6 +56,17 @@
     ]
   },
   "devDependencies": {
-    "@types/react-redux": "^7.1.16"
+    "@types/react-redux": "^7.1.16",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.29.4",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

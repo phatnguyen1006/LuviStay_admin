@@ -18,18 +18,18 @@ import { APP_ROUTE, ADMIN_ROUTE } from "./routes.const";
 import { AppRootState } from "app/redux/store";
 
 export default function AppRoutes(): ReactElement {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    useEffect(() => {
+	useEffect(() => {
+		console.log("render");
+	}, []);
 
-    }, []);
-
-    return (
-        <Suspense fallback={<Loader />}>
-            <Router>
-                <Routes>
-                    <Route>
-                    <Route path="/" element={
+	return (
+		<Suspense fallback={<Loader />}>
+			<Router>
+				<Routes>
+					<Route>
+						<Route path="/" element={
 							<Navigate to={APP_ROUTE.ADMIN} />
 						} />
 						<Route path={APP_ROUTE.SIGN_IN} element={<SignInPage />}/>
@@ -39,14 +39,14 @@ export default function AppRoutes(): ReactElement {
 							// 		<AdminPage />
 							// 	</div>
 							// </RequireAuth>
-                            null
+							null
 						}/>
 						<Route path="*" element={<NotFoundPage />}/>
-                    </Route>
-                </Routes>
-            </Router>
-        </Suspense>
-    );
+					</Route>
+				</Routes>
+			</Router>
+		</Suspense>
+	);
 }
 
 function RequireAuth({ children }: { children: JSX.Element }) {

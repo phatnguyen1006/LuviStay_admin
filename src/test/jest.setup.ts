@@ -5,6 +5,6 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env.test" });
 
 afterAll(() => {
-  nock.cleanAll();
-  nock.restore();
+	nock.cleanAll();
+	nock.restore();
 });
