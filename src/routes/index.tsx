@@ -6,14 +6,16 @@ import {
 	BrowserRouter as Router, Navigate, Route, Routes, useLocation
 } from "react-router-dom";
 
-const AdminPage = React.lazy(() => import("pages/admin/index"));
-// const SignInPage = React.lazy(() => import("pages/sign-in/index"));
+import NotFoundPage from "pages/notfound";
+const AdminPage = React.lazy(() => import("pages/admin"));
+const SignInPage = React.lazy(() => import("pages/signin"));
 
 // components
 import { Loader } from "components/Loader";
 
 // Routes
 import { APP_ROUTE, ADMIN_ROUTE } from "./routes.const";
+import { AppRootState } from "app/redux/store";
 
 export default function AppRoutes(): ReactElement {
     const dispatch = useDispatch();
@@ -52,7 +54,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 
 
 	const isLoggedIn = useSelector(
-		(state: AppRootState) => state.rootReducer.adminAuthThunk.isLoggedIn,
+		(state: AppRootState) => state.auth.isLoggedIn,
 	);
 
 	console.log(isLoggedIn);

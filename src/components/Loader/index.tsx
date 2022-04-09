@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.scss";
 
-const Loader: React.FC = () => {
+export const Loader: React.FC = () => {
 	return (
 		<div className="w-screen h-screen flex justify-center items-center">
 			<svg className="loader-svg" viewBox="0 0 50 50">
@@ -11,5 +11,3 @@ const Loader: React.FC = () => {
 		</div>
 	);
 };
-
-export default Loader;
