@@ -34,12 +34,11 @@ export default function AppRoutes(): ReactElement {
 						} />
 						<Route path={APP_ROUTE.SIGN_IN} element={<SignInPage />}/>
 						<Route path={`${APP_ROUTE.ADMIN}/*`} element={
-							// <RequireAuth>
-							// 	<div>
-							// 		<AdminPage />
-							// 	</div>
-							// </RequireAuth>
-							null
+							<RequireAuth>
+								<div>
+									<AdminPage />
+								</div>
+							</RequireAuth>
 						}/>
 						<Route path="*" element={<NotFoundPage />}/>
 					</Route>

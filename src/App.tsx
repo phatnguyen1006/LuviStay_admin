@@ -4,13 +4,14 @@ import { Provider } from "react-redux";
 import store from "app/redux/store";
 import "./i18n";
 
-import Home from "pages";
+import AppRoutes from "routes";
 
 function App(): JSX.Element {
+  // const queryClient = new QueryClient();
   return (
     <Provider store={store}>
       <div className="App">
-        <Home />
+        <AppRoutes />
       </div>
     </Provider>
   );

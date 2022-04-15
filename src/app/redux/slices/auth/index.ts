@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { adminAuthApi } from "app/api/adminAuth";
 import { AppThunk } from "app/redux/store";
+import { COOKIE_USER } from "app/constants";
+import { AdminModel } from "app/model/Admin";
+import { getCookie, removeCookie, setCookie } from "app/utils/cookie";
 import { ISignInPayload, ISignInResponsePayload, IAdminAuth } from "./types";
 
 const initialState: IAdminAuth = {
@@ -20,15 +23,24 @@ export const signIn = (ISignInPayload: ISignInPayload, callback: VoidFunction, o
     } catch (error) {
         console.log("signInError", error);
     }
-}
+};
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    signInSuccess: (state: IAdminAuth, action: PayloadAction<ISignInResponsePayload>) => {},
-    reLogin: () => {},
-    signOut: () => {},
+    signInSuccess: (state: IAdminAuth, action: PayloadAction<ISignInResponsePayload>) => {
+      const user = {} as AdminModel;
+			user.token = action.payload.token;
+			setCookie(COOKIE_USER,JSON.stringify(user));
+			state.isLoggedIn = true;
+    },
+    reLogin: () => {
+      // log
+    },
+    signOut: () => {
+      // log
+    },
   },
 });
 

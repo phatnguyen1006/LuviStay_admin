@@ -5,8 +5,8 @@ import { useAppDispatch } from "app/redux/store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Form, Input, Button, message} from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input, Button, message} from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./styles.css";
 
 function LoginPage():JSX.Element {
@@ -34,7 +34,7 @@ function LoginPage():JSX.Element {
 	// }
 
 	const onFinish = (values: ISignInPayload) => {
-		console.log('Received values of form: ', values);
+		console.log("Received values of form: ", values);
 		dispatch(signIn({ username: values.username, password: values.password },
 			()=>{ 
 				navigate(from, { replace: true });
@@ -55,10 +55,8 @@ function LoginPage():JSX.Element {
 	
 	return (
 		<div className="w-screen h-screen flex items-center justify-center px-auto bg-slate-200">
-			<img className="logo-bg w-screen h-screen" src="/images/logo-background.png" />
 			<div className="absolute flex flex-col justify-center px-4 py-2 min-w-25 min-h-40 rounded-md shadow z-10 bg-white">
 				{/* <div className="logo mx-auto w-20 h-20 m-4 bg-gray-800">Logo</div> */}
-				<img className="mx-auto w-auto h-40 m-4" src="/images/logo-content.png" />
 				{/* <p className="text-red-400 pb-4">You must log in to view the page at {from}</p> */}
 
 				{/* <form onSubmit={handleSubmit}>
@@ -74,13 +72,13 @@ function LoginPage():JSX.Element {
 				>
 					<Form.Item
 						name="username"
-						rules={[{ required: true, message: 'Please input your Username!' }]}
+						rules={[{ required: true, message: "Please input your Username!" }]}
 					>
 						<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
 					</Form.Item>
 					<Form.Item
 						name="password"
-						rules={[{ required: true, message: 'Please input your Password!' }]}
+						rules={[{ required: true, message: "Please input your Password!" }]}
 					>
 						<Input
 						prefix={<LockOutlined className="site-form-item-icon" />}

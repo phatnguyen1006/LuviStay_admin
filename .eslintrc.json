@@ -22,8 +22,8 @@
     "rules": {
       "react/react-in-jsx-scope": "off",
       "@typescript-eslint/no-explicit-any":"off",
-      "indent": ["error", "tab"],
-      "linebreak-style": ["error", "windows"],
+      // "indent": ["error", "tab"],
+      "linebreak-style": "off",
       "quotes": ["error", "double"],
       "semi": ["error", "always"]
     }
