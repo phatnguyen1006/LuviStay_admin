@@ -35,11 +35,20 @@ const authSlice = createSlice({
 			setCookie(COOKIE_USER,JSON.stringify(user));
 			state.isLoggedIn = true;
     },
-    reLogin: () => {
-      // log
+    reLogin: (state: IAdminAuth) => {
+      try {
+        const user = JSON.parse(getCookie(COOKIE_USER)) as AdminModel;
+
+        if (user) {
+          state.isLoggedIn = true;
+        }
+      } catch (error) {
+        console.log("reLogin error: ", error);
+      }
     },
-    signOut: () => {
-      // log
+    signOut: (state: IAdminAuth) => {
+      state.isLoggedIn = false;
+      removeCookie(COOKIE_USER);
     },
   },
 });

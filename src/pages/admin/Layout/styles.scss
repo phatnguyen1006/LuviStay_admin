@@ -1,0 +1,17 @@
+#components-layout-demo-side .logo {
+    height: 32px;
+    margin: 16px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+    background: #fff;
+}
+
+.site-layout-background {
+    // flex justify-end pr-12 pt-2
+    display: flex;
+    justify-content: end;
+    padding-right: 3rem;
+    padding-top: 0.5rem;
+}

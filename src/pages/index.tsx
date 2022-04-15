@@ -8,7 +8,7 @@ const Home: React.FC = () => {
 		<div
 			style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
 		>
-      StackView
+      		StackView
 		</div>
 	);
 };

@@ -16,12 +16,13 @@ import { Loader } from "components/Loader";
 // Routes
 import { APP_ROUTE, ADMIN_ROUTE } from "./routes.const";
 import { AppRootState } from "app/redux/store";
+import { reLogin } from "app/redux/slices/auth";
 
 export default function AppRoutes(): ReactElement {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		console.log("render");
+		dispatch(reLogin());
 	}, []);
 
 	return (
