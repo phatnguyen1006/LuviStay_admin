@@ -1,23 +1,30 @@
 export const APP_ROUTE = {
-	SIGN_IN:"/sign-in",
-	ADMIN:"/dashboard"
+  SIGN_IN: "/sign-in",
+  ADMIN: "/dashboard",
 };
 
 export const ADMIN_ROUTE = {
-	DASHBOARD:"/",
-	MOVIE:"/movie",
-	MOVIE_CREATE:"/movie/create",
-	GENRE:"/genre",
-	GENRE_CREATE: "/genre/create",
-	// Routes
-	HCM_CITY: "/hcmcity-smartcity",
-	SUB_OPTIONS_1: "/hcmcity-smartcity/round1",
-	SUB_OPTIONS_2: "/hcmcity-smartcity/round2",
-	SUB_OPTIONS_3: "/hcmcity-smartcity/round3",
+  DASHBOARD: "/",
+  MOVIE: "/movie",
+  MOVIE_CREATE: "/movie/create",
+  GENRE: "/genre",
+  GENRE_CREATE: "/genre/create",
+  // Routes
+  REVENUE: "/revenue",
+  REVENUE_MONTH: "/revenue/month",
+  REVENUE_YEAR: "/revenue/year",
 
-	ROOM: "/room",
-	ROOM_HOTEL: "/room/hotel",
-	ROOM_MOTEL: "/room/motel",
-	ROOM_RESORT: "/room/resort",
-	EXPORT_FILE: "/exportfile",
+  ROOM: "/room",
+  ROOM_HOTEL: "/room/hotel",
+  ROOM_MOTEL: "/room/motel",
+  ROOM_RESORT: "/room/resort",
+
+  USER: "/user",
+  USER_VIP: "/user/vip",
+  USER_REGULAR: "/user/regular",
+
+  BLOG: "/blog",
+  REVIEW: "/review",
+
+  EXPORT_FILE: "/exportfile",
 };

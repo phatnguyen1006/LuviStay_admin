@@ -1,12 +1,11 @@
 import {
   HomeOutlined,
   HighlightOutlined,
-  BookOutlined,
-  SoundOutlined,
-  TeamOutlined,
-  DeploymentUnitOutlined,
-  FileExcelOutlined,
   InsertRowLeftOutlined,
+  BarChartOutlined,
+  UserOutlined,
+  FileTextOutlined,
+  FileExcelOutlined
 } from "@ant-design/icons";
 import React, { ReactElement } from "react";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
@@ -31,8 +30,8 @@ export const menus: Array<IMenuItem> = [
   },
   {
     key: "room",
-    icon: () => <HighlightOutlined />,
-    title: "Quản lý khách sạn",
+    icon: () => <InsertRowLeftOutlined />,
+    title: "Quản lý phòng khách sạn",
     endPoint: "/room",
     subMenuKey: "room_sub",
     subMenu: [
@@ -53,4 +52,87 @@ export const menus: Array<IMenuItem> = [
       },
     ],
   },
+  {
+    key: "revenue",
+    icon: () => <BarChartOutlined />,
+    title: "Quản lý doanh thu",
+    endPoint: "/revenue",
+    subMenuKey: "revenue_sub",
+    subMenu: [
+      {
+        key: "month",
+        title: "Doanh thu tháng",
+        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_MONTH}`,
+      },
+      {
+        key: "year",
+        title: "Doanh thu năm",
+        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
+      },
+    ],
+  },
+  {
+    key: "user",
+    icon: () => <UserOutlined />,
+    title: "Quản lý người dùng",
+    endPoint: "/user",
+    subMenuKey: "user_sub",
+    subMenu: [
+      {
+        key: "regular",
+        title: "Người dùng thường xuyên",
+        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_REGULAR}`,
+      },
+      {
+        key: "vip",
+        title: "Người dùng VIP",
+        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_VIP}`,
+      },
+    ],
+  },
+  {
+    key: "blog",
+    icon: () => <FileTextOutlined />,
+    title: "Quản lý blog",
+    endPoint: "/blog",
+    path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG}`,
+    // subMenuKey: "blog_sub",
+    // subMenu: [
+    //   {
+    //     key: "month",
+    //     title: "Doanh thu tháng",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_MONTH}`,
+    //   },
+    //   {
+    //     key: "year",
+    //     title: "Doanh thu năm",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
+    //   },
+    // ],
+  },
+  // {
+  //   key: "revenue",
+  //   icon: () => <BarChartOutlined />,
+  //   title: "Quản lý doanh thu",
+  //   endPoint: "/revenue",
+  //   subMenuKey: "revenue_sub",
+  //   subMenu: [
+  //     {
+  //       key: "month",
+  //       title: "Doanh thu tháng",
+  //       path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_MONTH}`,
+  //     },
+  //     {
+  //       key: "year",
+  //       title: "Doanh thu năm",
+  //       path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
+  //     },
+  //   ],
+  // },
+  {
+		key:"export-file",
+		icon: () => <FileExcelOutlined />,
+		title:"Xuất file thống kê",
+		path:`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.EXPORT_FILE}`
+	},
 ];
