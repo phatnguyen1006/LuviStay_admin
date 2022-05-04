@@ -9,7 +9,7 @@ export default function SideBar(): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Sider
-      width="25vw"
+      width="20vw"
       collapsible
       collapsed={collapsed}
       onCollapse={() => {
