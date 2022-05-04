@@ -6,8 +6,76 @@
     justify-content: center;
 }
 
-// .mask-container {
-//     width: 100%;
-//     height: 100%;
-//     opacity: 0.6;
-// }
+.dashboard-section-container {
+    width: 100%;
+}
+
+.turnover-section-container {
+    width: 60%;
+}
+
+.turnover-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    // padding-right: 20px;
+}
+
+.custom-selection-btn {
+    position: relative;
+    width: 90px;
+    height: 30px;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selection-antd {
+    position: absolute;
+    width: 92px;
+    height: 32px;
+}
+
+.selection-icon-prefix {
+    width: max-content;
+    height: max-content;
+    margin-right: 10px;
+}
+
+.custom-selection-btn-with-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1px 2px 1px 2px;
+    width: max-content;
+    height: max-content;
+}
+
+.chart-container {
+    width: 100%;
+}
+
+.second-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    // > * + * {
+    //     margin-left: 2rem;
+    // }
+}
+
+.news-view {
+    width: 35%;
+    height: 400px;
+
+}
+
+// rewrite antd css
+.ant-select-selection-item,
+.ant-select-selector {
+    padding: 0 !important;
+}
