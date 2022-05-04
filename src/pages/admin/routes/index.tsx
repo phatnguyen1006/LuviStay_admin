@@ -20,8 +20,8 @@ export default function AdminRoutes() {
         <Route path={`${ADMIN_ROUTE.USER_REGULAR}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.USER_VIP}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.BLOG}`} element={<AdminDashboard />} />
+        <Route path={`${ADMIN_ROUTE.SETTINGS}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.EXPORT_FILE}`} element={<AdminDashboard />} />
-
       </Route>
     </Routes>
   );

@@ -26,5 +26,6 @@ export const ADMIN_ROUTE = {
   BLOG: "/blog",
   REVIEW: "/review",
 
+  SETTINGS: "/settings",
   EXPORT_FILE: "/exportfile",
 };

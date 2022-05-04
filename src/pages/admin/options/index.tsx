@@ -5,6 +5,7 @@ import {
   BarChartOutlined,
   UserOutlined,
   FileTextOutlined,
+  SettingOutlined,
   FileExcelOutlined
 } from "@ant-design/icons";
 import React, { ReactElement } from "react";
@@ -134,5 +135,11 @@ export const menus: Array<IMenuItem> = [
 		icon: () => <FileExcelOutlined />,
 		title:"Xuất file thống kê",
 		path:`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.EXPORT_FILE}`
+	},
+  {
+		key:"settings",
+		icon: () => <SettingOutlined />,
+		title:"Cài đặt",
+		path:`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.SETTINGS}`
 	},
 ];
