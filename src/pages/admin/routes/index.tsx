@@ -1,8 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ADMIN_ROUTE } from "routes/routes.const";
+
 const AdminDashboard = React.lazy(() => import("../Dashboard"));
 const AdminLayout = React.lazy(() => import("../Layout"));
+const AdminSetting = React.lazy(() => import("../Setting"));
 
 export default function AdminRoutes() {
   return (
@@ -20,7 +22,7 @@ export default function AdminRoutes() {
         <Route path={`${ADMIN_ROUTE.USER_REGULAR}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.USER_VIP}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.BLOG}`} element={<AdminDashboard />} />
-        <Route path={`${ADMIN_ROUTE.SETTINGS}`} element={<AdminDashboard />} />
+        <Route path={`${ADMIN_ROUTE.SETTINGS}`} element={<AdminSetting />} />
         <Route path={`${ADMIN_ROUTE.EXPORT_FILE}`} element={<AdminDashboard />} />
       </Route>
     </Routes>
