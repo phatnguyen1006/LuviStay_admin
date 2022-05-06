@@ -1,6 +1,7 @@
 import { Divider } from "antd";
 import { useState } from "react";
 import RowLayout from "./RowLayout";
+import "./styles.scss";
 
 /**
  * Usage:
@@ -14,13 +15,14 @@ import RowLayout from "./RowLayout";
 const Setting = (): JSX.Element => {
   return (
     <div>
-      <h2>Cài đặt</h2>
-      <Divider />
+      <h2>Cài đặt chung</h2>
+      <hr />
       <Divider orientation="left" orientationMargin={0}>
         Something
       </Divider>
       <RowLayout
-        name="Haha"
+        name="Testing Select Options"
+        subName="This is select box, choose one option"
         handler={() => null}
         type="select"
         options={{
@@ -31,19 +33,19 @@ const Setting = (): JSX.Element => {
         }}
       />
       <RowLayout
-        name="Haha"
+        name="Testing Switch Options"
         handler={() => null}
         type="switch"
         options={{ onTitle: "开启", offTitle: "关闭" }}
       />
       <RowLayout
-        name="Haha"
+        name="Testing Input Options"
         handler={() => null}
         type="input"
         options={{ extraInformation: "Extra Information" }}
       />
       <RowLayout
-        name="Haha"
+        name="Testing CheckBox Options"
         handler={() => null}
         type="checkbox"
         options={{ title: "Yêu cầu người dùng" }}

@@ -4,6 +4,7 @@ import { ADMIN_ROUTE } from "routes/routes.const";
 
 const AdminDashboard = React.lazy(() => import("../Dashboard"));
 const AdminLayout = React.lazy(() => import("../Layout"));
+const AdminExportFile = React.lazy(() => import("../ExportFile"));
 const AdminSetting = React.lazy(() => import("../Setting"));
 
 export default function AdminRoutes() {
@@ -15,15 +16,15 @@ export default function AdminRoutes() {
         <Route path={`${ADMIN_ROUTE.ROOM_HOTEL}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.ROOM_MOTEL}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.ROOM_RESORT}`} element={<AdminDashboard />} />
-        <Route path={`${ADMIN_ROUTE.REVENUE}`} element={<AdminDashboard />} />
-        <Route path={`${ADMIN_ROUTE.REVENUE_MONTH}`} element={<AdminDashboard />} />
-        <Route path={`${ADMIN_ROUTE.REVENUE_YEAR}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.USER}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.USER_REGULAR}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.USER_VIP}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.BLOG}`} element={<AdminDashboard />} />
+        <Route path={`${ADMIN_ROUTE.REVENUE}`} element={<AdminDashboard />} />
+        <Route path={`${ADMIN_ROUTE.REVENUE_MONTH}`} element={<AdminDashboard />} />
+        <Route path={`${ADMIN_ROUTE.REVENUE_YEAR}`} element={<AdminDashboard />} />
+        <Route path={`${ADMIN_ROUTE.EXPORT_FILE}`} element={<AdminExportFile />} />
         <Route path={`${ADMIN_ROUTE.SETTINGS}`} element={<AdminSetting />} />
-        <Route path={`${ADMIN_ROUTE.EXPORT_FILE}`} element={<AdminDashboard />} />
       </Route>
     </Routes>
   );

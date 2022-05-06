@@ -27,5 +27,5 @@ export const ADMIN_ROUTE = {
   REVIEW: "/review",
 
   SETTINGS: "/settings",
-  EXPORT_FILE: "/exportfile",
+  EXPORT_FILE: "/export-file",
 };

@@ -54,25 +54,6 @@ export const menus: Array<IMenuItem> = [
     ],
   },
   {
-    key: "revenue",
-    icon: () => <BarChartOutlined />,
-    title: "Quản lý doanh thu",
-    endPoint: "/revenue",
-    subMenuKey: "revenue_sub",
-    subMenu: [
-      {
-        key: "month",
-        title: "Doanh thu tháng",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_MONTH}`,
-      },
-      {
-        key: "year",
-        title: "Doanh thu năm",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
-      },
-    ],
-  },
-  {
     key: "user",
     icon: () => <UserOutlined />,
     title: "Quản lý người dùng",
@@ -97,6 +78,7 @@ export const menus: Array<IMenuItem> = [
     title: "Quản lý blog",
     endPoint: "/blog",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG}`,
+    
     // subMenuKey: "blog_sub",
     // subMenu: [
     //   {
@@ -110,6 +92,25 @@ export const menus: Array<IMenuItem> = [
     //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
     //   },
     // ],
+  },
+  {
+    key: "revenue",
+    icon: () => <BarChartOutlined />,
+    title: "Quản lý doanh thu",
+    endPoint: "/revenue",
+    subMenuKey: "revenue_sub",
+    subMenu: [
+      {
+        key: "month",
+        title: "Doanh thu tháng",
+        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_MONTH}`,
+      },
+      {
+        key: "year",
+        title: "Doanh thu năm",
+        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
+      },
+    ],
   },
   // {
   //   key: "revenue",
@@ -139,7 +140,7 @@ export const menus: Array<IMenuItem> = [
   {
 		key:"settings",
 		icon: () => <SettingOutlined />,
-		title:"Cài đặt",
+		title:"Cài đặt chung",
 		path:`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.SETTINGS}`
 	},
 ];

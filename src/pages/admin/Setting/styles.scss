@@ -1,4 +1,12 @@
+@use "../../../styles/" as *;
+
+h2 {
+    font-size: larger;
+    font-weight: 700;
+}
+
 .row-layout-container {
+    height: 40px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -7,10 +15,19 @@
     margin: 0 20px;
 }
 
-.row-layout-name {
-    
+.name-layout-container {
+    display: flex;
+    flex-direction: column;
+
+    >*+* {
+        margin-top: 10px;
+    }
 }
 
-.row-layout-handler {
+.row-layout-name {}
 
+.row-layout-sub-name {
+    color: $lightTextColor;
 }
+
+.row-layout-handler {}

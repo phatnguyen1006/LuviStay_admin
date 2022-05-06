@@ -52,7 +52,7 @@ export default function AdminLayout(): ReactElement {
           <AppBreadcrumb />
           <div
             className="site-layout-content"
-            style={{ padding: 24, minHeight: "85vh" }}
+            style={{ padding: 24, minHeight: "80vh" }}
           >
             <Outlet />
           </div>
