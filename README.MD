@@ -1,5 +1,8 @@
 # luviana_admin
 
+Settings Page
+RowLayout
+Use type props to choose which layout you want.
 
 
 ## Getting Started
