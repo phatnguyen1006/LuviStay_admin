@@ -35,7 +35,7 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "build": "craco build",
+    "build": "react-scripts build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.ts src/**/*.tsx src/**/*.js --fix *.js ",

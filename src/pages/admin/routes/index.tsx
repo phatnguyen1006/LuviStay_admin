@@ -12,10 +12,7 @@ export default function AdminRoutes() {
     <Routes>
       <Route element={<AdminLayout />}>
         <Route path={`${ADMIN_ROUTE.DASHBOARD}`} element={<AdminDashboard />} />
-        <Route path={`${ADMIN_ROUTE.ROOM}`} element={<AdminDashboard />} />
-        <Route path={`${ADMIN_ROUTE.ROOM_HOTEL}`} element={<AdminDashboard />} />
-        <Route path={`${ADMIN_ROUTE.ROOM_MOTEL}`} element={<AdminDashboard />} />
-        <Route path={`${ADMIN_ROUTE.ROOM_RESORT}`} element={<AdminDashboard />} />
+        <Route path={`${ADMIN_ROUTE.APARTMENT}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.USER}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.USER_REGULAR}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.USER_VIP}`} element={<AdminDashboard />} />
