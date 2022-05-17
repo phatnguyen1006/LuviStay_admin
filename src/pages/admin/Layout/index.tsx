@@ -52,12 +52,12 @@ export default function AdminLayout(): ReactElement {
           <AppBreadcrumb />
           <div
             className="site-layout-content"
-            style={{ padding: 24, minHeight: "80vh" }}
+            style={{ padding: 24, minHeight: "78vh" }}
           >
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}></Footer>
+        <Footer style={{ textAlign: "center" }}>LuviStay</Footer>
       </Layout>
     </Layout>
   );

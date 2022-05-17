@@ -6,7 +6,7 @@ import {
   UserOutlined,
   FileTextOutlined,
   SettingOutlined,
-  FileExcelOutlined
+  FileExcelOutlined,
 } from "@ant-design/icons";
 import React, { ReactElement } from "react";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
@@ -30,47 +30,59 @@ export const menus: Array<IMenuItem> = [
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.DASHBOARD}`,
   },
   {
-    key: "room",
+    key: "apartment",
     icon: () => <InsertRowLeftOutlined />,
-    title: "Quản lý phòng khách sạn",
-    endPoint: "/room",
-    subMenuKey: "room_sub",
-    subMenu: [
-      {
-        key: "hotel",
-        title: "Khách sạn",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.ROOM_HOTEL}`,
-      },
-      {
-        key: "motel",
-        title: "Nhà nghỉ",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.ROOM_MOTEL}`,
-      },
-      {
-        key: "resort",
-        title: "Khu nghỉ dưỡng",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.ROOM_RESORT}`,
-      },
-    ],
+    title: "Quản lý khách sạn",
+    endPoint: "/apartment",
+    path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT}`,
+    // subMenuKey: "apartment_sub",
+    // subMenu: [
+    //   {
+    //     key: "hotel",
+    //     title: "Khách sạn",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.ROOM_HOTEL}`,
+    //   },
+    //   {
+    //     key: "motel",
+    //     title: "Nhà nghỉ",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.ROOM_MOTEL}`,
+    //   },
+    //   {
+    //     key: "resort",
+    //     title: "Khu nghỉ dưỡng",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.ROOM_RESORT}`,
+    //   },
+    //   {
+    //     key: "homestay",
+    //     title: "Homestay",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.ROOM_RESORT}`,
+    //   },
+    //   {
+    //     key: "all",
+    //     title: "Tất cả",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.ROOM_RESORT}`,
+    //   },
+    // ],
   },
   {
     key: "user",
     icon: () => <UserOutlined />,
     title: "Quản lý người dùng",
     endPoint: "/user",
-    subMenuKey: "user_sub",
-    subMenu: [
-      {
-        key: "regular",
-        title: "Người dùng thường xuyên",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_REGULAR}`,
-      },
-      {
-        key: "vip",
-        title: "Người dùng VIP",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_VIP}`,
-      },
-    ],
+    path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_REGULAR}`,
+    // subMenuKey: "user_sub",
+    // subMenu: [
+    //   {
+    //     key: "regular",
+    //     title: "Người dùng thường xuyên",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_REGULAR}`,
+    //   },
+    //   {
+    //     key: "vip",
+    //     title: "Người dùng VIP",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_VIP}`,
+    //   },
+    // ],
   },
   {
     key: "blog",
@@ -78,7 +90,7 @@ export const menus: Array<IMenuItem> = [
     title: "Quản lý blog",
     endPoint: "/blog",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG}`,
-    
+
     // subMenuKey: "blog_sub",
     // subMenu: [
     //   {
@@ -132,15 +144,15 @@ export const menus: Array<IMenuItem> = [
   //   ],
   // },
   {
-		key:"export-file",
-		icon: () => <FileExcelOutlined />,
-		title:"Xuất file thống kê",
-		path:`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.EXPORT_FILE}`
-	},
+    key: "export-file",
+    icon: () => <FileExcelOutlined />,
+    title: "Xuất file thống kê",
+    path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.EXPORT_FILE}`,
+  },
   {
-		key:"settings",
-		icon: () => <SettingOutlined />,
-		title:"Cài đặt chung",
-		path:`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.SETTINGS}`
-	},
+    key: "settings",
+    icon: () => <SettingOutlined />,
+    title: "Cài đặt chung",
+    path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.SETTINGS}`,
+  },
 ];
