@@ -169,7 +169,7 @@ export default function Apartment(): ReactElement {
       key: "action",
       render: (text, record) => (
         <Space size="small">
-          <a style={{ color: "green" }}><CheckOutlined title="Duyệt" /></a>
+          <a style={{ color: "lightgreen" }}><CheckOutlined title="Duyệt" /></a>
           <a style={{ color: "red" }}><CloseOutlined title="Không duyệt" /></a>
         </Space>
       ),

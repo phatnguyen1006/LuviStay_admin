@@ -3,6 +3,13 @@
 h2 {
     font-size: 40px;
     font-weight: 700;
+    padding: 0;
+    margin: 0;
+}
+
+h3 {
+    font-size: 30px;
+    font-weight: 500;
 }
 
 // ._container {
@@ -19,12 +26,17 @@ h2 {
 
 .turnover-section-container {
     width: 60%;
+    padding: 20px;
+    border: 1.2px solid #001529;
+    border-radius: 15px;
 }
 
 .turnover-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    height: max-content;
     // padding-right: 20px;
 }
 
@@ -39,10 +51,25 @@ h2 {
     align-items: center;
 }
 
+.filter-btn-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 20%;
+    height: max-content;
+    background-color: red;
+}
+
 .selection-antd {
     position: absolute;
-    width: 92px;
-    height: 32px;
+    left: 0;
+    width: 100%;
+}
+
+.filter-icon {
+    position: absolute;
+    right: 0;
+    width: 30%;
 }
 
 .selection-icon-prefix {
@@ -78,7 +105,19 @@ h2 {
 .news-view {
     width: 35%;
     height: 400px;
-
+    padding: 20px;
+    border: 1.2px solid #001529;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: left;
+    // background-color: $primary;
+    background-color: #001529;
+    color: $primary;
+    & > h3 {
+        color: $primary;
+    }
 }
 
 // // rewrite antd css

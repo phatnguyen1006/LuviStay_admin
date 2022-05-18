@@ -69,7 +69,7 @@ export const menus: Array<IMenuItem> = [
     icon: () => <UserOutlined />,
     title: "Quản lý người dùng",
     endPoint: "/user",
-    path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_REGULAR}`,
+    path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER}`,
     // subMenuKey: "user_sub",
     // subMenu: [
     //   {

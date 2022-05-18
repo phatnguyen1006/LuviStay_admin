@@ -101,10 +101,10 @@ export default function ExportFile(): ReactElement {
 	return (
         <div className="export-file-container">
             <Button disabled={ideaLoading} onClick={() => fetchIdeaToExport()} icon={<FolderOpenOutlined />} size="large">
-                {ideaLoading ? <span>Đang tải xuống...</span> : <span className="text-primary">Xuất files danh sách ý tưởng</span>}
+                {ideaLoading ? <span>Đang tải xuống...</span> : <span className="text-primary">Xuất files danh sách khách sạn</span>}
             </Button>
             <Button disabled={studentLoading} onClick={() => fetchStudentToExport()} icon={<FolderOpenOutlined />} size="large">
-                {studentLoading ? "Đang tải xuống..." : <span className="text-primary">Xuất files danh sách sinh viên</span>}
+                {studentLoading ? "Đang tải xuống..." : <span className="text-primary">Xuất files danh sách người dùng</span>}
             </Button>
             <CSVLink {...csvReport} ref={exportIdeas}/>
             {/* <CSVLink ref={exportIdeas} data={flag == 0 ? ideaData : students} headers={flag == 0 ? IdeaHeaders : StudentHeaders} filename={flag == 0 ? "Ideas_Report.csv" : "Students_Report.csv"}/> */}
