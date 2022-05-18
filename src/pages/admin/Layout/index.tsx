@@ -57,7 +57,7 @@ export default function AdminLayout(): ReactElement {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>LuviStay</Footer>
+        <Footer style={{ textAlign: "center" }}>LuviStay - Chuỗi khách sạn tư nhân</Footer>
       </Layout>
     </Layout>
   );

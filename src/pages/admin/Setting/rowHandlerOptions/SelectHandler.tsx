@@ -14,7 +14,7 @@ export function SelectHandler({
       <Select
         labelInValue
         defaultValue={options.selectList[0]}
-        style={{ width: "25%" }}
+        style={{ width: "25%", paddingInlineStart: 20 }}
         onChange={handler}
         disabled={disabled}
       >

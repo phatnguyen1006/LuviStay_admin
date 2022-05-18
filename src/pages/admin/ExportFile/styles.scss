@@ -1,3 +1,5 @@
+@use "../../../styles/" as *;
+
 // flex flex-col justify-center items-center w-full h-96 min-w-full min-h-full space-y-4
 .export-file-container {
     display: flex;
@@ -11,4 +13,8 @@
     > * + * {
         margin-top: 2rem;
     }
+}
+
+.text-primary {
+    color: $primary;
 }

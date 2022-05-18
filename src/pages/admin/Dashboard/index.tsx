@@ -17,15 +17,13 @@ const DashBoard = (): JSX.Element => {
     <div>
       <section
         className="dashboard-section-container"
-        style={{ backgroundColor: "red" }}
       >
         <h2>Dashboard</h2>
         <p>This is my dashboard today information</p>
       </section>
       <section className="second-section">
-        <section
+        <div
           className="turnover-section-container"
-          style={{ backgroundColor: "cyan" }}
         >
           <div className="turnover-header">
             <h2>Turn Over</h2>
@@ -49,7 +47,7 @@ const DashBoard = (): JSX.Element => {
           <div className="chart-container">
             <Chart chartType={chartType} />
           </div>
-        </section>
+        </div>
         <section className="news-view" style={{ backgroundColor: "salmon" }}>
             <ul>
                 <li>LuviStay 1</li>
