@@ -4,6 +4,7 @@ import Chart from "components/chart";
 import { ChartType } from "components/chart/types";
 import { BsSliders } from "react-icons/bs";
 import "./styles.scss";
+import StandingWindow from "components/standing";
 
 const { Option } = Select;
 
@@ -59,13 +60,7 @@ const DashBoard = (): JSX.Element => {
           </div>
         </div>
         <section className="news-view">
-          <h3>Xếp hạng khách sạn</h3>
-          <ul>
-            <li>LuviStay 1</li>
-            <li>LuviStay 2</li>
-            <li>LuviStay 3</li>
-            <li>LuviStay 4</li>
-          </ul>
+          <StandingWindow />
         </section>
       </section>
     </div>
