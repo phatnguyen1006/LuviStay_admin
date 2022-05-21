@@ -1,10 +1,18 @@
 import React, { ReactElement, useState, useRef } from "react";
-import { UploadOutlined, FolderOpenOutlined, EditOutlined, FileTextOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Button, Space, Table } from "antd";
+import {
+  EditOutlined,
+  FileTextOutlined,
+  DeleteOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
+import { Button, Space, Table, Tabs } from "antd";
 import { ColumnsType } from "antd/lib/table/interface";
 import Detail from "components/modal/detail";
 import "./styles.scss";
 import { useLocation } from "react-router-dom";
+
+const { TabPane } = Tabs;
 
 export default function Blog(): ReactElement {
   const location = useLocation();
@@ -35,23 +43,23 @@ export default function Blog(): ReactElement {
 
   const columns = [
     {
-      title: "Email",
-      key: "email",
-      dataIndex: "email",
+      title: "Tên blog",
+      key: "name",
+      dataIndex: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Tác giả",
+      dataIndex: "author",
+      key: "author",
     },
     {
-      title: "Phone",
-      key: "phone",
-      dataIndex: "phone",
+      title: "Ngày tạo",
+      key: "createdAt",
+      dataIndex: "createdAt",
     },
     {
-      title: "Action",
+      title: "",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
@@ -69,36 +77,96 @@ export default function Blog(): ReactElement {
     },
   ];
 
-  const data = [
+  const columnsPending = [
+    {
+      title: "Tên blog",
+      key: "name",
+      dataIndex: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Tác giả",
+      dataIndex: "author",
+      key: "author",
+    },
+    {
+      title: "Ngày tạo",
+      key: "createdAt",
+      dataIndex: "createdAt",
+    },
+    {
+      title: "",
+      key: "action",
+      render: (text, record) => (
+        <Space size="middle">
+          <a style={{ color: "green" }}>
+            <CheckOutlined title="Duyệt blog" />
+          </a>
+          <a style={{ color: "red" }}>
+            <CloseOutlined title="Không duyệt blog" />
+          </a>
+        </Space>
+      ),
+    },
+  ];
+
+  const dataPending = [
     {
       key: "1",
-      name: "Nguyễn Trg Pht",
-      phone: "0987654321",
-      email: "19521998@gm.uit.edu.vn",
+      author: "Nguyễn Khuê",
+      name: "Học tốt BackEnd",
+      createdAt: Date(),
     },
     {
       key: "2",
-      name: "Nguyễn Ngọc Khôi",
-      phone: "0987654321",
-      email: "19521709khoinguyen@gm.uit.edu.vn",
+      author: "Đặng Haha",
+      name: "Hack NASA bằng HTML",
+      createdAt: Date(),
     },
     {
       key: "3",
-      name: "Nguyễn Lê Khôi",
-      phone: "0987654321",
-      email: "19521707bb@gm.uit.edu.vn",
+      author: "Sushi",
+      name: "Xếp là số một",
+      createdAt: Date(),
     },
     {
       key: "4",
-      name: "Some Name",
-      phone: "0987654321",
-      email: "something@gmail.com",
+      author: "Jackson",
+      name: "Luyện code bằng mắt",
+      createdAt: Date(),
+    },
+  ];
+
+  const data = [
+    {
+      key: "1",
+      author: "Nguyễn Trg Pht",
+      name: "Làm sao để tối ưu hoá tìm kiếm",
+      createdAt: Date(),
+    },
+    {
+      key: "2",
+      author: "Đặng Tiểu Bình",
+      name: "Tạo ra AI với HTML",
+      createdAt: Date(),
+    },
+    {
+      key: "3",
+      author: "Nguyễn Khuê",
+      name: "Chạy ngay đi",
+      createdAt: Date(),
+    },
+    {
+      key: "4",
+      author: "Cầu Mây",
+      name: "Luyện gõ phím 10 ngón",
+      createdAt: Date(),
     },
     {
       key: "5",
-      name: "No name",
-      phone: "0987654321",
-      email: "phtnguyen1998@gmail.com",
+      author: "Nguyễn Ngọc Khôi",
+      name: "Cách để học tốt ngữ văn lớp 7",
+      createdAt: Date(),
     },
   ];
 
@@ -109,11 +177,23 @@ export default function Blog(): ReactElement {
         <Button type="primary">Thêm blog</Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}
-      <Table
-        columns={columns as ColumnsType<any>}
-        dataSource={data}
-        onChange={onChange}
-      />
+      <Tabs onChange={callback}>
+        <TabPane tab="Tất cả" key="accepted">
+          {/* <Table columns={columns} dataSource={data} /> */}
+          <Table
+            columns={columns as ColumnsType<any>}
+            dataSource={data}
+            onChange={onChange}
+          />
+        </TabPane>
+        <TabPane tab="Đang chờ duyệt" key="pending">
+          <Table
+            columns={columnsPending as ColumnsType<any>}
+            dataSource={dataPending}
+            onChange={onChange}
+          />
+        </TabPane>
+      </Tabs>
       <Detail visible={visible} hideModal={hideModal} />
     </div>
   );

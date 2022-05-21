@@ -40,13 +40,13 @@ export default function Apartment(): ReactElement {
 
   const columns = [
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Address",
+      title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
     },
@@ -96,7 +96,7 @@ export default function Apartment(): ReactElement {
       ),
     },
     {
-      title: "Action",
+      title: "",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
@@ -109,13 +109,13 @@ export default function Apartment(): ReactElement {
 
   const columnsPending = [
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Address",
+      title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
     },
@@ -165,11 +165,11 @@ export default function Apartment(): ReactElement {
       ),
     },
     {
-      title: "Action",
+      title: "",
       key: "action",
       render: (text, record) => (
         <Space size="small">
-          <a style={{ color: "lightgreen" }}><CheckOutlined title="Duyệt" /></a>
+          <a style={{ color: "green" }}><CheckOutlined title="Duyệt" /></a>
           <a style={{ color: "red" }}><CloseOutlined title="Không duyệt" /></a>
         </Space>
       ),

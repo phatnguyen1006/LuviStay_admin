@@ -49,17 +49,17 @@ export default function User(): ReactElement {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Phone",
+      title: "SĐT",
       key: "phone",
       dataIndex: "phone",
     },
     {
-      title: "Action",
+      title: "",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
