@@ -3,11 +3,3 @@ export enum ApartmentStatus {
     accepted,
     all,
 }
-
-export enum TagType {
-    hotel = "hotel",
-    motel = "motel",
-    resort = "resort",
-    homestay = "homestay",
-    other = "other",
-}

@@ -14,7 +14,7 @@ import "./styles.scss";
 import { ColumnsType } from "antd/lib/table/interface";
 import UserDetail from "components/modal/UserDetail";
 
-export default function User(): ReactElement {
+export default function UserPage(): ReactElement {
   const location = useLocation();
   const [reload, setReload] = useState<boolean>(false);
   // const [currentTab, setCurrentTab] = useState<IStatus>(IStatus.pending);

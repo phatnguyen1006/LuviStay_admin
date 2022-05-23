@@ -5,7 +5,7 @@ import { getCookie } from "app/utils/cookie";
 import { COOKIE_USER } from "app/constants";
 
 const axiosClient = axios.create({
-	baseURL: DB_URI,
+	baseURL: "https://luviana.herokuapp.com",
 	headers: {
 		"content-type": "application/json",
 	},

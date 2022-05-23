@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useRef } from "react";
+import React, { ReactElement, useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Tabs, Table, Button, Space, Tag, message, Input } from "antd";
 import type { InputRef } from "antd";
@@ -13,10 +13,13 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import "./styles.scss";
-import { ApartmentStatus, TagType } from "./types";
+import { ApartmentStatus } from "./types";
 import type { ColumnsType, ColumnType } from "antd/lib/table";
 import ApartmentDetail from "components/modal/ApartmentDetail";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
+import { apartmentAPI } from "app/api/apartment";
+import { Apartment, ApartmentData, DataResponse, IAddress, TagType } from "app/model";
+import { IFlag, parseAddress } from "app/utils/extension";
 
 const { TabPane } = Tabs;
 
@@ -29,13 +32,13 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-export default function Apartment(): ReactElement {
+export default function ApartmentPage(): ReactElement {
   const location = useLocation();
   const navigate = useNavigate();
   const [reload, setReload] = useState<boolean>(false);
   // const [currentTab, setCurrentTab] = useState<IStatus>(IStatus.pending);
   const [visible, setVisible] = useState(false);
-  const [currentIdea, setCurrentIdea] = useState(null);
+  const [apartmentList, setApartmentList] = useState<Array<Apartment | null>>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [searchText, setSearchText] = useState("");
@@ -146,12 +149,14 @@ export default function Apartment(): ReactElement {
     },
     render: (text) =>
       searchedColumn === dataIndex ? (
-        <a onClick={showModal}><Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ""}
-        /></a>
+        <a onClick={showModal}>
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text ? text.toString() : ""}
+          />
+        </a>
       ) : (
         <a onClick={showModal}>{text}</a>
       ),
@@ -168,11 +173,12 @@ export default function Apartment(): ReactElement {
       title: "Address",
       dataIndex: "address",
       key: "address",
+      render: (address: IAddress) => <p>{parseAddress(address, IFlag.province, "province")}</p>,
     },
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
+      title: "Types",
+      key: "type",
+      dataIndex: "type",
       filters: [
         {
           text: `${TagType.hotel}`,
@@ -191,28 +197,24 @@ export default function Apartment(): ReactElement {
           value: `${TagType.homestay}`,
         },
       ],
-      onFilter: (value, record) => record.tags.includes(value),
-      render: (tags) => (
-        <>
-          {tags.map((tag) => {
-            let color = "green";
-            if (tag === TagType.hotel) {
+      onFilter: (value, record) => record.type.includes(value),
+      render: (type) => {
+        let color = "green";
+            if (type === TagType.hotel) {
               color = "orange";
-            } else if (tag === TagType.motel) {
+            } else if (type === TagType.motel) {
               color = "geekblue";
-            } else if (tag === TagType.resort) {
+            } else if (type === TagType.resort) {
               color = "cyan";
-            } else if (tag === TagType.homestay) {
+            } else if (type === TagType.homestay) {
               color = "magenta";
             }
             return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
+              <Tag color={color} key={type}>
+                {type.toUpperCase()}
               </Tag>
             );
-          })}
-        </>
-      ),
+      }
     },
     {
       title: "Action",
@@ -246,9 +248,9 @@ export default function Apartment(): ReactElement {
       key: "address",
     },
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
+      title: "Types",
+      key: "type",
+      dataIndex: "type",
       filters: [
         {
           text: `${TagType.hotel}`,
@@ -268,27 +270,23 @@ export default function Apartment(): ReactElement {
         },
       ],
       onFilter: (value, record) => record.tags.includes(value),
-      render: (tags) => (
-        <>
-          {tags.map((tag) => {
-            let color = "green";
-            if (tag === TagType.hotel) {
-              color = "orange";
-            } else if (tag === TagType.motel) {
-              color = "geekblue";
-            } else if (tag === TagType.resort) {
-              color = "cyan";
-            } else if (tag === TagType.homestay) {
-              color = "magenta";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      render: (type) => {
+        let color = "green";
+        if (type === TagType.hotel) {
+          color = "orange";
+        } else if (type === TagType.motel) {
+          color = "geekblue";
+        } else if (type === TagType.resort) {
+          color = "cyan";
+        } else if (type === TagType.homestay) {
+          color = "magenta";
+        }
+        return (
+          <Tag color={color} key={type}>
+            {type.toUpperCase()}
+          </Tag>
+        );
+      },
     },
     {
       title: "Action",
@@ -366,18 +364,51 @@ export default function Apartment(): ReactElement {
     },
   ];
 
+  console.log(apartmentList);
+  
+  useEffect(() => {
+    (async () => {
+      // fetch List Api
+      try {
+        setLoading(true);
+        const apartmentResponse: DataResponse<Array<Apartment>> = await apartmentAPI
+          .fetchAllApartment()
+          .then((res) => {
+            setLoading(false);
+            return res;
+          });
+
+        if (apartmentResponse) {
+          setApartmentList(apartmentResponse?.data);
+        }
+      } catch (err) {
+        console.log("failed to fetch ideas: " + err);
+      }
+    })();
+
+    // setApartmentList(listFake.data.apartment);
+  }, [location, reload]);
+
   return (
     <div>
       <h2>Apartment Management</h2>
-      <Button type="primary" onClick={() => navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_NEW}`)}>Add new apartment</Button>
+      <Button
+        type="primary"
+        onClick={() =>
+          navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_NEW}`)
+        }
+      >
+        Add new apartment
+      </Button>
       <Tabs onChange={callback}>
         <TabPane tab="All" key={ApartmentStatus.all}>
           {/* <Table columns={columns} dataSource={data} /> */}
           <Table
-            rowKey="id"
+            rowKey="_id"
             columns={columns as ColumnsType<any>}
-            dataSource={data}
+            dataSource={apartmentList}
             onChange={onChange}
+            loading={loading}
           />
         </TabPane>
         <TabPane tab="Pending" key={ApartmentStatus.pending}>

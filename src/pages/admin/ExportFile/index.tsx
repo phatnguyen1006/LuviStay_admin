@@ -14,7 +14,7 @@ enum exportedType {
     student = 1,
 }
 
-export default function ExportFile(): ReactElement {
+export default function ExportFilePage(): ReactElement {
     const [ideaData, setIdeaData] = useState([]);
     const exportIdeas = useRef(null);
     const [students, setStudents] = useState([]);

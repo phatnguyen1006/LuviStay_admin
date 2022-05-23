@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
-export default function Blog(): ReactElement {
+export default function BlogPage(): ReactElement {
   const location = useLocation();
   const [reload, setReload] = useState<boolean>(false);
   // const [currentTab, setCurrentTab] = useState<IStatus>(IStatus.pending);
