@@ -1,23 +1,45 @@
 import React, { ReactElement, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { Tabs, Table, Button, Space, Tag, message } from "antd";
-import { DeleteOutlined, EditOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
-// import { ideasAPI } from "app/api/ideasApi";
-// import { IProps } from "./types";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Tabs, Table, Button, Space, Tag, message, Input } from "antd";
+import type { InputRef } from "antd";
+import type { FilterConfirmProps } from "antd/lib/table/interface";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 import "./styles.scss";
 import { ApartmentStatus, TagType } from "./types";
-import { ColumnsType } from "antd/lib/table/interface";
+import type { ColumnsType, ColumnType } from "antd/lib/table";
 import ApartmentDetail from "components/modal/ApartmentDetail";
+import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 
 const { TabPane } = Tabs;
 
+interface DataType {
+  id: string;
+  name: string;
+  tags: number;
+  address: string;
+}
+
+type DataIndex = keyof DataType;
+
 export default function Apartment(): ReactElement {
   const location = useLocation();
+  const navigate = useNavigate();
   const [reload, setReload] = useState<boolean>(false);
   // const [currentTab, setCurrentTab] = useState<IStatus>(IStatus.pending);
   const [visible, setVisible] = useState(false);
   const [currentIdea, setCurrentIdea] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
 
   // modal func
   const showModal = (data) => {
@@ -38,15 +60,111 @@ export default function Apartment(): ReactElement {
     console.log("params", pagination, filters, sorter, extra);
   }
 
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: DataIndex
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (
+    dataIndex: DataIndex
+  ): ColumnType<DataType> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            handleSearch(selectedKeys as string[], confirm, dataIndex)
+          }
+          style={{ marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() =>
+              handleSearch(selectedKeys as string[], confirm, dataIndex)
+            }
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText((selectedKeys as string[])[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <a onClick={showModal}><Highlighter
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        /></a>
+      ) : (
+        <a onClick={showModal}>{text}</a>
+      ),
+  });
+
   const columns = [
     {
-      title: "Tên",
+      title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a onClick={showModal}>{text}</a>,
+      ...getColumnSearchProps("name"),
     },
     {
-      title: "Địa chỉ",
+      title: "Address",
       dataIndex: "address",
       key: "address",
     },
@@ -96,12 +214,16 @@ export default function Apartment(): ReactElement {
       ),
     },
     {
-      title: "",
+      title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <a><EditOutlined title="Cập nhật" /></a>
-          <a style={{ color: "red" }}><DeleteOutlined title="Xoá" /></a>
+          <a>
+            <EditOutlined title="Update" />
+          </a>
+          <a style={{ color: "red" }}>
+            <DeleteOutlined title="Delete" />
+          </a>
         </Space>
       ),
     },
@@ -109,13 +231,13 @@ export default function Apartment(): ReactElement {
 
   const columnsPending = [
     {
-      title: "Tên",
+      title: "Name",
       dataIndex: "name",
       key: "name",
       render: (text) => <a onClick={showModal}>{text}</a>,
     },
     {
-      title: "Địa chỉ",
+      title: "Address",
       dataIndex: "address",
       key: "address",
     },
@@ -165,12 +287,16 @@ export default function Apartment(): ReactElement {
       ),
     },
     {
-      title: "",
+      title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="small">
-          <a style={{ color: "green" }}><CheckOutlined title="Duyệt" /></a>
-          <a style={{ color: "red" }}><CloseOutlined title="Không duyệt" /></a>
+          <a style={{ color: "green" }}>
+            <CheckOutlined title="Accept" />
+          </a>
+          <a style={{ color: "red" }}>
+            <CloseOutlined title="Decline" />
+          </a>
         </Space>
       ),
     },
@@ -178,25 +304,25 @@ export default function Apartment(): ReactElement {
 
   const dataPending = [
     {
-      key: "1",
+      id: "1",
       name: "Phượng Vỹ",
       address: "New York No. 1 Lake Park",
       tags: [`${TagType.resort}`],
     },
     {
-      key: "2",
+      id: "2",
       name: "Drop Kaya",
       address: "London No. 1 Lake Park",
       tags: [`${TagType.motel}`],
     },
     {
-      key: "3",
+      id: "3",
       name: "Tre Xanh",
       address: "Sidney No. 1 Lake Park",
       tags: [`${TagType.homestay}`],
     },
     {
-      key: "4",
+      id: "4",
       name: "Bamboo",
       address: "Sidney No. 1 Lake Park",
       tags: ["hotel"],
@@ -205,31 +331,31 @@ export default function Apartment(): ReactElement {
 
   const data = [
     {
-      key: "1",
+      id: "1",
       name: "Mường Thanh",
       address: "New York No. 1 Lake Park",
       tags: [`${TagType.resort}`],
     },
     {
-      key: "2",
+      id: "2",
       name: "Lá Xanh",
       address: "London No. 1 Lake Park",
       tags: [`${TagType.motel}`],
     },
     {
-      key: "3",
+      id: "3",
       name: "HomeStay Đà Lạt",
       address: "Sidney No. 1 Lake Park",
       tags: [`${TagType.homestay}`],
     },
     {
-      key: "4",
+      id: "4",
       name: "Landmark 81",
       address: "Sidney No. 1 Lake Park",
       tags: ["hotel"],
     },
     {
-      key: "5",
+      id: "5",
       name: "Terracota",
       address: "Sidney No. 1 Lake Park",
       tags: [`${TagType.hotel}`, `${TagType.homestay}`],
@@ -238,19 +364,21 @@ export default function Apartment(): ReactElement {
 
   return (
     <div>
-      <h2>Quản lý khách sạn</h2>
-      <Button type="primary">Thêm khách sạn</Button>
+      <h2>Apartment Management</h2>
+      <Button type="primary" onClick={() => navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_NEW}`)}>Add new apartment</Button>
       <Tabs onChange={callback}>
-        <TabPane tab="Tất cả" key={ApartmentStatus.all}>
+        <TabPane tab="All" key={ApartmentStatus.all}>
           {/* <Table columns={columns} dataSource={data} /> */}
           <Table
+            rowKey="id"
             columns={columns as ColumnsType<any>}
             dataSource={data}
             onChange={onChange}
           />
         </TabPane>
-        <TabPane tab="Đang chờ duyệt" key={ApartmentStatus.pending}>
+        <TabPane tab="Pending" key={ApartmentStatus.pending}>
           <Table
+            rowKey="id"
             columns={columnsPending as ColumnsType<any>}
             dataSource={dataPending}
             onChange={onChange}

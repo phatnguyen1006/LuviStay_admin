@@ -26,13 +26,13 @@ export const menus: Array<IMenuItem> = [
   {
     key: "dashboard",
     icon: () => <HomeOutlined />,
-    title: "Trang chủ",
+    title: "Dashboard",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.DASHBOARD}`,
   },
   {
     key: "apartment",
     icon: () => <InsertRowLeftOutlined />,
-    title: "Quản lý khách sạn",
+    title: "Apartment Management",
     endPoint: "/apartment",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT}`,
     // subMenuKey: "apartment_sub",
@@ -67,7 +67,7 @@ export const menus: Array<IMenuItem> = [
   {
     key: "user",
     icon: () => <UserOutlined />,
-    title: "Quản lý người dùng",
+    title: "User Management",
     endPoint: "/user",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER}`,
     // subMenuKey: "user_sub",
@@ -87,7 +87,7 @@ export const menus: Array<IMenuItem> = [
   {
     key: "blog",
     icon: () => <FileTextOutlined />,
-    title: "Quản lý blog",
+    title: "Blog Management",
     endPoint: "/blog",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG}`,
 
@@ -108,18 +108,18 @@ export const menus: Array<IMenuItem> = [
   {
     key: "revenue",
     icon: () => <BarChartOutlined />,
-    title: "Quản lý doanh thu",
+    title: "Revenue Management",
     endPoint: "/revenue",
     subMenuKey: "revenue_sub",
     subMenu: [
       {
         key: "month",
-        title: "Doanh thu tháng",
+        title: "Month",
         path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_MONTH}`,
       },
       {
         key: "year",
-        title: "Doanh thu năm",
+        title: "Year",
         path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
       },
     ],
@@ -146,13 +146,13 @@ export const menus: Array<IMenuItem> = [
   {
     key: "export-file",
     icon: () => <FileExcelOutlined />,
-    title: "Xuất file thống kê",
+    title: "Export File",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.EXPORT_FILE}`,
   },
   {
     key: "settings",
     icon: () => <SettingOutlined />,
-    title: "Cài đặt chung",
+    title: "General Setting",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.SETTINGS}`,
   },
 ];
