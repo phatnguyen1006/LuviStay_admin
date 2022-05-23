@@ -6,7 +6,7 @@ import {
   EditOutlined,
   //   CheckOutlined,
   //   CloseOutlined,
-  FileTextOutlined,
+  // FileTextOutlined,
 } from "@ant-design/icons";
 // import { ideasAPI } from "app/api/ideasApi";
 import { IProps } from "./types";
@@ -64,13 +64,13 @@ export default function User(): ReactElement {
       render: (text, record) => (
         <Space size="middle">
           <a>
-            <EditOutlined title="Cập nhật người dùng" />
+            <EditOutlined title="Update user" />
           </a>
-          <a style={{ color: "lightgreen" }}>
-            <FileTextOutlined title="Chi tiết người dùng" />
-          </a>
+        {/* <a style={{ color: "lightgreen" }}>
+          <FileTextOutlined title="Chi tiết người dùng" />
+        </a> */}
           <a style={{ color: "red" }}>
-            <DeleteOutlined title="Xoá người dùng" />
+            <DeleteOutlined title="Delete user" />
           </a>
         </Space>
       ),
@@ -112,15 +112,21 @@ export default function User(): ReactElement {
 
   return (
     <div>
-      <h2>Quản lý người dùng</h2>
+      <h2>User Management</h2>
       <div className="add-btn-container">
-        <Button type="primary">Thêm người dùng</Button>
+        <Button type="primary">Add new user</Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}
       <Table
         columns={columns as ColumnsType<any>}
         dataSource={data}
         onChange={onChange}
+        expandable={{
+          expandedRowRender: (record) => (
+            <p style={{ margin: 0 }}>{record.description}</p>
+          ),
+          rowExpandable: (record) => record.name !== "Not Expandable",
+        }}
       />
       <UserDetail visible={visible} hideModal={hideModal} />
     </div>

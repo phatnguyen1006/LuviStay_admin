@@ -9,6 +9,7 @@ import {
   CheckOutlined,
   CloseOutlined,
   SearchOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import "./styles.scss";
@@ -220,6 +221,9 @@ export default function Apartment(): ReactElement {
         <Space size="middle">
           <a>
             <EditOutlined title="Update" />
+          </a>
+          <a style={{ color: "lightgreen" }}>
+            <FileTextOutlined title="Detail" />
           </a>
           <a style={{ color: "red" }}>
             <DeleteOutlined title="Delete" />
