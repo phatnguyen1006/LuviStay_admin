@@ -12,7 +12,7 @@ import {
 import { IProps } from "./types";
 import "./styles.scss";
 import { ColumnsType } from "antd/lib/table/interface";
-import Detail from "components/modal/detail";
+import UserDetail from "components/modal/UserDetail";
 
 export default function User(): ReactElement {
   const location = useLocation();
@@ -122,7 +122,7 @@ export default function User(): ReactElement {
         dataSource={data}
         onChange={onChange}
       />
-      <Detail visible={visible} hideModal={hideModal} />
+      <UserDetail visible={visible} hideModal={hideModal} />
     </div>
   );
 }

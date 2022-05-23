@@ -7,7 +7,7 @@ import { DeleteOutlined, EditOutlined, CheckOutlined, CloseOutlined } from "@ant
 import "./styles.scss";
 import { ApartmentStatus, TagType } from "./types";
 import { ColumnsType } from "antd/lib/table/interface";
-import Detail from "components/modal/detail";
+import ApartmentDetail from "components/modal/ApartmentDetail";
 
 const { TabPane } = Tabs;
 
@@ -43,7 +43,7 @@ export default function Apartment(): ReactElement {
       title: "Tên",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a onClick={showModal}>{text}</a>,
     },
     {
       title: "Địa chỉ",
@@ -112,7 +112,7 @@ export default function Apartment(): ReactElement {
       title: "Tên",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a onClick={showModal}>{text}</a>,
     },
     {
       title: "Địa chỉ",
@@ -257,7 +257,7 @@ export default function Apartment(): ReactElement {
           />
         </TabPane>
       </Tabs>
-      <Detail visible={visible} hideModal={hideModal} />
+      <ApartmentDetail visible={visible} hideModal={hideModal} />
     </div>
   );
 }
