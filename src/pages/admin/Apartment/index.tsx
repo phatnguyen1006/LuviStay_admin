@@ -1,5 +1,6 @@
-import React, { ReactElement, useState, useRef, useEffect } from "react";
+import { ReactElement, useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useQuery } from "react-query";
 import { Tabs, Table, Button, Space, Tag, message, Input } from "antd";
 import type { InputRef } from "antd";
 import type { FilterConfirmProps } from "antd/lib/table/interface";
@@ -330,41 +331,6 @@ export default function ApartmentPage(): ReactElement {
       tags: ["hotel"],
     },
   ];
-
-  const data = [
-    {
-      id: "1",
-      name: "Mường Thanh",
-      address: "New York No. 1 Lake Park",
-      tags: [`${TagType.resort}`],
-    },
-    {
-      id: "2",
-      name: "Lá Xanh",
-      address: "London No. 1 Lake Park",
-      tags: [`${TagType.motel}`],
-    },
-    {
-      id: "3",
-      name: "HomeStay Đà Lạt",
-      address: "Sidney No. 1 Lake Park",
-      tags: [`${TagType.homestay}`],
-    },
-    {
-      id: "4",
-      name: "Landmark 81",
-      address: "Sidney No. 1 Lake Park",
-      tags: ["hotel"],
-    },
-    {
-      id: "5",
-      name: "Terracota",
-      address: "Sidney No. 1 Lake Park",
-      tags: [`${TagType.hotel}`, `${TagType.homestay}`],
-    },
-  ];
-
-  console.log(apartmentList);
   
   useEffect(() => {
     (async () => {
@@ -382,6 +348,7 @@ export default function ApartmentPage(): ReactElement {
           setApartmentList(apartmentResponse?.data);
         }
       } catch (err) {
+        setLoading(false);
         console.log("failed to fetch ideas: " + err);
       }
     })();
