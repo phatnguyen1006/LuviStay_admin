@@ -9,3 +9,16 @@ h2 {
     // padding-top: 10px;
     padding-bottom: 20px;
 }
+
+.expand-row-render-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 80%;
+    height: 100%;
+    padding: 0 20px;
+    p {
+        margin:0;
+    }
+}

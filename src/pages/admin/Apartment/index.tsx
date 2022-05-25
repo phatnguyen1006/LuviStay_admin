@@ -18,12 +18,11 @@ import { ApartmentStatus } from "./types";
 import type { ColumnsType, ColumnType } from "antd/lib/table";
 import ApartmentDetail from "components/modal/ApartmentDetail";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
-import { apartmentAPI } from "app/api/apartment";
-import { Apartment, DataResponse, IAddress, TagType } from "app/model";
+import { Apartment, IAddress, TagType } from "app/model";
 import { IFlag, parseAddress } from "app/utils/extension";
-import { AppRootState, useAppDispatch } from "app/redux/store";
-import { useSelector } from "react-redux";
-import { fetchApartmentList } from "app/redux/slices/apartment";
+// import { AppRootState, useAppDispatch } from "app/redux/store";
+// import { useSelector } from "react-redux";
+// import { fetchApartmentList } from "app/redux/slices/apartment";
 import { getApartmentQuery } from "app/query/apartmentQuery";
 
 const { TabPane } = Tabs;

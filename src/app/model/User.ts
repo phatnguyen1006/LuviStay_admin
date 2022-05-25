@@ -4,10 +4,11 @@ export enum IGender {
 }
 
 export type User = {
+  _id: string;
   username: string;
   email: string;
   avatar: string;
   gender: IGender;
   phone: string;
-  dob: Date;
+  dob: Date | string;
 };

@@ -1,18 +1,46 @@
 import React, { ReactElement, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Table, Button, Space, Tag, message } from "antd";
+import Highlighter from "react-highlight-words";
+import {
+  Table,
+  Button,
+  Space,
+  Tag,
+  message,
+  Avatar,
+  InputRef,
+  Input,
+} from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
+  SearchOutlined,
   //   CheckOutlined,
   //   CloseOutlined,
   // FileTextOutlined,
 } from "@ant-design/icons";
-// import { ideasAPI } from "app/api/ideasApi";
 import { IProps } from "./types";
 import "./styles.scss";
-import { ColumnsType } from "antd/lib/table/interface";
+import {
+  ColumnsType,
+  ColumnType,
+  FilterConfirmProps,
+} from "antd/lib/table/interface";
 import UserDetail from "components/modal/UserDetail";
+import { User } from "app/model";
+
+interface IExpandRowRenderProps {
+  record: User;
+  style?: React.CSSProperties;
+}
+
+interface DataType {
+  _id: string;
+  username: string;
+  phone: number;
+}
+
+type DataIndex = keyof DataType;
 
 export default function UserPage(): ReactElement {
   const location = useLocation();
@@ -21,6 +49,11 @@ export default function UserPage(): ReactElement {
   const [visible, setVisible] = useState(false);
   const [currentIdea, setCurrentIdea] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  // search filter
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
 
   // modal func
   const showModal = (data) => {
@@ -41,6 +74,104 @@ export default function UserPage(): ReactElement {
     console.log("params", pagination, filters, sorter, extra);
   }
 
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: DataIndex
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (
+    dataIndex: DataIndex
+  ): ColumnType<DataType> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            handleSearch(selectedKeys as string[], confirm, dataIndex)
+          }
+          style={{ marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() =>
+              handleSearch(selectedKeys as string[], confirm, dataIndex)
+            }
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText((selectedKeys as string[])[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <a onClick={showModal}>
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text ? text.toString() : ""}
+          />
+        </a>
+      ) : (
+        <a onClick={showModal}>{text}</a>
+      ),
+  });
+
   const columns = [
     {
       title: "Email",
@@ -49,24 +180,25 @@ export default function UserPage(): ReactElement {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Tên",
-      dataIndex: "name",
-      key: "name",
+      title: "Name",
+      dataIndex: "username",
+      key: "username",
+      ...getColumnSearchProps("username"),
     },
     {
-      title: "SĐT",
+      title: "Phone",
       key: "phone",
       dataIndex: "phone",
     },
     {
-      title: "",
+      title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
           <a>
             <EditOutlined title="Update user" />
           </a>
-        {/* <a style={{ color: "lightgreen" }}>
+          {/* <a style={{ color: "lightgreen" }}>
           <FileTextOutlined title="Chi tiết người dùng" />
         </a> */}
           <a style={{ color: "red" }}>
@@ -77,36 +209,64 @@ export default function UserPage(): ReactElement {
     },
   ];
 
-  const data = [
+  const ExpandRowRender = ({ record }: IExpandRowRenderProps) => (
+    <div className="expand-row-render-container">
+      <Avatar src={record.avatar} />
+      <p>{record.dob}</p>
+      <p>{record.gender}</p>
+    </div>
+  );
+
+  const data: User[] = [
     {
-      key: "1",
-      name: "Nguyễn Trg Pht",
+      _id: "1",
+      username: "Nguyễn Trg Pht",
       phone: "0987654321",
       email: "19521998@gm.uit.edu.vn",
+      avatar:
+        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
+      gender: "male",
+      dob: "19/2/2020",
     },
     {
-      key: "2",
-      name: "Nguyễn Ngọc Khôi",
+      _id: "2",
+      username: "Nguyễn Ngọc Khôi",
       phone: "0987654321",
-      email: "19521709khoinguyen@gm.uit.edu.vn",
+      email: "19521233@gm.uit.edu.vn",
+      avatar:
+        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
+      gender: "male",
+      dob: "19/2/2020",
     },
     {
-      key: "3",
-      name: "Nguyễn Lê Khôi",
+      _id: "3",
+      username: "Nguyễn Lê Khôi",
       phone: "0987654321",
       email: "19521707bb@gm.uit.edu.vn",
+      avatar:
+        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
+      gender: "male",
+      dob: "19/2/2020",
     },
     {
-      key: "4",
-      name: "Some Name",
+      _id: "4",
+      username: "Some Name",
       phone: "0987654321",
       email: "something@gmail.com",
+      avatar:
+        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
+      gender: "male",
+      dob: "19/2/2020",
     },
     {
-      key: "5",
-      name: "No name",
+      _id: "5",
+      username: "No name",
       phone: "0987654321",
       email: "phtnguyen1998@gmail.com",
+      avatar:
+        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
+      gender: "male",
+      dob: "19/2/2020",
     },
   ];
 
@@ -121,10 +281,9 @@ export default function UserPage(): ReactElement {
         columns={columns as ColumnsType<any>}
         dataSource={data}
         onChange={onChange}
+        rowKey="_id"
         expandable={{
-          expandedRowRender: (record) => (
-            <p style={{ margin: 0 }}>{record.description}</p>
-          ),
+          expandedRowRender: (record) => <ExpandRowRender record={record} />,
           rowExpandable: (record) => record.name !== "Not Expandable",
         }}
       />
