@@ -369,6 +369,10 @@ export default function ApartmentPage(): ReactElement {
   //   }
   // }, []);
 
+  if (isError) {
+    message.error(error);
+  }
+
   return (
     <div>
       <h2>Apartment Management</h2>

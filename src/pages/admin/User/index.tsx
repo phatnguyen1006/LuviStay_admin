@@ -1,16 +1,8 @@
 import React, { ReactElement, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Highlighter from "react-highlight-words";
-import {
-  Table,
-  Button,
-  Space,
-  Tag,
-  message,
-  Avatar,
-  InputRef,
-  Input,
-} from "antd";
+import { Table, Button, Space, Tag, message, Avatar, Input } from "antd";
+import type { InputRef } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
