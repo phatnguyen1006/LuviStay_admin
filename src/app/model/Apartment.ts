@@ -25,6 +25,3 @@ export type Apartment = {
   isPending: boolean;
 };
 
-export type ApartmentData = {
-  apartment: Array<Apartment>;
-}

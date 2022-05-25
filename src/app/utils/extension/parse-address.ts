@@ -20,23 +20,19 @@ function clearAddress(result: string): string {
 export function parseAddress(
   address: IAddress,
   flag?: IFlag | string,
-  except?: IFlag | string
 ): string {
+  
   let result = "";
 
-  if (except) {
-    address[except] = "";
-  }
-
-  if (flag == IFlag.apartmentNumber) result = `${address.apartmentNumber}`;
+  if (flag == IFlag.apartmentNumber) result = `${address.apartmentNumber} ${address.street}, ${address.district}, ${address.province}, ${address.country}`;
   else if (flag == IFlag.street)
-    result = `${address.apartmentNumber} ${address.street}`;
+    result = `${address.street}`;
   else if (flag == IFlag.district)
-    result = `${address.apartmentNumber} ${address.street}, ${address.district}`;
+    result = `${address.street}, ${address.district}`;
   else if (flag == IFlag.province)
-    result = `${address.apartmentNumber} ${address.street}, ${address.district}, ${address.province}`;
+    result = `${address.street}, ${address.district}, ${address.province}`;
   else
-    result = `${address.apartmentNumber} ${address.street}, ${address.district}, ${address.province}, ${address.country}`;
+    result = `${address.street}, ${address.district}, ${address.province}, ${address.country}`;
 
   return clearAddress(result);
 }

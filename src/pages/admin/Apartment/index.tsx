@@ -19,8 +19,12 @@ import type { ColumnsType, ColumnType } from "antd/lib/table";
 import ApartmentDetail from "components/modal/ApartmentDetail";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { apartmentAPI } from "app/api/apartment";
-import { Apartment, ApartmentData, DataResponse, IAddress, TagType } from "app/model";
+import { Apartment, DataResponse, IAddress, TagType } from "app/model";
 import { IFlag, parseAddress } from "app/utils/extension";
+import { AppRootState, useAppDispatch } from "app/redux/store";
+import { useSelector } from "react-redux";
+import { fetchApartmentList } from "app/redux/slices/apartment";
+import { getApartmentQuery } from "app/query/apartmentQuery";
 
 const { TabPane } = Tabs;
 
@@ -34,13 +38,25 @@ interface DataType {
 type DataIndex = keyof DataType;
 
 export default function ApartmentPage(): ReactElement {
+  const { data: apartments = [], isFetching, isLoading, error, isError } = useQuery(
+    ["apartments", 1],
+    getApartmentQuery
+  );
+
   const location = useLocation();
   const navigate = useNavigate();
+
+  // const dispatch = useAppDispatch();
+  // const apartments = useSelector(
+  //   (state: AppRootState) => state.apartment.apartments
+  // );
+
   const [reload, setReload] = useState<boolean>(false);
   // const [currentTab, setCurrentTab] = useState<IStatus>(IStatus.pending);
   const [visible, setVisible] = useState(false);
-  const [apartmentList, setApartmentList] = useState<Array<Apartment | null>>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [apartmentList, setApartmentList] = useState<Array<Apartment | null>>(
+    []
+  );
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -174,7 +190,9 @@ export default function ApartmentPage(): ReactElement {
       title: "Address",
       dataIndex: "address",
       key: "address",
-      render: (address: IAddress) => <p>{parseAddress(address, IFlag.province, "province")}</p>,
+      render: (address: IAddress) => (
+        <p>{parseAddress(address, IFlag.province)}</p>
+      ),
     },
     {
       title: "Types",
@@ -201,21 +219,21 @@ export default function ApartmentPage(): ReactElement {
       onFilter: (value, record) => record.type.includes(value),
       render: (type) => {
         let color = "green";
-            if (type === TagType.hotel) {
-              color = "orange";
-            } else if (type === TagType.motel) {
-              color = "geekblue";
-            } else if (type === TagType.resort) {
-              color = "cyan";
-            } else if (type === TagType.homestay) {
-              color = "magenta";
-            }
-            return (
-              <Tag color={color} key={type}>
-                {type.toUpperCase()}
-              </Tag>
-            );
-      }
+        if (type === TagType.hotel) {
+          color = "orange";
+        } else if (type === TagType.motel) {
+          color = "geekblue";
+        } else if (type === TagType.resort) {
+          color = "cyan";
+        } else if (type === TagType.homestay) {
+          color = "magenta";
+        }
+        return (
+          <Tag color={color} key={type}>
+            {type.toUpperCase()}
+          </Tag>
+        );
+      },
     },
     {
       title: "Action",
@@ -241,12 +259,15 @@ export default function ApartmentPage(): ReactElement {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a onClick={showModal}>{text}</a>,
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Address",
       dataIndex: "address",
       key: "address",
+      render: (address: IAddress) => (
+        <p>{parseAddress(address, IFlag.province)}</p>
+      ),
     },
     {
       title: "Types",
@@ -270,7 +291,7 @@ export default function ApartmentPage(): ReactElement {
           value: `${TagType.homestay}`,
         },
       ],
-      onFilter: (value, record) => record.tags.includes(value),
+      onFilter: (value, record) => record.type.includes(value),
       render: (type) => {
         let color = "green";
         if (type === TagType.hotel) {
@@ -305,56 +326,49 @@ export default function ApartmentPage(): ReactElement {
     },
   ];
 
-  const dataPending = [
-    {
-      id: "1",
-      name: "Phượng Vỹ",
-      address: "New York No. 1 Lake Park",
-      tags: [`${TagType.resort}`],
-    },
-    {
-      id: "2",
-      name: "Drop Kaya",
-      address: "London No. 1 Lake Park",
-      tags: [`${TagType.motel}`],
-    },
-    {
-      id: "3",
-      name: "Tre Xanh",
-      address: "Sidney No. 1 Lake Park",
-      tags: [`${TagType.homestay}`],
-    },
-    {
-      id: "4",
-      name: "Bamboo",
-      address: "Sidney No. 1 Lake Park",
-      tags: ["hotel"],
-    },
-  ];
-  
-  useEffect(() => {
-    (async () => {
-      // fetch List Api
-      try {
-        setLoading(true);
-        const apartmentResponse: DataResponse<Array<Apartment>> = await apartmentAPI
-          .fetchAllApartment()
-          .then((res) => {
-            setLoading(false);
-            return res;
-          });
+  // useEffect(() => {
+  //   (async () => {
+  //     // fetch List Api
+  //     try {
+  //       setLoading(true);
+  //       const apartmentResponse: DataResponse<Array<Apartment>> = await apartmentAPI
+  //         .fetchAllApartment()
+  //         .then((res) => {
+  //           setLoading(false);
+  //           return res;
+  //         });
 
-        if (apartmentResponse) {
-          setApartmentList(apartmentResponse?.data);
-        }
-      } catch (err) {
-        setLoading(false);
-        console.log("failed to fetch ideas: " + err);
-      }
-    })();
+  //       if (apartmentResponse) {
+  //         setApartmentList(apartmentResponse?.data);
+  //       }
+  //     } catch (err) {
+  //       setLoading(false);
+  //       console.log("failed to fetch apartments: " + err);
+  //     }
+  //   })();
 
-    // setApartmentList(listFake.data.apartment);
-  }, [location, reload]);
+  //   // setApartmentList(listFake.data.apartment);
+  // }, [location, reload]);
+
+  // useEffect(() => {
+  //   try {
+  //     setLoading(true);
+  //     dispatch(
+  //       fetchApartmentList(
+  //         () => {
+  //           setLoading(false);
+  //         },
+  //         () => {
+  //           setLoading(false);
+  //           message.error("Failed to fetch apartment list. Try again.");
+  //         }
+  //       )
+  //     );
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.log("failed to fetch apartments: " + error);
+  //   }
+  // }, []);
 
   return (
     <div>
@@ -373,17 +387,18 @@ export default function ApartmentPage(): ReactElement {
           <Table
             rowKey="_id"
             columns={columns as ColumnsType<any>}
-            dataSource={apartmentList}
+            dataSource={apartments}
             onChange={onChange}
-            loading={loading}
+            loading={isLoading}
           />
         </TabPane>
         <TabPane tab="Pending" key={ApartmentStatus.pending}>
           <Table
-            rowKey="id"
+            rowKey="_id"
             columns={columnsPending as ColumnsType<any>}
-            dataSource={dataPending}
+            dataSource={apartments.filter((p) => p.isPending === true)}
             onChange={onChange}
+            loading={isLoading}
           />
         </TabPane>
       </Tabs>
