@@ -5,6 +5,11 @@ export const getApartmentQuery = async (
   key,
   page?: number
 ): Promise<Array<Apartment>> => {
-  const response = await apartmentAPI.fetchAllApartment(page ? page : null);
-  return response.data;
+  try {
+    const response = await apartmentAPI.fetchAllApartment(page ? page : null);
+    return response.data;
+  }
+  catch (error) {
+    console.log("Failed to fetch apartments");
+  }
 };
