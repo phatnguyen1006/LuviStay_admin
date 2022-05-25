@@ -43,18 +43,18 @@ export default function BlogPage(): ReactElement {
 
   const columns = [
     {
-      title: "Tên blog",
+      title: "Blog Name",
       key: "name",
       dataIndex: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Tác giả",
+      title: "Author",
       dataIndex: "author",
       key: "author",
     },
     {
-      title: "Ngày tạo",
+      title: "Created At",
       key: "createdAt",
       dataIndex: "createdAt",
     },
@@ -64,13 +64,13 @@ export default function BlogPage(): ReactElement {
       render: (text, record) => (
         <Space size="middle">
           <a>
-            <EditOutlined title="Cập nhật blog" />
+            <EditOutlined title="Update blog" />
           </a>
           <a style={{ color: "lightgreen" }}>
-            <FileTextOutlined title="Chi tiết blog" />
+            <FileTextOutlined title="Detail" />
           </a>
           <a style={{ color: "red" }}>
-            <DeleteOutlined title="Xoá người blog" />
+            <DeleteOutlined title="Delete blog" />
           </a>
         </Space>
       ),
@@ -79,31 +79,31 @@ export default function BlogPage(): ReactElement {
 
   const columnsPending = [
     {
-      title: "Tên blog",
+      title: "Blog Name",
       key: "name",
       dataIndex: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Tác giả",
+      title: "Author",
       dataIndex: "author",
       key: "author",
     },
     {
-      title: "Ngày tạo",
+      title: "Created At",
       key: "createdAt",
       dataIndex: "createdAt",
     },
     {
-      title: "",
+      title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
           <a style={{ color: "green" }}>
-            <CheckOutlined title="Duyệt blog" />
+            <CheckOutlined title="Accept" />
           </a>
           <a style={{ color: "red" }}>
-            <CloseOutlined title="Không duyệt blog" />
+            <CloseOutlined title="Decline" />
           </a>
         </Space>
       ),
@@ -172,13 +172,13 @@ export default function BlogPage(): ReactElement {
 
   return (
     <div>
-      <h2>Quản lý blog</h2>
+      <h2>Blog Management</h2>
       <div className="blog-container">
-        <Button type="primary">Thêm blog</Button>
+        <Button type="primary">Add new blog</Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}
       <Tabs onChange={callback}>
-        <TabPane tab="Tất cả" key="accepted">
+        <TabPane tab="All" key="accepted">
           {/* <Table columns={columns} dataSource={data} /> */}
           <Table
             columns={columns as ColumnsType<any>}
@@ -186,7 +186,7 @@ export default function BlogPage(): ReactElement {
             onChange={onChange}
           />
         </TabPane>
-        <TabPane tab="Đang chờ duyệt" key="pending">
+        <TabPane tab="Pending" key="pending">
           <Table
             columns={columnsPending as ColumnsType<any>}
             dataSource={dataPending}
