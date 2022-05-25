@@ -1,4 +1,4 @@
-import { Layout, Button } from "antd";
+import { Layout, Button, Badge } from "antd";
 import React, { ReactElement, useState } from "react";
 import { Outlet } from "react-router-dom";
 import AppBreadcrumb from "../AppBreadCrumb";
@@ -37,8 +37,8 @@ export default function AdminLayout(): ReactElement {
           <Button
             type="link"
             size="large"
-            onClick={() => signOutHanler()}
-            icon={<BellOutlined />}
+            // onClick={}
+            icon={<Badge dot><BellOutlined /></Badge>}
           />
           <Button
             danger

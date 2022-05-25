@@ -10,15 +10,30 @@ h2 {
     padding-bottom: 20px;
 }
 
+// .user-management {
+//     .ant-table-cell {
+//         margin: 0;
+//         padding: 0;
+//     }
+// }
+
 .expand-row-render-container {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
-    width: 80%;
+    width: 100%;
     height: 100%;
     padding: 0 20px;
+    margin: 0;
     p {
         margin:0;
+    }
+    .user-meta-card {
+        // width: "100%", display: "flex"
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 }

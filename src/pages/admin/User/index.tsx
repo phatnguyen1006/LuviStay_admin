@@ -28,6 +28,7 @@ import {
 } from "antd/lib/table/interface";
 import UserDetail from "components/modal/UserDetail";
 import { User } from "app/model";
+import Meta from "antd/lib/card/Meta";
 
 interface IExpandRowRenderProps {
   record: User;
@@ -36,6 +37,7 @@ interface IExpandRowRenderProps {
 
 interface DataType {
   _id: string;
+  email: string;
   username: string;
   phone: number;
 }
@@ -159,16 +161,14 @@ export default function UserPage(): ReactElement {
     },
     render: (text) =>
       searchedColumn === dataIndex ? (
-        <a onClick={showModal}>
-          <Highlighter
-            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-            searchWords={[searchText]}
-            autoEscape
-            textToHighlight={text ? text.toString() : ""}
-          />
-        </a>
+        <Highlighter
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
       ) : (
-        <a onClick={showModal}>{text}</a>
+        text
       ),
   });
 
@@ -177,7 +177,7 @@ export default function UserPage(): ReactElement {
       title: "Email",
       key: "email",
       dataIndex: "email",
-      render: (text) => <a>{text}</a>,
+      ...getColumnSearchProps("email"),
     },
     {
       title: "Name",
@@ -189,6 +189,7 @@ export default function UserPage(): ReactElement {
       title: "Phone",
       key: "phone",
       dataIndex: "phone",
+      ...getColumnSearchProps("phone"),
     },
     {
       title: "Action",
@@ -211,9 +212,22 @@ export default function UserPage(): ReactElement {
 
   const ExpandRowRender = ({ record }: IExpandRowRenderProps) => (
     <div className="expand-row-render-container">
-      <Avatar src={record.avatar} />
-      <p>{record.dob}</p>
-      <p>{record.gender}</p>
+      <Meta
+        className="user-meta-card"
+        avatar={
+          <Avatar
+            size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 80, xxl: 100 }}
+            src={record.avatar}
+          />
+        }
+        title={<h4>{record.gender}</h4>}
+        description={
+          <div>
+            <p>Birth: {record.dob}</p>
+            <p>id: {record._id}</p>
+          </div>
+        }
+      />
     </div>
   );
 
@@ -271,7 +285,7 @@ export default function UserPage(): ReactElement {
   ];
 
   return (
-    <div>
+    <div className="user-management">
       <h2>User Management</h2>
       <div className="add-btn-container">
         <Button type="primary">Add new user</Button>
