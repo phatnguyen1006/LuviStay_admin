@@ -1,15 +1,22 @@
 import React, { ReactElement, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { useQuery } from "react-query";
 import Highlighter from "react-highlight-words";
-import { Table, Button, Space, Tag, message, Avatar, Input } from "antd";
+import {
+  Table,
+  Button,
+  Space,
+  Tag,
+  message,
+  Avatar,
+  Input,
+  Skeleton,
+} from "antd";
 import type { InputRef } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
   SearchOutlined,
-  //   CheckOutlined,
-  //   CloseOutlined,
-  // FileTextOutlined,
 } from "@ant-design/icons";
 import { IProps } from "./types";
 import "./styles.scss";
@@ -21,6 +28,7 @@ import {
 import UserDetail from "components/modal/UserDetail";
 import { User } from "app/model";
 import Meta from "antd/lib/card/Meta";
+import { getUserQuery } from "app/query";
 
 interface IExpandRowRenderProps {
   record: User;
@@ -37,12 +45,18 @@ interface DataType {
 type DataIndex = keyof DataType;
 
 export default function UserPage(): ReactElement {
+  const {
+    data: users = [],
+    isFetching,
+    isLoading,
+    error,
+    isError,
+  } = useQuery("user", getUserQuery);
+
   const location = useLocation();
   const [reload, setReload] = useState<boolean>(false);
-  // const [currentTab, setCurrentTab] = useState<IStatus>(IStatus.pending);
+
   const [visible, setVisible] = useState(false);
-  const [currentIdea, setCurrentIdea] = useState(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
   // search filter
   const [searchText, setSearchText] = useState("");
@@ -204,77 +218,31 @@ export default function UserPage(): ReactElement {
 
   const ExpandRowRender = ({ record }: IExpandRowRenderProps) => (
     <div className="expand-row-render-container">
-      <Meta
-        className="user-meta-card"
-        avatar={
-          <Avatar
-            size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 80, xxl: 100 }}
-            src={record.avatar}
-          />
-        }
-        title={<h4>{record.gender}</h4>}
-        description={
-          <div>
-            <p>Birth: {record.dob}</p>
-            <p>id: {record._id}</p>
-          </div>
-        }
-      />
+      <Skeleton loading={isLoading} avatar active>
+        <Meta
+          className="user-meta-card"
+          avatar={
+            <Avatar
+              size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 80, xxl: 100 }}
+              src={record.avatar}
+            />
+          }
+          title={<h4>{record.gender}</h4>}
+          description={
+            <div>
+              <p>Birth: {record.dob}</p>
+              <p>id: {record._id}</p>
+            </div>
+          }
+        />
+      </Skeleton>
     </div>
   );
 
-  const data: User[] = [
-    {
-      _id: "1",
-      username: "Nguyễn Trg Pht",
-      phone: "0987654321",
-      email: "19521998@gm.uit.edu.vn",
-      avatar:
-        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
-      gender: "male",
-      dob: "19/2/2020",
-    },
-    {
-      _id: "2",
-      username: "Nguyễn Ngọc Khôi",
-      phone: "0987654321",
-      email: "19521233@gm.uit.edu.vn",
-      avatar:
-        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
-      gender: "male",
-      dob: "19/2/2020",
-    },
-    {
-      _id: "3",
-      username: "Nguyễn Lê Khôi",
-      phone: "0987654321",
-      email: "19521707bb@gm.uit.edu.vn",
-      avatar:
-        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
-      gender: "male",
-      dob: "19/2/2020",
-    },
-    {
-      _id: "4",
-      username: "Some Name",
-      phone: "0987654321",
-      email: "something@gmail.com",
-      avatar:
-        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
-      gender: "male",
-      dob: "19/2/2020",
-    },
-    {
-      _id: "5",
-      username: "No name",
-      phone: "0987654321",
-      email: "phtnguyen1998@gmail.com",
-      avatar:
-        "https://bigdata-vn.com/wp-content/uploads/2021/09/1632240700_12_Anh-nen-dep-cho-iPhone.jpg",
-      gender: "male",
-      dob: "19/2/2020",
-    },
-  ];
+  if (isError) {
+    // console.log("Failed to load users: ", error);
+    message.error(error);
+  }
 
   return (
     <div className="user-management">
@@ -285,9 +253,10 @@ export default function UserPage(): ReactElement {
       {/* <Table columns={columns} dataSource={data} /> */}
       <Table
         columns={columns as ColumnsType<any>}
-        dataSource={data}
+        dataSource={users}
         onChange={onChange}
         rowKey="_id"
+        loading={isLoading}
         expandable={{
           expandedRowRender: (record) => <ExpandRowRender record={record} />,
           rowExpandable: (record) => record.name !== "Not Expandable",

@@ -54,7 +54,6 @@ function LoginPage(): JSX.Element {
       navigate(from, { replace: true });
     }
   }, []);
-  // console.log(isLoggedIn);
 
   return (
     <div className="signin-container">

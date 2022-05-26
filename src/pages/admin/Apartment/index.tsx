@@ -23,7 +23,7 @@ import { IFlag, parseAddress } from "app/utils/extension";
 // import { AppRootState, useAppDispatch } from "app/redux/store";
 // import { useSelector } from "react-redux";
 // import { fetchApartmentList } from "app/redux/slices/apartment";
-import { getApartmentQuery } from "app/query/apartmentQuery";
+import { getApartmentQuery } from "app/query";
 
 const { TabPane } = Tabs;
 

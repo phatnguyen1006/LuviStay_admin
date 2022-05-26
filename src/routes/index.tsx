@@ -57,8 +57,6 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 		(state: AppRootState) => state.auth.isLoggedIn,
 	);
 
-	console.log(isLoggedIn);
-
 	if (!isLoggedIn) {
 		return <Navigate to={APP_ROUTE.SIGN_IN} state={{ from: location }} />;
 	} 
