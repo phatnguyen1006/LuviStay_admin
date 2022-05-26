@@ -37,3 +37,12 @@ h2 {
         align-items: center;
     }
 }
+
+.new-user-container {
+    // display: flex;
+    // justify-content: center;
+    width: 80%;
+    @include screen650 {
+        width: 100%;
+    }
+}

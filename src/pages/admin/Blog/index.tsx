@@ -14,22 +14,30 @@ import { useLocation } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
+interface DataType {
+  id: string;
+  author: string;
+  // pictures: string[];
+  // content: string;
+  date: Date | string;
+  // comments: string;
+  // isConfirm: boolean;
+}
+
+type DataIndex = keyof DataType;
+
 export default function BlogPage(): ReactElement {
   const location = useLocation();
   const [reload, setReload] = useState<boolean>(false);
-  // const [currentTab, setCurrentTab] = useState<IStatus>(IStatus.pending);
+
   const [visible, setVisible] = useState(false);
-  const [currentIdea, setCurrentIdea] = useState(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
   // modal func
   const showModal = (data) => {
-    // setCurrentIdea(data);
     setVisible(true);
   };
 
   const hideModal = () => {
-    // setCurrentIdea(null);
     setVisible(false);
   };
 

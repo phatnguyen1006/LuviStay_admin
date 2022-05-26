@@ -20,9 +20,6 @@ import ApartmentDetail from "components/modal/ApartmentDetail";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { Apartment, IAddress, TagType } from "app/model";
 import { IFlag, parseAddress } from "app/utils/extension";
-// import { AppRootState, useAppDispatch } from "app/redux/store";
-// import { useSelector } from "react-redux";
-// import { fetchApartmentList } from "app/redux/slices/apartment";
 import { getApartmentQuery } from "app/query";
 
 const { TabPane } = Tabs;
@@ -37,7 +34,7 @@ interface DataType {
 type DataIndex = keyof DataType;
 
 export default function ApartmentPage(): ReactElement {
-  const { data: apartments = [], isFetching, isLoading, error, isError } = useQuery(
+  const { data: apartments = [], isLoading, error, isError } = useQuery(
     ["apartments", 1],
     getApartmentQuery
   );
@@ -45,17 +42,8 @@ export default function ApartmentPage(): ReactElement {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // const dispatch = useAppDispatch();
-  // const apartments = useSelector(
-  //   (state: AppRootState) => state.apartment.apartments
-  // );
-
   const [reload, setReload] = useState<boolean>(false);
-  // const [currentTab, setCurrentTab] = useState<IStatus>(IStatus.pending);
   const [visible, setVisible] = useState(false);
-  const [apartmentList, setApartmentList] = useState<Array<Apartment | null>>(
-    []
-  );
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -63,12 +51,10 @@ export default function ApartmentPage(): ReactElement {
 
   // modal func
   const showModal = (data) => {
-    // setCurrentIdea(data);
     setVisible(true);
   };
 
   const hideModal = () => {
-    // setCurrentIdea(null);
     setVisible(false);
   };
 
@@ -325,50 +311,6 @@ export default function ApartmentPage(): ReactElement {
     },
   ];
 
-  // useEffect(() => {
-  //   (async () => {
-  //     // fetch List Api
-  //     try {
-  //       setLoading(true);
-  //       const apartmentResponse: DataResponse<Array<Apartment>> = await apartmentAPI
-  //         .fetchAllApartment()
-  //         .then((res) => {
-  //           setLoading(false);
-  //           return res;
-  //         });
-
-  //       if (apartmentResponse) {
-  //         setApartmentList(apartmentResponse?.data);
-  //       }
-  //     } catch (err) {
-  //       setLoading(false);
-  //       console.log("failed to fetch apartments: " + err);
-  //     }
-  //   })();
-
-  //   // setApartmentList(listFake.data.apartment);
-  // }, [location, reload]);
-
-  // useEffect(() => {
-  //   try {
-  //     setLoading(true);
-  //     dispatch(
-  //       fetchApartmentList(
-  //         () => {
-  //           setLoading(false);
-  //         },
-  //         () => {
-  //           setLoading(false);
-  //           message.error("Failed to fetch apartment list. Try again.");
-  //         }
-  //       )
-  //     );
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.log("failed to fetch apartments: " + error);
-  //   }
-  // }, []);
-
   if (isError) {
     message.error(error);
   }
@@ -386,7 +328,6 @@ export default function ApartmentPage(): ReactElement {
       </Button>
       <Tabs onChange={callback}>
         <TabPane tab="All" key={ApartmentStatus.all}>
-          {/* <Table columns={columns} dataSource={data} /> */}
           <Table
             rowKey="_id"
             columns={columns as ColumnsType<any>}

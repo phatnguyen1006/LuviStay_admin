@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import Highlighter from "react-highlight-words";
 import {
@@ -29,6 +29,7 @@ import UserDetail from "components/modal/UserDetail";
 import { User } from "app/model";
 import Meta from "antd/lib/card/Meta";
 import { getUserQuery } from "app/query";
+import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 
 interface IExpandRowRenderProps {
   record: User;
@@ -54,6 +55,7 @@ export default function UserPage(): ReactElement {
   } = useQuery("user", getUserQuery);
 
   const location = useLocation();
+  const navigate = useNavigate();
   const [reload, setReload] = useState<boolean>(false);
 
   const [visible, setVisible] = useState(false);
@@ -248,7 +250,11 @@ export default function UserPage(): ReactElement {
     <div className="user-management">
       <h2>User Management</h2>
       <div className="add-btn-container">
-        <Button type="primary">Add new user</Button>
+        <Button type="primary"
+        onClick={() =>
+          navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_NEW}`)
+        }
+        >Add new user</Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}
       <Table
