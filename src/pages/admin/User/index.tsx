@@ -30,6 +30,7 @@ import { User } from "app/model";
 import Meta from "antd/lib/card/Meta";
 import { getUserQuery } from "app/query";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
+import { dateFormat } from "app/utils/extension/dateFormat";
 
 interface IExpandRowRenderProps {
   record: User;
@@ -232,7 +233,7 @@ export default function UserPage(): ReactElement {
           title={<h4>{record.gender}</h4>}
           description={
             <div>
-              <p>Birth: {record.dob}</p>
+              <p>Birth: {dateFormat(record.dob)}</p>
               <p>id: {record._id}</p>
             </div>
           }

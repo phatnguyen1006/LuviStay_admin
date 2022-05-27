@@ -10,5 +10,5 @@ export type User = {
   avatar: string;
   gender: IGender;
   phone: string;
-  dob: Date | string;
+  dob: Date;
 };
