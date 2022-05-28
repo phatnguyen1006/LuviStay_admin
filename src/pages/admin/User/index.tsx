@@ -1,17 +1,8 @@
 import React, { ReactElement, useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import Highlighter from "react-highlight-words";
-import {
-  Table,
-  Button,
-  Space,
-  Tag,
-  message,
-  Avatar,
-  Input,
-  Skeleton,
-} from "antd";
+import { Table, Button, Space, message, Avatar, Input, Skeleton } from "antd";
 import type { InputRef } from "antd";
 import {
   DeleteOutlined,
@@ -30,7 +21,7 @@ import { User } from "app/model";
 import Meta from "antd/lib/card/Meta";
 import { getUserQuery } from "app/query";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
-import { dateFormat } from "app/utils/extension/dateFormat";
+import { convertMongoDatetoDMY } from "app/utils/extension";
 
 interface IExpandRowRenderProps {
   record: User;
@@ -47,33 +38,41 @@ interface DataType {
 type DataIndex = keyof DataType;
 
 export default function UserPage(): ReactElement {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     data: users = [],
     isFetching,
     isLoading,
     error,
     isError,
+    refetch,
   } = useQuery("user", getUserQuery);
 
-  const location = useLocation();
-  const navigate = useNavigate();
   const [reload, setReload] = useState<boolean>(false);
 
   const [visible, setVisible] = useState(false);
+
+  // confirm delete user
+  const [currentDeletedUser, setCurrentDeleteduser] = useState<User>();
 
   // search filter
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
 
+  const refetchUserData = () => {
+    refetch();
+  };
+
   // modal func
-  const showModal = (data) => {
-    // setCurrentIdea(data);
+  const showModal = (data: User) => {
+    setCurrentDeleteduser(data);
     setVisible(true);
   };
 
   const hideModal = () => {
-    // setCurrentIdea(null);
     setVisible(false);
   };
 
@@ -205,13 +204,16 @@ export default function UserPage(): ReactElement {
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <a>
+          <Link
+            to={`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_UPDATE}/${record._id}`}
+            state={record._id}
+          >
             <EditOutlined title="Update user" />
-          </a>
+          </Link>
           {/* <a style={{ color: "lightgreen" }}>
           <FileTextOutlined title="Chi tiết người dùng" />
         </a> */}
-          <a style={{ color: "red" }}>
+          <a onClick={() => showModal(record)} style={{ color: "red" }}>
             <DeleteOutlined title="Delete user" />
           </a>
         </Space>
@@ -233,7 +235,7 @@ export default function UserPage(): ReactElement {
           title={<h4>{record.gender}</h4>}
           description={
             <div>
-              <p>Birth: {dateFormat(record.dob)}</p>
+              <p>Birth: {convertMongoDatetoDMY(record.dob)}</p>
               <p>id: {record._id}</p>
             </div>
           }
@@ -244,18 +246,19 @@ export default function UserPage(): ReactElement {
 
   if (isError) {
     // console.log("Failed to load users: ", error);
-    message.error(error);
+    message.error(error.toString());
   }
 
   return (
     <div className="user-management">
       <h2>User Management</h2>
       <div className="add-btn-container">
-        <Button type="primary"
-        onClick={() =>
-          navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_NEW}`)
-        }
-        >Add new user</Button>
+        <Button
+          type="primary"
+          onClick={() => navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_NEW}`)}
+        >
+          Add new user
+        </Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}
       <Table
@@ -269,7 +272,12 @@ export default function UserPage(): ReactElement {
           rowExpandable: (record) => record.name !== "Not Expandable",
         }}
       />
-      <UserDetail visible={visible} hideModal={hideModal} />
+      <UserDetail
+        visible={visible}
+        hideModal={hideModal}
+        currentUser={currentDeletedUser}
+        refetchUserData={refetchUserData}
+      />
     </div>
   );
 }

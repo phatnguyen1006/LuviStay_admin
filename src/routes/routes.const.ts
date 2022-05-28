@@ -27,7 +27,8 @@ export const ADMIN_ROUTE = {
   ROOM_RESORT: "/room/resort",
 
   USER: "/user",
-  USER_NEW: "/user/new",
+  USER_NEW: "/user/add",
+  USER_UPDATE: "/user/update",
   USER_VIP: "/user/vip",
   USER_REGULAR: "/user/regular",
 

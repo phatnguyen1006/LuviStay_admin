@@ -10,5 +10,14 @@ export type User = {
   avatar: string;
   gender: IGender;
   phone: string;
-  dob: Date;
+  dob: string;
 };
+
+export type UserPayload = {
+  username: string;
+  password: string;
+  email: string;
+  gender: IGender;
+  phone: string;
+  dob: string;
+}

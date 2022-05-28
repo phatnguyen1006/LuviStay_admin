@@ -71,7 +71,7 @@ export default function AdminLayout(): ReactElement {
         >
           <div className="search-bar-container">
             <Search
-              placeholder="Tìm kiếm trên hệ thống"
+              placeholder=""
               enterButton
               size="middle"
             />

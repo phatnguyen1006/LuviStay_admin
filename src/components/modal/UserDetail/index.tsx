@@ -1,58 +1,73 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import React, { ReactElement, useState } from "react";
-import { Modal, Space, Button } from "antd";
+import { Modal, Space, Button, message } from "antd";
 import { IProps } from "./types";
 import "./styles.scss";
+import { useMutation } from "react-query";
+import { deleteOneUser } from "app/mutation";
 // fake Api
 
 export default function UserDetail({
-    visible,
-    hideModal
+  visible,
+  hideModal,
+  currentUser,
+  refetchUserData,
 }: IProps): ReactElement {
-//   if (!idea) {
-//     return <></>;
-//   }
+  const { mutate, isLoading } = useMutation(deleteOneUser, {
+    onSuccess: () => {
+      hideModal();
+      message.success("Delete user successfully");
+      refetchUserData();
+    },
+    onError: () => {
+      hideModal();
+      message.error("Failed to delete user. Please try again");
+    },
+  });
+
+  if (!currentUser) {
+    return <></>;
+  }
 
   return (
     <Modal
-      title="Chi tiết khách sạn"
+      title={`Delete ${currentUser.email}`}
       visible={visible}
       onOk={hideModal}
       onCancel={hideModal}
       footer={[
-        <Space key="Duyet" size="middle">
-          <Button
-            type="primary"
-            ghost
-            onClick={() => {
-              console.log("Click");
-              
-            }}
-          >
-            Duyệt
+        <Space key="footer" size="middle">
+          <Button type="text" onClick={hideModal}>
+            Cancel
           </Button>
           <Button
-            key="Loai"
+            key="delete"
             danger
             onClick={() => {
-              console.log("Click");
-              
+              mutate(currentUser._id);
             }}
+            loading={isLoading}
           >
-            Loại
+            Delete
           </Button>
         </Space>,
       ]}
     >
       <p>
-        <strong>Tên: </strong>
-        LuviStay
+        <strong>Name: </strong>
+        {currentUser.username}
       </p>
       <p>
-        <strong>Tên đề tài: </strong> Show something
+        <strong>Phone: </strong> {currentUser.phone}
       </p>
-      <strong>Nội dung: </strong>
-      <p>Hôm nay bla bla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla</p>
+      <p>
+        <strong>Birth: </strong>
+        {currentUser.dob}
+      </p>
+      <p>
+        <strong>Gender: </strong>
+        {currentUser.gender}
+      </p>
     </Modal>
   );
 }

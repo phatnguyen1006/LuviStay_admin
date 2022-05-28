@@ -12,3 +12,15 @@ export const dateFormat = (n) => {
 
   return formattedDate;
 };
+
+export const reverseDateFormat = (date: string) => {
+  return date.split("-").reverse().join("-");
+};
+
+export const convertMongoDatetoDMY = (date?: string) => {  
+  return date ? reverseDateFormat(date.substring(0,10)) : "";
+};
+
+// export const convertDatePickerToFormat = (date: Date) => {
+
+// }

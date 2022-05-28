@@ -12,7 +12,7 @@ const AdminSetting = React.lazy(() => import("../Setting"));
 
 const ApartmentInfomation = React.lazy(() => import("../Detail/Apartment"));
 const NewApartment = React.lazy(() => import("../Apartment/NewApartment"));
-const NewUser = React.lazy(() => import("../User/NewUser"));
+const NewUser = React.lazy(() => import("../User/UserForm"));
 
 export default function AdminRoutes() {
   return (
@@ -24,6 +24,7 @@ export default function AdminRoutes() {
         <Route path={`${ADMIN_ROUTE.APARTMENT_NEW}`} element={<NewApartment />} />
         <Route path={`${ADMIN_ROUTE.USER}`} element={<AdminUser />} />
         <Route path={`${ADMIN_ROUTE.USER_NEW}`} element={<NewUser />} />
+        <Route path={`${ADMIN_ROUTE.USER_UPDATE}/*`} element={<NewUser />} />
         {/* <Route path={`${ADMIN_ROUTE.USER_REGULAR}`} element={<AdminUser />} />
         <Route path={`${ADMIN_ROUTE.USER_VIP}`} element={<AdminUser />} /> */}
         <Route path={`${ADMIN_ROUTE.BLOG}`} element={<AdminBlog />} />

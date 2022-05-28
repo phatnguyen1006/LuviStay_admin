@@ -10,9 +10,17 @@ import {
   Checkbox,
   Button,
   AutoComplete,
+  DatePicker,
+  message,
 } from "antd";
-import { IGender } from "app/model";
+import type { DatePickerProps } from "antd";
+import { IGender, UserPayload } from "app/model";
 import "./styles.scss";
+import { useMutation } from "react-query";
+import { createNewUser } from "app/mutation";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
+import { reverseDateFormat } from "app/utils/extension";
 
 const { Option } = Select;
 
@@ -40,32 +48,51 @@ const tailFormItemLayout = {
 };
 
 const NewUser: React.FC = () => {
-  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state || null;
+  console.log(state);
+  
 
+  const { mutate, isLoading } = useMutation(createNewUser, {
+    onSuccess: (data) => {
+      message.success("Create new user successfully");
+      navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER}`);
+    },
+    onError: () => {
+      message.error("There was an error");
+    },
+  });
+
+  const [form] = Form.useForm();
   const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
+  const [birthString, setBirthString] = useState<string>(null);
+
+  const onDatePickerChange: DatePickerProps["onChange"] = (_, dateString) => {
+    setBirthString(dateString);
+  };
 
   const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+    const newUserPayload: UserPayload = {
+      email: values.email,
+      username: values.username,
+      password: values.password,
+      phone: (values.prefix + values.phone) as string,
+      dob: reverseDateFormat(birthString),
+      gender: values.gender,
+    };
+
+    mutate(newUserPayload);
   };
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select style={{ width: 70 }}>
-        <Option value="86">+84</Option>
+        <Option value="84">+84</Option>
         <Option value="87">+87</Option>
       </Select>
     </Form.Item>
   );
-
-  const onWebsiteChange = (value: string) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(
-        [".com", ".org", ".net", ".vn"].map((domain) => `${value}${domain}`)
-      );
-    }
-  };
 
   const websiteOptions = autoCompleteResult.map((website) => ({
     label: website,
@@ -82,10 +109,25 @@ const NewUser: React.FC = () => {
         onFinish={onFinish}
         initialValues={{
           residence: ["zhejiang", "hangzhou", "xihu"],
-          prefix: "86",
+          prefix: "+84",
         }}
         scrollToFirstError
       >
+        <Form.Item
+          name="username"
+          label="Full Name"
+          tooltip="What is your name?"
+          rules={[
+            {
+              required: true,
+              whitespace: true,
+              message: "Please provide your name",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
         <Form.Item
           name="email"
           label="E-mail"
@@ -111,6 +153,17 @@ const NewUser: React.FC = () => {
               required: true,
               message: "Please input your password!",
             },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                const passwordRegEx = /^(?=.*\d)(?=.*[a-zA-Z]).{6,}$/;
+                if (passwordRegEx.test(value)) return Promise.resolve();
+                return Promise.reject(
+                  new Error(
+                    "Password must contains letters, digits and at least 6 characters"
+                  )
+                );
+              },
+            }),
           ]}
           hasFeedback
         >
@@ -142,20 +195,6 @@ const NewUser: React.FC = () => {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item
-          name="nickname"
-          label="Nickname"
-          tooltip="What do you want others to call you?"
-          rules={[
-            {
-              required: false,
-              whitespace: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
         {/* <Form.Item
           name="residence"
           label="Habitual Residence"
@@ -180,7 +219,7 @@ const NewUser: React.FC = () => {
           <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item name="website" label="Website" rules={[{ required: false }]}>
+        {/* <Form.Item name="website" label="Website" rules={[{ required: false }]}>
           <AutoComplete
             options={websiteOptions}
             onChange={onWebsiteChange}
@@ -188,15 +227,15 @@ const NewUser: React.FC = () => {
           >
             <Input />
           </AutoComplete>
-        </Form.Item>
-
-        {/* <Form.Item
-          name="intro"
-          label="Intro"
-          rules={[{ required: true, message: "Please input Intro" }]}
-        >
-          <Input.TextArea showCount maxLength={100} />
         </Form.Item> */}
+
+        <Form.Item
+          name="dob"
+          label="Birth"
+          rules={[{ required: true, message: "Please select birthday!" }]}
+        >
+          <DatePicker format="DD-MM-YYYY" onChange={onDatePickerChange} />
+        </Form.Item>
 
         <Form.Item
           name="gender"
@@ -212,7 +251,7 @@ const NewUser: React.FC = () => {
           </Select>
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           name="agreement"
           valuePropName="checked"
           rules={[
@@ -228,9 +267,10 @@ const NewUser: React.FC = () => {
           <Checkbox>
             I have read the <a href="">agreement</a>
           </Checkbox>
-        </Form.Item>
+        </Form.Item> */}
+
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isLoading}>
             Register
           </Button>
         </Form.Item>

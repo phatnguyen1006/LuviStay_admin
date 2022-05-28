@@ -311,8 +311,11 @@ export default function ApartmentPage(): ReactElement {
     },
   ];
 
+  console.log(apartments);
+  
+
   if (isError) {
-    message.error(error);
+    message.error(error.toString());
   }
 
   return (
