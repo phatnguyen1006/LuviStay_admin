@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Form,
   Input,
@@ -14,13 +15,14 @@ import {
   message,
 } from "antd";
 import type { DatePickerProps } from "antd";
-import { IGender, UserPayload } from "app/model";
+import { IGender, User, UserPayload } from "app/model";
 import "./styles.scss";
 import { useMutation } from "react-query";
 import { createNewUser } from "app/mutation";
-import { useLocation, useNavigate } from "react-router-dom";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { reverseDateFormat } from "app/utils/extension";
+import { getOneUserQuery } from "app/query";
+import { Loader } from "components/Loader";
 
 const { Option } = Select;
 
@@ -50,9 +52,10 @@ const tailFormItemLayout = {
 const NewUser: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const state = location.state || null;
+  const { id: userID } = useParams();
+
+  const [state, setState] = useState<User>(location.state as User || null);
   console.log(state);
-  
 
   const { mutate, isLoading } = useMutation(createNewUser, {
     onSuccess: (data) => {
@@ -65,7 +68,6 @@ const NewUser: React.FC = () => {
   });
 
   const [form] = Form.useForm();
-  const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
   const [birthString, setBirthString] = useState<string>(null);
 
   const onDatePickerChange: DatePickerProps["onChange"] = (_, dateString) => {
@@ -94,12 +96,18 @@ const NewUser: React.FC = () => {
     </Form.Item>
   );
 
-  const websiteOptions = autoCompleteResult.map((website) => ({
-    label: website,
-    value: website,
-  }));
-
-  return (
+  useEffect(() => {
+    if (!state) {
+      // refetch
+      console.log("✈️✈️ Refetch user data from id");
+      
+      (async () => {
+        await getOneUserQuery(null, userID).then(res => setState(res));
+      })();
+    }
+  }, []);
+  
+  return state ? (
     <div className="new-user-container">
       <h2>Create new user</h2>
       <Form
@@ -131,6 +139,7 @@ const NewUser: React.FC = () => {
         <Form.Item
           name="email"
           label="E-mail"
+          initialValue={state.email}
           rules={[
             {
               type: "email",
@@ -276,7 +285,7 @@ const NewUser: React.FC = () => {
         </Form.Item>
       </Form>
     </div>
-  );
+  ) : <Loader />;
 };
 
 export default NewUser;

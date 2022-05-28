@@ -13,6 +13,18 @@ export const getUserQuery = async (
   }
 };
 
+export const getOneUserQuery = async (
+  key,
+  id: string
+): Promise<User> => {
+  try {
+    const response = await userAPI.fetchOneUser(id);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch user by id");
+  }
+};
+
 // const data: User[] = [
 //   {
 //     _id: "1",

@@ -14,7 +14,13 @@ export const userAPI = {
     else url = ADMIN_ENDPOINT.ALL_USER;
     return await axiosClient.get(url);
   },
-  createNewUser: async (payload: UserPayload): Promise<DataResponse<string>> => {
+  fetchOneUser: async (id: string): Promise<DataResponse<User>> => {
+    const url = `${ADMIN_ENDPOINT.ONE_USER}/${id}`;
+    return await axiosClient.get(url);
+  },
+  createNewUser: async (
+    payload: UserPayload
+  ): Promise<DataResponse<string>> => {
     const url = ADMIN_ENDPOINT.NEW_USER;
     return await axiosClient.post(url, payload);
   },

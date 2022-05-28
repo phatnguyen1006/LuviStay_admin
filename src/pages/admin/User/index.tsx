@@ -206,7 +206,7 @@ export default function UserPage(): ReactElement {
         <Space size="middle">
           <Link
             to={`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_UPDATE}/${record._id}`}
-            state={record._id}
+            state={record}
           >
             <EditOutlined title="Update user" />
           </Link>
