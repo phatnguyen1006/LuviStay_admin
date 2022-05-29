@@ -21,6 +21,7 @@ export const convertMongoDatetoDMY = (date?: string) => {
   return date ? reverseDateFormat(date.substring(0,10)) : "";
 };
 
-// export const convertDatePickerToFormat = (date: Date) => {
+export const convertMongoDatetoYMD = (date?: string) => {  
+  return date ? date.substring(0,10) : "";
+};
 
-// }

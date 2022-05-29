@@ -22,7 +22,7 @@ import "./styles.scss";
 import { useMutation } from "react-query";
 import { updateOneUser } from "app/mutation";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
-import { reverseDateFormat } from "app/utils/extension";
+import { convertMongoDatetoYMD, reverseDateFormat } from "app/utils/extension";
 import { getOneUserQuery } from "app/query";
 import moment from "moment";
 
@@ -83,6 +83,12 @@ const NewUser: React.FC = () => {
   const [form] = Form.useForm();
   const [birthString, setBirthString] = useState<string>(null);
 
+  const initBirthString = (): void => {
+    if (state && state.dob) {
+      setBirthString(convertMongoDatetoYMD(state.dob));
+    }
+  };
+
   const onDatePickerChange: DatePickerProps["onChange"] = (_, dateString) => {
     setBirthString(reverseDateFormat(dateString));
   };
@@ -101,6 +107,16 @@ const NewUser: React.FC = () => {
   };
 
   useEffect(() => {
+    initBirthString();
+  }, [state]);
+
+  useEffect(() => {
+
+    if (!userID) {
+      navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER}`);
+      return;
+    }
+
     if (!state) {
       // refetch
       console.log("✈️✈️ Refetch user data from id");
@@ -113,6 +129,8 @@ const NewUser: React.FC = () => {
         });
       })();
     }
+
+    initBirthString();
   }, []);
 
   return (
@@ -134,22 +152,6 @@ const NewUser: React.FC = () => {
             scrollToFirstError
           >
             <Form.Item
-              name="username"
-              label="Full Name"
-              tooltip="What is your name?"
-              initialValue={state.username}
-              rules={[
-                {
-                  required: true,
-                  whitespace: true,
-                  message: "Please provide your name",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
               name="email"
               label="E-mail"
               initialValue={state.email}
@@ -165,6 +167,22 @@ const NewUser: React.FC = () => {
               ]}
             >
               <Input disabled />
+            </Form.Item>
+
+            <Form.Item
+              name="username"
+              label="Full Name"
+              tooltip="What is your name?"
+              initialValue={state.username}
+              rules={[
+                {
+                  required: true,
+                  whitespace: true,
+                  message: "Please provide your name",
+                },
+              ]}
+            >
+              <Input />
             </Form.Item>
 
             <Form.Item

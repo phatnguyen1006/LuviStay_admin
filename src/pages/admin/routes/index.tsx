@@ -25,6 +25,7 @@ export default function AdminRoutes() {
         <Route path={`${ADMIN_ROUTE.APARTMENT_NEW}`} element={<NewApartment />} />
         <Route path={`${ADMIN_ROUTE.USER}`} element={<AdminUser />} />
         <Route path={`${ADMIN_ROUTE.USER_NEW}`} element={<NewUser />} />
+        <Route path={`${ADMIN_ROUTE.USER_UPDATE}`} element={<UpdateUser />} />
         <Route path={`${ADMIN_ROUTE.USER_UPDATE}/:id`} element={<UpdateUser />} />
         {/* <Route path={`${ADMIN_ROUTE.USER_REGULAR}`} element={<AdminUser />} /> */}
         {/* <Route path={`${ADMIN_ROUTE.USER_VIP}`} element={<AdminUser />} /> */}

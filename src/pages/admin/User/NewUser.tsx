@@ -52,10 +52,6 @@ const tailFormItemLayout = {
 const NewUser: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { id: userID } = useParams();
-
-  const [state, setState] = useState<User>(location.state as User || null);
-  console.log(state);
 
   const { mutate, isLoading } = useMutation(createNewUser, {
     onSuccess: (data) => {
@@ -71,7 +67,7 @@ const NewUser: React.FC = () => {
   const [birthString, setBirthString] = useState<string>(null);
 
   const onDatePickerChange: DatePickerProps["onChange"] = (_, dateString) => {
-    setBirthString(dateString);
+    setBirthString(reverseDateFormat(dateString));
   };
 
   const onFinish = (values: any) => {
@@ -80,7 +76,7 @@ const NewUser: React.FC = () => {
       username: values.username,
       password: values.password,
       phone: (values.prefix + values.phone) as string,
-      dob: reverseDateFormat(birthString),
+      dob: birthString,
       gender: values.gender,
     };
 
@@ -95,19 +91,8 @@ const NewUser: React.FC = () => {
       </Select>
     </Form.Item>
   );
-
-  useEffect(() => {
-    if (!state) {
-      // refetch
-      console.log("✈️✈️ Refetch user data from id");
-      
-      (async () => {
-        await getOneUserQuery(null, userID).then(res => setState(res));
-      })();
-    }
-  }, []);
   
-  return state ? (
+  return (
     <div className="new-user-container">
       <h2>Create new user</h2>
       <Form
@@ -139,7 +124,6 @@ const NewUser: React.FC = () => {
         <Form.Item
           name="email"
           label="E-mail"
-          initialValue={state.email}
           rules={[
             {
               type: "email",
@@ -204,20 +188,6 @@ const NewUser: React.FC = () => {
           <Input.Password />
         </Form.Item>
 
-        {/* <Form.Item
-          name="residence"
-          label="Habitual Residence"
-          rules={[
-            {
-              type: "array",
-              required: true,
-              message: "Please select your habitual residence!",
-            },
-          ]}
-        >
-          <Cascader options={residences} />
-        </Form.Item> */}
-
         <Form.Item
           name="phone"
           label="Phone Number"
@@ -227,16 +197,6 @@ const NewUser: React.FC = () => {
         >
           <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
         </Form.Item>
-
-        {/* <Form.Item name="website" label="Website" rules={[{ required: false }]}>
-          <AutoComplete
-            options={websiteOptions}
-            onChange={onWebsiteChange}
-            placeholder="website"
-          >
-            <Input />
-          </AutoComplete>
-        </Form.Item> */}
 
         <Form.Item
           name="dob"
@@ -260,24 +220,6 @@ const NewUser: React.FC = () => {
           </Select>
         </Form.Item>
 
-        {/* <Form.Item
-          name="agreement"
-          valuePropName="checked"
-          rules={[
-            {
-              validator: (_, value) =>
-                value
-                  ? Promise.resolve()
-                  : Promise.reject(new Error("Should accept agreement")),
-            },
-          ]}
-          {...tailFormItemLayout}
-        >
-          <Checkbox>
-            I have read the <a href="">agreement</a>
-          </Checkbox>
-        </Form.Item> */}
-
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit" loading={isLoading}>
             Register
@@ -285,7 +227,7 @@ const NewUser: React.FC = () => {
         </Form.Item>
       </Form>
     </div>
-  ) : <Loader />;
+  );
 };
 
 export default NewUser;
