@@ -51,8 +51,8 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: calc(100% + 25%);
+    height: calc(78vh - 50vh);
 }
 
 @keyframes spin {

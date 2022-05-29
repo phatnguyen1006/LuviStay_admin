@@ -20,10 +20,11 @@ import type { DatePickerProps } from "antd";
 import { IGender, User, UserPayload } from "app/model";
 import "./styles.scss";
 import { useMutation } from "react-query";
-import { createNewUser } from "app/mutation";
+import { updateOneUser } from "app/mutation";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { reverseDateFormat } from "app/utils/extension";
 import { getOneUserQuery } from "app/query";
+import moment from "moment";
 
 const { Option } = Select;
 
@@ -68,11 +69,10 @@ const NewUser: React.FC = () => {
 
   const [state, setState] = useState<User>((location.state as User) || null);
   const [loading, setLoading] = useState<boolean>(false);
-  console.log(state);
 
-  const { mutate, isLoading: isMutationLoading } = useMutation(createNewUser, {
+  const { mutate, isLoading: isMutationLoading } = useMutation(updateOneUser, {
     onSuccess: (data) => {
-      message.success("Create new user successfully");
+      message.success("Update user successfully");
       navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER}`);
     },
     onError: () => {
@@ -84,30 +84,21 @@ const NewUser: React.FC = () => {
   const [birthString, setBirthString] = useState<string>(null);
 
   const onDatePickerChange: DatePickerProps["onChange"] = (_, dateString) => {
-    setBirthString(dateString);
+    setBirthString(reverseDateFormat(dateString));
   };
 
   const onFinish = (values: any) => {
-    const newUserPayload: UserPayload = {
+    const userPayload: UserPayload = {
+      _id: userID,
       email: values.email,
       username: values.username,
-      password: values.password,
-      phone: (values.prefix + values.phone) as string,
-      dob: reverseDateFormat(birthString),
+      phone: values.phone,
+      dob: birthString,
       gender: values.gender,
     };
 
-    mutate(newUserPayload);
+    mutate(userPayload);
   };
-
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="84">+84</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    </Form.Item>
-  );
 
   useEffect(() => {
     if (!state) {
@@ -126,20 +117,9 @@ const NewUser: React.FC = () => {
 
   return (
     <div className="new-user-container">
-      <h2>Update user</h2>
+      <h2 style={{ marginBottom: 50 }}>Update user</h2>
       {loading ? (
-        <div className="loader-container">
-          <Space direction="vertical">
-            <Skeleton.Input block active />
-            <Skeleton.Input block active />
-            <Skeleton.Input block active />
-            <Skeleton.Input block active />
-            <Skeleton.Input block active />
-            <Skeleton.Input block active />
-            <Skeleton.Input block active />
-            <Skeleton.Button block active shape="square" />
-          </Space>
-        </div>
+        <Loader />
       ) : (
         state && (
           <Form
@@ -157,6 +137,7 @@ const NewUser: React.FC = () => {
               name="username"
               label="Full Name"
               tooltip="What is your name?"
+              initialValue={state.username}
               rules={[
                 {
                   required: true,
@@ -187,94 +168,20 @@ const NewUser: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              name="password"
-              label="Password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    const passwordRegEx = /^(?=.*\d)(?=.*[a-zA-Z]).{6,}$/;
-                    if (passwordRegEx.test(value)) return Promise.resolve();
-                    return Promise.reject(
-                      new Error(
-                        "Password must contains letters, digits and at least 6 characters"
-                      )
-                    );
-                  },
-                }),
-              ]}
-              hasFeedback
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              name="confirm"
-              label="Confirm Password"
-              dependencies={["password"]}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: "Please confirm your password!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error(
-                        "The two passwords that you entered do not match!"
-                      )
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            {/* <Form.Item
-          name="residence"
-          label="Habitual Residence"
-          rules={[
-            {
-              type: "array",
-              required: true,
-              message: "Please select your habitual residence!",
-            },
-          ]}
-        >
-          <Cascader options={residences} />
-        </Form.Item> */}
-
-            <Form.Item
               name="phone"
               label="Phone Number"
+              initialValue={state.phone}
               rules={[
                 { required: true, message: "Please input your phone number!" },
               ]}
             >
-              <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+              <Input style={{ width: "100%" }} />
             </Form.Item>
-
-            {/* <Form.Item name="website" label="Website" rules={[{ required: false }]}>
-          <AutoComplete
-            options={websiteOptions}
-            onChange={onWebsiteChange}
-            placeholder="website"
-          >
-            <Input />
-          </AutoComplete>
-        </Form.Item> */}
 
             <Form.Item
               name="dob"
               label="Birth"
+              initialValue={moment(state.dob, "YYYY-MM-DDh:mm:ss")}
               rules={[{ required: true, message: "Please select birthday!" }]}
             >
               <DatePicker format="DD-MM-YYYY" onChange={onDatePickerChange} />
@@ -283,6 +190,7 @@ const NewUser: React.FC = () => {
             <Form.Item
               name="gender"
               label="Gender"
+              initialValue={state.gender}
               rules={[{ required: true, message: "Please select gender!" }]}
             >
               <Select placeholder="select your gender">
@@ -318,7 +226,7 @@ const NewUser: React.FC = () => {
                 htmlType="submit"
                 loading={isMutationLoading}
               >
-                Register
+                Update
               </Button>
             </Form.Item>
           </Form>
