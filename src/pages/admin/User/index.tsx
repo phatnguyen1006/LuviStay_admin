@@ -22,6 +22,7 @@ import Meta from "antd/lib/card/Meta";
 import { getUserQuery } from "app/query";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { convertMongoDatetoDMY } from "app/utils/extension";
+import { GoPlus } from "react-icons/go";
 
 interface IExpandRowRenderProps {
   record: User;
@@ -251,13 +252,15 @@ export default function UserPage(): ReactElement {
 
   return (
     <div className="user-management">
-      <h2>User Management</h2>
+      <h2 style={{ marginBottom: 30 }}>User Management</h2>
       <div className="add-btn-container">
         <Button
+          className="btn-container"
           type="primary"
           onClick={() => navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER_NEW}`)}
         >
-          Add new user
+          <GoPlus />
+          &nbsp; New User
         </Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}

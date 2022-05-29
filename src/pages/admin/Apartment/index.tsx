@@ -12,6 +12,7 @@ import {
   SearchOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
+import { GoPlus } from "react-icons/go";
 import Highlighter from "react-highlight-words";
 import "./styles.scss";
 import { ApartmentStatus } from "./types";
@@ -34,10 +35,12 @@ interface DataType {
 type DataIndex = keyof DataType;
 
 export default function ApartmentPage(): ReactElement {
-  const { data: apartments = [], isLoading, error, isError } = useQuery(
-    ["apartments", 1],
-    getApartmentQuery
-  );
+  const {
+    data: apartments = [],
+    isLoading,
+    error,
+    isError,
+  } = useQuery(["apartments", 1], getApartmentQuery);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -311,23 +314,22 @@ export default function ApartmentPage(): ReactElement {
     },
   ];
 
-  console.log(apartments);
-  
-
   if (isError) {
     message.error(error.toString());
   }
 
   return (
     <div>
-      <h2>Apartment Management</h2>
+      <h2 style={{ marginBottom: 30 }}>Apartment Management</h2>
       <Button
+        className="btn-container"
         type="primary"
         onClick={() =>
           navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_NEW}`)
         }
       >
-        Add new apartment
+        <GoPlus />
+        &nbsp; New Apartment
       </Button>
       <Tabs onChange={callback}>
         <TabPane tab="All" key={ApartmentStatus.all}>

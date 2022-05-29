@@ -1,21 +1,15 @@
 @use "../../../styles/" as *;
 
-h2 {
-    font-size: 40px;
-    font-weight: 700;
-}
-
 .add-btn-container {
     // padding-top: 10px;
     padding-bottom: 20px;
 }
 
-// .user-management {
-//     .ant-table-cell {
-//         margin: 0;
-//         padding: 0;
-//     }
-// }
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .expand-row-render-container {
     display: flex;

@@ -94,7 +94,7 @@ const NewUser: React.FC = () => {
   
   return (
     <div className="new-user-container">
-      <h2>Create new user</h2>
+      <h2 style={{ marginBottom: 50 }}>Create new user</h2>
       <Form
         {...formItemLayout}
         form={form}

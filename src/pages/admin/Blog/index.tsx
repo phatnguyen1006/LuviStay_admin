@@ -11,6 +11,7 @@ import { ColumnsType } from "antd/lib/table/interface";
 import Detail from "components/modal/detail";
 import "./styles.scss";
 import { useLocation } from "react-router-dom";
+import { GoPlus } from "react-icons/go";
 
 const { TabPane } = Tabs;
 
@@ -180,9 +181,12 @@ export default function BlogPage(): ReactElement {
 
   return (
     <div>
-      <h2>Blog Management</h2>
+      <h2 style={{ marginBottom: 30 }}>Blog Management</h2>
       <div className="blog-container">
-        <Button type="primary">Add new blog</Button>
+        <Button className="btn-container" type="primary">
+          <GoPlus />
+          &nbsp; New Blog
+        </Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}
       <Tabs onChange={callback}>
