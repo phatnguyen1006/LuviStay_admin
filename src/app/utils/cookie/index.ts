@@ -7,6 +7,8 @@ export function setCookie(name: string, value: string, days = EXPRIRES_TOKEN): v
 		date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
 		expires = "; expires=" + date.toUTCString();
 	}
+	console.log("exp: ", days);
+	
 	document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
