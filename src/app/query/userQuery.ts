@@ -10,6 +10,7 @@ export const getUserQuery = async (
     return response.data;
   } catch (error) {
     console.log("Failed to fetch users");
+    throw Error("Failed to fetch users");
   }
 };
 
@@ -22,6 +23,7 @@ export const getOneUserQuery = async (
     return response.data;
   } catch (error) {
     console.log("Failed to fetch user by id");
+    throw Error("Failed to fetch user by id");
   }
 };
 

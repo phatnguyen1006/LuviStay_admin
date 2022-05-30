@@ -10,6 +10,7 @@ export const getApartmentQuery = async (
     return response.data;
   } catch (error) {
     console.log("Failed to fetch apartments");
+    throw Error("Failed to fetch apartments");
   }
 };
 
