@@ -33,6 +33,8 @@ export const ADMIN_ROUTE = {
   USER_REGULAR: "/user/regular",
 
   BLOG: "/blog",
+  BLOG_NEW: "/blog/new",
+  BLOG_UPDATE: "/blog/update",
   REVIEW: "/review",
 
   SETTINGS: "/settings",

@@ -10,3 +10,10 @@
     justify-content: center;
     align-items: center;
 }
+
+.new-blog-page-container {
+    width: 80%;
+    @include screen650 {
+        width: 100%;
+    }
+}

@@ -1,0 +1,15 @@
+@use "../../../styles/" as *;
+
+strong {
+    font-weight: bold;
+}
+
+.blog-img-content {
+    width: 200px;
+    height: 200px;
+}
+
+.blog-img-container {
+    display: flex;
+    flex-wrap: wrap;
+}

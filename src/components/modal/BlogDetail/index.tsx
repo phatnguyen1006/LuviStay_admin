@@ -1,58 +1,77 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import React, { ReactElement, useState } from "react";
-import { Modal, Space, Button } from "antd";
+import { Modal, Space, Button, message } from "antd";
 import { IProps } from "./types";
 import "./styles.scss";
+import { useMutation } from "react-query";
+import { deleteOneBlog } from "app/mutation/blogMutation";
 // fake Api
 
 export default function BlogDetail({
   visible,
-  hideModal
+  hideModal,
+  currentBlog,
+  refetchBlogData,
 }: IProps): ReactElement {
-//   if (!idea) {
-//     return <></>;
-//   }
+  const { mutate, isLoading } = useMutation(deleteOneBlog, {
+    onSuccess: () => {
+      hideModal();
+      message.success("Delete blog successfully");
+      refetchBlogData();
+    },
+    onError: () => {
+      hideModal();
+      message.error("Failed to delete blog. Please try again");
+    },
+  });
+
+  if (!currentBlog) {
+    return <></>;
+  }
 
   return (
     <Modal
-      title="Chi tiết khách sạn"
+      title={`Delete ${currentBlog._id}`}
       visible={visible}
       onOk={hideModal}
       onCancel={hideModal}
       footer={[
-        <Space key="Duyet" size="middle">
-          <Button
-            type="primary"
-            ghost
-            onClick={() => {
-              console.log("Click");
-              
-            }}
-          >
-            Duyệt
+        <Space key="footer" size="middle">
+          <Button type="text">
+            Cancel
           </Button>
           <Button
-            key="Loai"
+            key="delete"
             danger
             onClick={() => {
-              console.log("Click");
-              
+              mutate(currentBlog._id);
             }}
+            loading={isLoading}
           >
-            Loại
+            Delete
           </Button>
         </Space>,
       ]}
     >
       <p>
-        <strong>Tên: </strong>
-        LuviStay
+        <strong>Author: </strong>
+        {currentBlog.author && currentBlog.author?.email}
       </p>
       <p>
-        <strong>Tên đề tài: </strong> Show something
+        <strong>Date: </strong> {currentBlog.date}
       </p>
-      <strong>Nội dung: </strong>
-      <p>Hôm nay bla bla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla</p>
+      <p>
+        <strong>Content: </strong></p><p>
+        - {currentBlog.content}
+      </p>
+      <p><strong>Pictures: </strong></p>
+      <div className="blog-img-container">
+      {currentBlog.pictures.map((p, index) => (
+        <div key={index} className="blog-img-content">
+          <img src={p} width="100%" height="100%" />
+        </div>
+      ))}
+      </div>
     </Modal>
   );
 }

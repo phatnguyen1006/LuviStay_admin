@@ -1,22 +1,32 @@
-import React, { ReactElement, useState, useRef } from "react";
+import React, { ReactElement, useState, useRef, useEffect } from "react";
+import { useMutation, useQuery } from "react-query";
 import {
   EditOutlined,
   FileTextOutlined,
   DeleteOutlined,
   CheckOutlined,
   CloseOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
-import { Button, Space, Table, Tabs } from "antd";
-import { ColumnsType } from "antd/lib/table/interface";
-import Detail from "components/modal/detail";
+import { Button, Input, message, Space, Table, Tabs } from "antd";
+import type { InputRef } from "antd";
+import type { ColumnsType, ColumnType } from "antd/lib/table";
+import { FilterConfirmProps } from "antd/lib/table/interface";
+import Highlighter from "react-highlight-words";
+import BlogDetail from "components/modal/BlogDetail";
 import "./styles.scss";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
+import { getComfirmedBlog, getPendingBlog } from "app/query";
+import { Blog } from "app/model";
+import { acceptOneBlog, denyOneBlog } from "app/mutation";
+import Snipper from "components/Snipper";
+import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 
 const { TabPane } = Tabs;
 
 interface DataType {
-  id: string;
+  _id: string;
   author: string;
   // pictures: string[];
   // content: string;
@@ -29,12 +39,61 @@ type DataIndex = keyof DataType;
 
 export default function BlogPage(): ReactElement {
   const location = useLocation();
-  const [reload, setReload] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const [pendingTabDidInit, setPendingTabDidInit] = useState<boolean>(false);
+
+  const {
+    data: confirmedBlog = [],
+    isFetching,
+    isLoading,
+    error,
+    isError,
+    refetch,
+  } = useQuery(["blog", 1], getComfirmedBlog);
+
+  const {
+    data: pendingBlog = [],
+    isFetching: isPendingFetching,
+    isLoading: isPendingLoading,
+    error: pendingError,
+    isError: isPendingError,
+    refetch: pendingrRefetch,
+  } = useQuery(["pendingBlog", 1], getPendingBlog, {
+    enabled: pendingTabDidInit,
+  });
+
+  const { mutate: acceptBlogMutation, isLoading: isAcceptedLoading } =
+    useMutation(acceptOneBlog, {
+      onSuccess: () => {
+        message.success("Confirm blog successfully");
+        refetchBlogData();
+      },
+      onError: () => {
+        message.error("Failed to confirm blog. Please try again");
+      },
+    });
+  const { mutate: denyBlogMutation, isLoading: isDeniedLoading } =
+    useMutation(denyOneBlog, {
+      onSuccess: () => {
+        message.success("Decline blog successfully");
+        refetchBlogData();
+      },
+      onError: () => {
+        message.error("Failed to decline blog. Please try again");
+      },
+    });
 
   const [visible, setVisible] = useState(false);
+  const [currentDeletedBlog, setCurrentDeletedBlog] = useState<Blog>();
+  const [idLoading, setIDLoading] = useState<string>();
+
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
 
   // modal func
-  const showModal = (data) => {
+  const showModal = (data: Blog) => {
+    setCurrentDeletedBlog(data);
     setVisible(true);
   };
 
@@ -43,32 +102,141 @@ export default function BlogPage(): ReactElement {
   };
 
   function callback(key) {
-    console.log(key);
+    // console.log(key);
+    if (!pendingTabDidInit) {
+      if (key === "pending") {
+        setPendingTabDidInit(true);
+      }
+    }
   }
+
+  const refetchBlogData = () => {
+    refetch();
+    pendingrRefetch();
+  };
 
   function onChange(pagination, filters, sorter, extra) {
     console.log("params", pagination, filters, sorter, extra);
   }
 
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: DataIndex
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (
+    dataIndex: DataIndex
+  ): ColumnType<DataType> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            handleSearch(selectedKeys as string[], confirm, dataIndex)
+          }
+          style={{ marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() =>
+              handleSearch(selectedKeys as string[], confirm, dataIndex)
+            }
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText((selectedKeys as string[])[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <a>
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text ? text.toString() : ""}
+          />
+        </a>
+      ) : (
+        <a>{text}</a>
+      ),
+  });
+
   const columns = [
     {
-      title: "Blog Name",
-      key: "name",
-      dataIndex: "name",
-      render: (text) => <a>{text}</a>,
+      title: "Blog ID",
+      key: "_id",
+      dataIndex: "_id",
+      ...getColumnSearchProps("_id"),
     },
     {
       title: "Author",
       dataIndex: "author",
       key: "author",
+      render: (author) => author?.email,
     },
     {
       title: "Created At",
-      key: "createdAt",
-      dataIndex: "createdAt",
+      key: "date",
+      dataIndex: "date",
     },
     {
-      title: "",
+      title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
@@ -78,7 +246,7 @@ export default function BlogPage(): ReactElement {
           <a style={{ color: "lightgreen" }}>
             <FileTextOutlined title="Detail" />
           </a>
-          <a style={{ color: "red" }}>
+          <a style={{ color: "red" }} onClick={() => showModal(record)}>
             <DeleteOutlined title="Delete blog" />
           </a>
         </Space>
@@ -88,125 +256,100 @@ export default function BlogPage(): ReactElement {
 
   const columnsPending = [
     {
-      title: "Blog Name",
-      key: "name",
-      dataIndex: "name",
-      render: (text) => <a>{text}</a>,
+      title: "Blog ID",
+      key: "_id",
+      dataIndex: "_id",
+      ...getColumnSearchProps("_id"),
     },
     {
       title: "Author",
       dataIndex: "author",
       key: "author",
+      render: (author) => author?.email,
     },
     {
       title: "Created At",
-      key: "createdAt",
-      dataIndex: "createdAt",
+      key: "date",
+      dataIndex: "date",
     },
     {
       title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <a style={{ color: "green" }}>
-            <CheckOutlined title="Accept" />
+          <a
+            style={{ color: "green" }}
+            onClick={() => {
+              setIDLoading(record._id);
+              acceptBlogMutation(record._id);
+            }}
+          >
+            {isAcceptedLoading && idLoading === record._id ? (
+              <Snipper />
+            ) : (
+              <CheckOutlined title="Accept" />
+            )}
           </a>
-          <a style={{ color: "red" }}>
-            <CloseOutlined title="Decline" />
+          <a
+            style={{ color: "red" }}
+            onClick={() => {
+              setIDLoading(record._id);
+              denyBlogMutation(record._id);
+            }}
+          >
+            {isDeniedLoading && idLoading === record._id ? (
+              <Snipper />
+            ) : (
+              <CloseOutlined title="Decline" />
+            )}
           </a>
         </Space>
       ),
     },
   ];
 
-  const dataPending = [
-    {
-      key: "1",
-      author: "Nguyễn Khuê",
-      name: "Học tốt BackEnd",
-      createdAt: Date(),
-    },
-    {
-      key: "2",
-      author: "Đặng Haha",
-      name: "Hack NASA bằng HTML",
-      createdAt: Date(),
-    },
-    {
-      key: "3",
-      author: "Sushi",
-      name: "Xếp là số một",
-      createdAt: Date(),
-    },
-    {
-      key: "4",
-      author: "Jackson",
-      name: "Luyện code bằng mắt",
-      createdAt: Date(),
-    },
-  ];
-
-  const data = [
-    {
-      key: "1",
-      author: "Nguyễn Trg Pht",
-      name: "Làm sao để tối ưu hoá tìm kiếm",
-      createdAt: Date(),
-    },
-    {
-      key: "2",
-      author: "Đặng Tiểu Bình",
-      name: "Tạo ra AI với HTML",
-      createdAt: Date(),
-    },
-    {
-      key: "3",
-      author: "Nguyễn Khuê",
-      name: "Chạy ngay đi",
-      createdAt: Date(),
-    },
-    {
-      key: "4",
-      author: "Cầu Mây",
-      name: "Luyện gõ phím 10 ngón",
-      createdAt: Date(),
-    },
-    {
-      key: "5",
-      author: "Nguyễn Ngọc Khôi",
-      name: "Cách để học tốt ngữ văn lớp 7",
-      createdAt: Date(),
-    },
-  ];
+  if (isError || isPendingError) {
+    error && message.error(error.toString());
+    pendingError && message.error(pendingError.toString());
+  }
 
   return (
     <div>
       <h2 style={{ marginBottom: 30 }}>Blog Management</h2>
       <div className="blog-container">
-        <Button className="btn-container" type="primary">
+        <Button className="btn-container" type="primary" onClick={() => navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG_NEW}`)}>
           <GoPlus />
           &nbsp; New Blog
         </Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}
       <Tabs onChange={callback}>
-        <TabPane tab="All" key="accepted">
+        <TabPane tab="Accepted" key="accepted">
           {/* <Table columns={columns} dataSource={data} /> */}
           <Table
+            rowKey={"_id"}
             columns={columns as ColumnsType<any>}
-            dataSource={data}
+            dataSource={confirmedBlog}
             onChange={onChange}
+            loading={isLoading}
           />
         </TabPane>
         <TabPane tab="Pending" key="pending">
           <Table
+            rowKey={"_id"}
             columns={columnsPending as ColumnsType<any>}
-            dataSource={dataPending}
+            dataSource={pendingBlog}
             onChange={onChange}
+            loading={isPendingLoading}
           />
         </TabPane>
       </Tabs>
-      <Detail visible={visible} hideModal={hideModal} />
+      <BlogDetail
+        visible={visible}
+        hideModal={hideModal}
+        currentBlog={currentDeletedBlog}
+        refetchBlogData={refetchBlogData}
+      />
     </div>
   );
 }

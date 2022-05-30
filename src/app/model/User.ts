@@ -15,10 +15,10 @@ export type User = {
 
 export type UserPayload = {
   _id?: string;
-  username: string;
+  username?: string;
   password?: string;
-  email: string;
-  gender: IGender;
-  phone: string;
-  dob: string;
+  email?: string;
+  gender?: IGender;
+  phone?: string;
+  dob?: string;
 }

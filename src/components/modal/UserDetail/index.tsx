@@ -68,6 +68,7 @@ export default function UserDetail({
         <strong>Gender: </strong>
         {currentUser.gender}
       </p>
+      <p style={{color: "red", textAlign: "center"}}>When user has been deleted, all blog is belong to {currentUser.username} will be deleted.</p>
     </Modal>
   );
 }
