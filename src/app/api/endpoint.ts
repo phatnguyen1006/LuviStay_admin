@@ -8,5 +8,9 @@ export const ADMIN_ENDPOINT = {
   NEW_USER: "/user/add",
   UPDATE_USER: "/user/update",
   DELETE_USER: "/user/delete", // :id
-  ALL_BLOG: "/apartment/all",
+  ALL_BLOG: "/blog/all",
+  CONFIRMED_BLOG: "/blog/confirm",
+  PENDING_BLOG: "/blog/pending",
+  DELETE_BLOG: "/blog/delete",  // :id
+  // ALL_BLOG: "/apartment/all",
 };
