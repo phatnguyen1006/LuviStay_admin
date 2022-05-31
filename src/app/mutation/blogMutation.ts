@@ -44,7 +44,7 @@ export const denyOneBlog = async (id: string) => {
       return response.data;
     }
   } catch (error) {
-    console.log("Failed to denie blog");
-    throw Error("Failed to denie blog");
+    console.log("Failed to deny blog");
+    throw Error("Failed to deny blog");
   }
 };

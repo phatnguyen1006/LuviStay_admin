@@ -110,7 +110,7 @@ export default function BlogPage(): ReactElement {
   };
 
   function callback(key) {
-    // console.log(key);
+    // // console.log(key);
     if (!pendingTabDidInit) {
       if (key === "pending") {
         setPendingTabDidInit(true);

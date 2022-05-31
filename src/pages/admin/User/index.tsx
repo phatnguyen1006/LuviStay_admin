@@ -78,7 +78,7 @@ export default function UserPage(): ReactElement {
   };
 
   function callback(key) {
-    console.log(key);
+    // console.log(key);
   }
 
   function onChange(pagination, filters, sorter, extra) {

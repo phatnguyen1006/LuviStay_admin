@@ -4,6 +4,9 @@ export const ADMIN_ENDPOINT = {
   // apartment
   ALL_APARTMENT: "/apartment/all",
   NEW_APARTMENT: "/apartment/all",
+  DELETE_APARTMENT: "/apartment/delete-apartment",
+  ACCEPT_APARTMENT: "/apartment/confirm-pending-apartment", // ?apartmentId
+  DENY_APARTMENT: "/apartment/remove-pending-apartment", // ?apartmentId
   // user
   ALL_USER: "/user/user-list",
   ONE_USER: "/user/get", // :id
@@ -17,6 +20,10 @@ export const ADMIN_ENDPOINT = {
   CONFIRMED_BLOG: "/blog/confirm",
   PENDING_BLOG: "/blog/pending",
   DELETE_BLOG: "/blog/delete", // :id
+  // revenue
+  MONTHLY_REVENUE: "/revenue/monthly", // ?year=2022&month=6
+  YEARLY_REVENUE: "/yearly", // ?year=2022
+  ALL_REVENUE: "/revenue/all-yearly",
   // utils
   UPLOAD: "/blog/upload",
 };

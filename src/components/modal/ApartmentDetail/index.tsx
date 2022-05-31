@@ -3,15 +3,18 @@ import React, { ReactElement, useState } from "react";
 import { Modal, Space, Button } from "antd";
 import { IProps } from "./types";
 import "./styles.scss";
+import { parseAddress } from "app/utils/extension";
 // fake Api
 
 export default function ApartmentDetail({
-    visible,
-    hideModal
+  visible,
+  hideModal,
+  currentApartment,
+  refetchApartmentData,
 }: IProps): ReactElement {
-//   if (!idea) {
-//     return <></>;
-//   }
+  if (!currentApartment) {
+    return <></>;
+  }
 
   return (
     <Modal
@@ -20,39 +23,36 @@ export default function ApartmentDetail({
       onOk={hideModal}
       onCancel={hideModal}
       footer={[
-        <Space key="Duyet" size="middle">
-          <Button
-            type="primary"
-            ghost
-            onClick={() => {
-              console.log("Click");
-              
-            }}
-          >
-            Duyệt
+        <Space key="footer" size="middle">
+          <Button type="text" onClick={hideModal}>
+            Cancel
           </Button>
           <Button
-            key="Loai"
+            key="delete"
             danger
             onClick={() => {
-              console.log("Click");
-              
+              // mutate(currentUser._id);
             }}
+            // loading={isLoading}
           >
-            Loại
+            Delete
           </Button>
         </Space>,
       ]}
     >
       <p>
-        <strong>Tên: </strong>
-        LuviStay
+        <strong>Apartment Name: </strong>
+        {currentApartment.name}
       </p>
+      <img src={currentApartment.thumbnail} />
       <p>
-        <strong>Tên đề tài: </strong> Show something
+        <strong>Address: </strong> {parseAddress(currentApartment.address)}
       </p>
-      <strong>Nội dung: </strong>
-      <p>Hôm nay bla bla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla</p>
+      <strong>Description: </strong>
+      <div
+        className="detail-description"
+        dangerouslySetInnerHTML={{ __html: currentApartment.description }}
+      ></div>
     </Modal>
   );
 }

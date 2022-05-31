@@ -1,6 +1,6 @@
 import { ReactElement, useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { Tabs, Table, Button, Space, Tag, message, Input } from "antd";
 import type { InputRef } from "antd";
 import type { FilterConfirmProps } from "antd/lib/table/interface";
@@ -22,6 +22,8 @@ import { Apartment, IAddress, TagType } from "app/model";
 import { IFlag, parseAddress } from "app/utils/extension";
 import { getApartmentQuery } from "app/query";
 import "./styles.scss";
+import { acceptOneApartment, denyOneApartment } from "app/mutation";
+import Snipper from "components/Snipper";
 
 const { TabPane } = Tabs;
 
@@ -40,20 +42,56 @@ export default function ApartmentPage(): ReactElement {
     isLoading,
     error,
     isError,
+    refetch,
   } = useQuery(["apartments", 1], getApartmentQuery);
+
+  const { mutate: acceptMutate, isLoading: isAccepting } = useMutation(
+    acceptOneApartment,
+    {
+      onSuccess: () => {
+        message.success("Confirm apartment successfully");
+        refetchApartmentData();
+      },
+      onError: () => {
+        message.error("Failed to confirm apartment. Please try again");
+      },
+    }
+  );
+  const { mutate: denyMutate, isLoading: isDenyLoading } = useMutation(
+    denyOneApartment,
+    {
+      onSuccess: () => {
+        message.success("Deny apartment successfully");
+        refetchApartmentData();
+      },
+      onError: () => {
+        message.error("Failed to deny apartment. Please try again");
+      },
+    }
+  );
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const [reload, setReload] = useState<boolean>(false);
   const [visible, setVisible] = useState(false);
+  const [idLoading, setIDLoading] = useState<string>();
+
+  // confirm delete apartment
+  const [currentDeletedApartment, setCurrentDeletedApartment] =
+    useState<Apartment>();
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
 
+  const refetchApartmentData = (): void => {
+    refetch();
+  };
+
   // modal func
   const showModal = (data) => {
+    setCurrentDeletedApartment(data);
     setVisible(true);
   };
 
@@ -62,7 +100,7 @@ export default function ApartmentPage(): ReactElement {
   };
 
   function callback(key) {
-    console.log(key);
+    // console.log(key);
   }
 
   function onChange(pagination, filters, sorter, extra) {
@@ -234,7 +272,7 @@ export default function ApartmentPage(): ReactElement {
           <a style={{ color: "lightgreen" }}>
             <FileTextOutlined title="Detail" />
           </a>
-          <a style={{ color: "red" }}>
+          <a style={{ color: "red" }} onClick={() => showModal(record)}>
             <DeleteOutlined title="Delete" />
           </a>
         </Space>
@@ -302,12 +340,38 @@ export default function ApartmentPage(): ReactElement {
       title: "Action",
       key: "action",
       render: (text, record) => (
-        <Space size="small">
-          <a style={{ color: "green" }}>
-            <CheckOutlined title="Accept" />
+        <Space size="middle">
+          <a>
+            <EditOutlined title="Update" />
           </a>
-          <a style={{ color: "red" }}>
-            <CloseOutlined title="Decline" />
+          <a onClick={() => showModal(record)}>
+            <FileTextOutlined title="Detail" />
+          </a>
+          <a
+            style={{ color: "green" }}
+            onClick={() => {
+              setIDLoading(record._id);
+              acceptMutate(record._id);
+            }}
+          >
+            {isAccepting && idLoading === record._id ? (
+              <Snipper />
+            ) : (
+              <CheckOutlined title="Accept" />
+            )}
+          </a>
+          <a
+            style={{ color: "red" }}
+            onClick={() => {
+              setIDLoading(record._id);
+              denyMutate(record._id);
+            }}
+          >
+            {isDenyLoading && idLoading === record._id ? (
+              <Snipper />
+            ) : (
+              <CloseOutlined title="Decline" />
+            )}
           </a>
         </Space>
       ),
@@ -338,7 +402,7 @@ export default function ApartmentPage(): ReactElement {
           <Table
             rowKey="_id"
             columns={columns as ColumnsType<any>}
-            dataSource={apartments}
+            dataSource={apartments.filter((p) => p.isPending === false)}
             onChange={onChange}
             loading={isLoading}
           />
@@ -353,7 +417,12 @@ export default function ApartmentPage(): ReactElement {
           />
         </TabPane>
       </Tabs>
-      <ApartmentDetail visible={visible} hideModal={hideModal} />
+      <ApartmentDetail
+        visible={visible}
+        hideModal={hideModal}
+        currentApartment={currentDeletedApartment}
+        refetchApartmentData={refetchApartmentData}
+      />
     </div>
   );
 }

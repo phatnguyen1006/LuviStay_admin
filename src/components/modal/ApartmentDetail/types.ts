@@ -1,4 +1,8 @@
+import { Apartment } from "app/model";
+
 export interface IProps {
-  visible;
-  hideModal;
+  visible: boolean;
+  hideModal: () => void;
+  currentApartment: Apartment;
+  refetchApartmentData: () => void;
 }
