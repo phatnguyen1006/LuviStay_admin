@@ -25,9 +25,9 @@ export const blogAPI = {
       else url = ADMIN_ENDPOINT.PENDING_BLOG;
       return await axiosClient.get(url);
     },
-    updateOneBlog: async (id: string, payload: BlogPayload): Promise<DataResponse<Blog>> => {
+    updateOneBlog: async (payload: BlogPayload): Promise<DataResponse<Blog>> => {
       const url = `${ADMIN_ENDPOINT.UPDATE_BLOG}`;
-      return await axiosClient.put(url, { blogId: id, data: payload });
+      return await axiosClient.put(url, payload);
     },
     acceptOneBlog: async (id?: string): Promise<DataResponse<Blog>> => {
       if (!id) return;

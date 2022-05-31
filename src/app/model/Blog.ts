@@ -11,6 +11,7 @@ export type Blog = {
 };
 
 export type BlogPayload = {
+  _id: string
   author?: User;
   pictures?: string[];
   content?: string;

@@ -1,9 +1,9 @@
 import { blogAPI } from "app/api/blog";
 import { BlogPayload } from "app/model";
 
-export const updateOneBLog = async (id: string, payload: BlogPayload) => {
+export const updateOneBLog = async (payload: BlogPayload) => {
   try {
-    const response = await blogAPI.updateOneBlog(id, payload);
+    const response = await blogAPI.updateOneBlog(payload);
     if (response.succces) {
       return response.data;
     }

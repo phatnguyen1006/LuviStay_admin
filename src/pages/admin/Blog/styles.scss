@@ -19,7 +19,7 @@
 }
 
 .new-blog-page-container {
-  width: 80%;
+  width: 100%;
   @include screen650 {
     width: 100%;
   }
@@ -29,7 +29,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(100% + 25%);
+  width: 100%;
   height: calc(78vh - 50vh);
 }
 

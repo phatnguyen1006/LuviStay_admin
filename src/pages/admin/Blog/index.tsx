@@ -251,15 +251,15 @@ export default function BlogPage(): ReactElement {
       key: "action",
       render: (text, record) => (
         <Space size="middle">
+          <a style={{ color: "lightgreen" }} onClick={() => showModal(record)}>
+            <FileTextOutlined title="Detail" />
+          </a>
           <Link
             to={`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG_UPDATE}/${record._id}`}
             state={record}
           >
             <EditOutlined title="Update blog" />
           </Link>
-          <a style={{ color: "lightgreen" }} onClick={() => showModal(record)}>
-            <FileTextOutlined title="Detail" />
-          </a>
           <a style={{ color: "red" }} onClick={() => showModal(record)}>
             <DeleteOutlined title="Delete blog" />
           </a>
@@ -295,6 +295,12 @@ export default function BlogPage(): ReactElement {
           <a onClick={() => showModal(record)}>
             <FileTextOutlined title="Detail" />
           </a>
+          <Link
+            to={`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG_UPDATE}/${record._id}`}
+            state={record}
+          >
+            <EditOutlined title="Update blog" />
+          </Link>
           <a
             style={{ color: "green" }}
             onClick={() => {
@@ -344,10 +350,8 @@ export default function BlogPage(): ReactElement {
           &nbsp; New Post
         </Button>
       </div> */}
-      {/* <Table columns={columns} dataSource={data} /> */}
       <Tabs onChange={callback}>
         <TabPane tab="Accepted" key="accepted">
-          {/* <Table columns={columns} dataSource={data} /> */}
           <Table
             rowKey={"_id"}
             columns={columns as ColumnsType<any>}

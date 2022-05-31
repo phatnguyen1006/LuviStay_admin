@@ -1,47 +1,29 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Form, Button, Upload, Input, Modal } from "antd";
+import { Form, Button, Upload, Input, Modal, message } from "antd";
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
-import "./styles.scss";
 import { DB_URI } from "app/constants";
 import { ADMIN_ENDPOINT } from "app/api/endpoint";
-import { Blog } from "app/model";
+import { Blog, BlogPayload } from "app/model";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { getOneBlogQuery } from "app/query";
 import { RcFile, UploadFile, UploadProps } from "antd/lib/upload/interface";
+import { useMutation } from "react-query";
+import { updateOneBLog } from "app/mutation";
+import "./styles.scss";
 
-const picList = [
-  {
-    uid: "0",
-    name: "pic-0",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847325/p8khtj1rzaaqjivq429a.jpg",
-  },
-  {
-    uid: "1",
-    name: "pic-1",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847336/xflzenddoc49ctpuepwq.jpg",
-  },
-  {
-    uid: "2",
-    name: "pic-2",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847340/tfhrzplk8u4fapjio8pc.jpg",
-  },
-  {
-    uid: "3",
-    name: "pic-3",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847344/ap1tlnytv1grljfg0bs8.jpg",
-  },
-  {
-    uid: "4",
-    name: "pic-4",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847348/lfwdlr1m6qfxrshu8drt.jpg",
-  },
-  {
-    uid: "5",
-    name: "pic-5",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847355/dnezss8damjcnrqph5gd.jpg",
-  },
-];
+interface ICustomizedUploadFile extends UploadFile {
+  url: string;
+}
+
+interface IBrowsingBlog extends Omit<BlogPayload, "pictures"> {
+  pictures: Array<ICustomizedUploadFile>;
+}
+
+interface IOnChangeUploadProps {
+  file: ICustomizedUploadFile;
+  fileList: ICustomizedUploadFile[];
+}
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -57,30 +39,12 @@ const formItemLayout = {
 };
 
 const normFile = (e: any) => {
-  console.log("Upload event:", e);
+  // console.log("Upload event:", e);
   if (Array.isArray(e)) {
     return e;
   }
   return e?.fileList;
 };
-
-// const picList = [
-//   {
-//     uid: "1",
-//     name: "blog-1",
-//     url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847325/p8khtj1rzaaqjivq429a.jpg",
-//   },
-//   {
-//     uid: "2",
-//     name: "blog-3",
-//     url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847336/xflzenddoc49ctpuepwq.jpg",
-//   },
-//   {
-//     uid: "3",
-//     name: "blog-3",
-//     url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847340/tfhrzplk8u4fapjio8pc.jpg",
-//   },
-// ];
 
 const Loader: React.FC = () => {
   return (
@@ -98,6 +62,16 @@ export default function UpdateBlog(): ReactElement {
   const location = useLocation();
   const { id: postID } = useParams();
 
+  const { mutate, isLoading } = useMutation(updateOneBLog, {
+    onSuccess: (data) => {
+      message.success("Update blog successfully");
+      navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG}`);
+    },
+    onError: () => {
+      message.error("There was an error");
+    },
+  });
+
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -105,10 +79,18 @@ export default function UpdateBlog(): ReactElement {
   const [state, setState] = useState<Blog>((location.state as Blog) || null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [fileList, setFileList] = useState<UploadFile<{ url: string }>[]>([]);
+  const [fileList, setFileList] = useState<ICustomizedUploadFile[]>([]);
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: IBrowsingBlog) => {
     console.log("Received values of form: ", values);
+    const payload: BlogPayload = {
+      _id: postID,
+      content: values.content,
+      pictures: values.pictures && values.pictures.map((p) => p.url),
+    };
+
+    // console.log(payload);
+    mutate(payload);
   };
 
   const handleCancel = () => setPreviewVisible(false);
@@ -125,8 +107,22 @@ export default function UpdateBlog(): ReactElement {
     );
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const handleChange: UploadProps["onChange"] = ({
+    file: newFile,
+    fileList: newFileList,
+  }: IOnChangeUploadProps) => {
+    // convert File type to UploadFile Customized Type
+    // console.log("new: ", newFile.response && newFile.response?.data[0]);
+    if (newFile && newFile.response && newFileList.length >= 1) {
+      newFileList.pop();
+      newFileList.push({
+        uid: newFileList.length.toString(),
+        name: `pic-${newFileList.length}`,
+        url: newFile.response && newFile.response?.data[0],
+      });
+      setFileList([...newFileList]);
+    }
+  };
 
   const uploadButton = (
     <div>
@@ -179,7 +175,7 @@ export default function UpdateBlog(): ReactElement {
               label="Pictures"
               valuePropName="fileList"
               getValueFromEvent={normFile}
-              extra="Choose your photos"
+              extra="Choose photos"
             >
               {/* <Upload
                 name="thumbnail"
@@ -197,20 +193,23 @@ export default function UpdateBlog(): ReactElement {
                 listType="picture-card"
                 onPreview={handlePreview}
                 onChange={handleChange}
-                defaultFileList={state.pictures && state.pictures?.map((url, index) => {
-                  return {
-                    uid: index.toString(),
-                    name: `pic-${index}`,
-                    url: url,
-                  };
-                })}
+                defaultFileList={
+                  state.pictures &&
+                  state.pictures?.map((url, index) => {
+                    return {
+                      uid: index.toString(),
+                      name: `pic-${index}`,
+                      url: url,
+                    };
+                  })
+                }
               >
                 {uploadButton}
               </Upload>
             </Form.Item>
 
             <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-              <Button type="primary" htmlType="submit">
+              <Button loading={isLoading} type="primary" htmlType="submit">
                 Submit
               </Button>
             </Form.Item>

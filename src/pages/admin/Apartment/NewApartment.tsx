@@ -1,12 +1,13 @@
 import { ReactElement, useState } from "react";
 import { Button, message, Steps } from "antd";
+import { NewAparemtForm } from "components/forms";
 
 const { Step } = Steps;
 
 const steps = [
   {
     title: "New Apartment",
-    content: "New-apartment",
+    content: <NewAparemtForm />,
   },
   {
     title: "Apartment's Room",

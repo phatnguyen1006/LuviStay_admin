@@ -10,7 +10,7 @@ const { Option } = Select;
 
 const DashBoard = (): JSX.Element => {
   const [chartType, setchartType] = useState<ChartType>(ChartType.year);
-
+  
   function handleChange(value) {
     setchartType(value);
   }
