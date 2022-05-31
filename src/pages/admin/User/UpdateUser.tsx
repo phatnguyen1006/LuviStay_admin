@@ -18,13 +18,13 @@ import {
 } from "antd";
 import type { DatePickerProps } from "antd";
 import { IGender, User, UserPayload } from "app/model";
-import "./styles.scss";
 import { useMutation } from "react-query";
 import { updateOneUser } from "app/mutation";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { convertMongoDatetoYMD, reverseDateFormat } from "app/utils/extension";
 import { getOneUserQuery } from "app/query";
 import moment from "moment";
+import "./styles.scss";
 
 const { Option } = Select;
 

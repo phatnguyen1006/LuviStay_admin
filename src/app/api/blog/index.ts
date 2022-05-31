@@ -1,5 +1,5 @@
 import axiosClient from "../axiosClient";
-import { Blog, DataResponse } from "app/model";
+import { Blog, BlogPayload, DataResponse } from "app/model";
 import { ADMIN_ENDPOINT } from "../endpoint";
 
 export const blogAPI = {
@@ -7,6 +7,10 @@ export const blogAPI = {
       let url = "";
       if (page) url = `${ADMIN_ENDPOINT.ALL_BLOG}?page=${page}`;
       else url = ADMIN_ENDPOINT.ALL_BLOG;
+      return await axiosClient.get(url);
+    },
+    fetchOneBlog: async (id: string): Promise<DataResponse<Blog>> => {
+      const url = `${ADMIN_ENDPOINT.ONE_BLOG}/${id}`;
       return await axiosClient.get(url);
     },
     fetchConfirmedBlog: async (page?: number): Promise<DataResponse<Array<Blog>>> => {
@@ -21,6 +25,10 @@ export const blogAPI = {
       else url = ADMIN_ENDPOINT.PENDING_BLOG;
       return await axiosClient.get(url);
     },
+    updateOneBlog: async (id: string, payload: BlogPayload): Promise<DataResponse<Blog>> => {
+      const url = `${ADMIN_ENDPOINT.UPDATE_BLOG}`;
+      return await axiosClient.put(url, { blogId: id, data: payload });
+    },
     acceptOneBlog: async (id?: string): Promise<DataResponse<Blog>> => {
       if (!id) return;
       const url = `${ADMIN_ENDPOINT.CONFIRMED_BLOG}`;
@@ -33,7 +41,7 @@ export const blogAPI = {
     },
     deleteOneBlog: async (id?: string): Promise<DataResponse<null>> => {
       if (!id) return;
-      const url = `${ADMIN_ENDPOINT.CONFIRMED_BLOG}`;
+      const url = `${ADMIN_ENDPOINT.DELETE_BLOG}/${id}`;
       return await axiosClient.delete(url);
     },
   };

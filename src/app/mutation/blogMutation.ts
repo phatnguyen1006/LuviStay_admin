@@ -1,4 +1,17 @@
 import { blogAPI } from "app/api/blog";
+import { BlogPayload } from "app/model";
+
+export const updateOneBLog = async (id: string, payload: BlogPayload) => {
+  try {
+    const response = await blogAPI.updateOneBlog(id, payload);
+    if (response.succces) {
+      return response.data;
+    }
+  } catch (error) {
+    console.log("Failed to update blog");
+    throw Error("Failed to update blog");
+  }
+};
 
 export const deleteOneBlog = async (id: string) => {
   try {

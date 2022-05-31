@@ -11,55 +11,55 @@ import { BellOutlined, LogoutOutlined } from "@ant-design/icons";
 
 const { Header, Content, Footer } = Layout;
 
-const menu = (
-  <Menu
-    items={[
-      {
-        key: "1",
-        label: (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://luvistay.com"
-          >
-            1 apartment mới được đăng và đang chờ duyệt.
-          </a>
-        ),
-      },
-      {
-        key: "2",
-        label: (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://luvistay.com"
-          >
-            1 apartment mới được đăng và đang chờ duyệt.
-          </a>
-        ),
-      },
-      {
-        key: "3",
-        label: (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://luvistay.com"
-          >
-            1 blog mới được đăng và đang chờ duyệt.
-          </a>
-        ),
-      },
-    ]}
-  />
-);
-
 export default function AdminLayout(): ReactElement {
   const dispatch = useAppDispatch();
 
   const signOutHanler = () => {
     dispatch(signOut());
   };
+
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: "1",
+          label: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://luvistay.com"
+            >
+              1 apartment mới được đăng và đang chờ duyệt.
+            </a>
+          ),
+        },
+        {
+          key: "2",
+          label: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://luvistay.com"
+            >
+              1 apartment mới được đăng và đang chờ duyệt.
+            </a>
+          ),
+        },
+        {
+          key: "3",
+          label: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://luvistay.com"
+            >
+              1 blog mới được đăng và đang chờ duyệt.
+            </a>
+          ),
+        },
+      ]}
+    />
+  );
 
   return (
     <Layout style={{ minHeight: "100vh" }}>

@@ -31,7 +31,7 @@ export default function BlogDetail({
 
   return (
     <Modal
-      title={`Delete ${currentBlog._id}`}
+      title={`Post: ${currentBlog._id}`}
       visible={visible}
       onOk={hideModal}
       onCancel={hideModal}

@@ -1,11 +1,11 @@
-import { DB_URI } from "app/constants";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { DB_URI } from "app/constants";
 import queryString from "query-string";
 import { getCookie } from "app/utils/cookie";
 import { COOKIE_USER } from "app/constants";
 
 const axiosClient = axios.create({
-	baseURL: "https://luviana.herokuapp.com",
+	baseURL: DB_URI,
 	headers: {
 		"content-type": "application/json",
 	},

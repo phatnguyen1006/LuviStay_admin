@@ -15,13 +15,16 @@ import { FilterConfirmProps } from "antd/lib/table/interface";
 import Highlighter from "react-highlight-words";
 import BlogDetail from "components/modal/BlogDetail";
 import "./styles.scss";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 import { getComfirmedBlog, getPendingBlog } from "app/query";
 import { Blog } from "app/model";
 import { acceptOneBlog, denyOneBlog } from "app/mutation";
 import Snipper from "components/Snipper";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
+import { convertMongoDatetoDMY } from "app/utils/extension";
+import { CLIENT_SITE_URL } from "app/constants";
+import { CLIENT_ENDPOINT } from "app/api/endpoint";
 
 const { TabPane } = Tabs;
 
@@ -72,8 +75,10 @@ export default function BlogPage(): ReactElement {
         message.error("Failed to confirm blog. Please try again");
       },
     });
-  const { mutate: denyBlogMutation, isLoading: isDeniedLoading } =
-    useMutation(denyOneBlog, {
+
+  const { mutate: denyBlogMutation, isLoading: isDeniedLoading } = useMutation(
+    denyOneBlog,
+    {
       onSuccess: () => {
         message.success("Decline blog successfully");
         refetchBlogData();
@@ -81,7 +86,8 @@ export default function BlogPage(): ReactElement {
       onError: () => {
         message.error("Failed to decline blog. Please try again");
       },
-    });
+    }
+  );
 
   const [visible, setVisible] = useState(false);
   const [currentDeletedBlog, setCurrentDeletedBlog] = useState<Blog>();
@@ -90,6 +96,8 @@ export default function BlogPage(): ReactElement {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+
+  const clientBlogPage = `${CLIENT_SITE_URL}${CLIENT_ENDPOINT.BLOG}`;
 
   // modal func
   const showModal = (data: Blog) => {
@@ -204,7 +212,7 @@ export default function BlogPage(): ReactElement {
     },
     render: (text) =>
       searchedColumn === dataIndex ? (
-        <a>
+        <a rel="noreferrer" target="_blank" href={`${clientBlogPage}/${text}`}>
           <Highlighter
             highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
             searchWords={[searchText]}
@@ -213,7 +221,9 @@ export default function BlogPage(): ReactElement {
           />
         </a>
       ) : (
-        <a>{text}</a>
+        <a rel="noreferrer" target="_blank" href={`${clientBlogPage}/${text}`}>
+          {text}
+        </a>
       ),
   });
 
@@ -234,16 +244,20 @@ export default function BlogPage(): ReactElement {
       title: "Created At",
       key: "date",
       dataIndex: "date",
+      render: (date: string) => convertMongoDatetoDMY(date),
     },
     {
       title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <a>
+          <Link
+            to={`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG_UPDATE}/${record._id}`}
+            state={record}
+          >
             <EditOutlined title="Update blog" />
-          </a>
-          <a style={{ color: "lightgreen" }}>
+          </Link>
+          <a style={{ color: "lightgreen" }} onClick={() => showModal(record)}>
             <FileTextOutlined title="Detail" />
           </a>
           <a style={{ color: "red" }} onClick={() => showModal(record)}>
@@ -271,12 +285,16 @@ export default function BlogPage(): ReactElement {
       title: "Created At",
       key: "date",
       dataIndex: "date",
+      render: (date: string) => convertMongoDatetoDMY(date),
     },
     {
       title: "Action",
       key: "action",
       render: (text, record) => (
         <Space size="middle">
+          <a onClick={() => showModal(record)}>
+            <FileTextOutlined title="Detail" />
+          </a>
           <a
             style={{ color: "green" }}
             onClick={() => {
@@ -315,11 +333,15 @@ export default function BlogPage(): ReactElement {
 
   return (
     <div>
-      <h2 style={{ marginBottom: 30 }}>Blog Management</h2>
+      <h2 style={{ marginBottom: 30 }}>Post Management</h2>
       <div className="blog-container">
-        <Button className="btn-container" type="primary" onClick={() => navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG_NEW}`)}>
+        <Button
+          className="btn-container"
+          type="primary"
+          onClick={() => navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG_NEW}`)}
+        >
           <GoPlus />
-          &nbsp; New Blog
+          &nbsp; New Post
         </Button>
       </div>
       {/* <Table columns={columns} dataSource={data} /> */}

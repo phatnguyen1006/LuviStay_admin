@@ -14,6 +14,19 @@ export const getAllBlog = async (
   }
 };
 
+export const getOneBlogQuery = async (
+  key,
+  id: string
+): Promise<Blog> => {
+  try {
+    const response = await blogAPI.fetchOneBlog(id);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch blog by id");
+    throw Error("Failed to fetch blog by id");
+  }
+};
+
 export const getComfirmedBlog = async (
   key,
   page?: number
@@ -31,7 +44,6 @@ export const getPendingBlog = async (
   key,
   page?: number
 ): Promise<Array<Blog>> => {
-  console.log("Query Pending Blog");
   try {
     const response = await blogAPI.fetchPendingBlog(page ? page : null);
     return response.data;

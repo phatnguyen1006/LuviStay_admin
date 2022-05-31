@@ -85,10 +85,10 @@ export const menus: Array<IMenuItem> = [
     // ],
   },
   {
-    key: "blog",
+    key: "post",
     icon: () => <FileTextOutlined />,
-    title: "Blog Management",
-    endPoint: "/blog",
+    title: "Post Management",
+    endPoint: "/post",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG}`,
 
     // subMenuKey: "blog_sub",

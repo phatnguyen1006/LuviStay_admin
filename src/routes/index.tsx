@@ -41,7 +41,7 @@ export default function AppRoutes(): ReactElement {
 								</div>
 							</RequireAuth>
 						}/>
-						<Route path="*" element={<NotFoundPage />}/>
+						<Route path="/*" element={<NotFoundPage />}/>
 					</Route>
 				</Routes>
 			</Router>
