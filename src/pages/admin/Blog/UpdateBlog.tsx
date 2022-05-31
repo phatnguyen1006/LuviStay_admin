@@ -10,6 +10,39 @@ import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { getOneBlogQuery } from "app/query";
 import { RcFile, UploadFile, UploadProps } from "antd/lib/upload/interface";
 
+const picList = [
+  {
+    uid: "0",
+    name: "pic-0",
+    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847325/p8khtj1rzaaqjivq429a.jpg",
+  },
+  {
+    uid: "1",
+    name: "pic-1",
+    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847336/xflzenddoc49ctpuepwq.jpg",
+  },
+  {
+    uid: "2",
+    name: "pic-2",
+    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847340/tfhrzplk8u4fapjio8pc.jpg",
+  },
+  {
+    uid: "3",
+    name: "pic-3",
+    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847344/ap1tlnytv1grljfg0bs8.jpg",
+  },
+  {
+    uid: "4",
+    name: "pic-4",
+    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847348/lfwdlr1m6qfxrshu8drt.jpg",
+  },
+  {
+    uid: "5",
+    name: "pic-5",
+    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847355/dnezss8damjcnrqph5gd.jpg",
+  },
+];
+
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -31,23 +64,23 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const picList = [
-  {
-    uid: "1",
-    name: "blog-1",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847325/p8khtj1rzaaqjivq429a.jpg",
-  },
-  {
-    uid: "2",
-    name: "blog-3",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847336/xflzenddoc49ctpuepwq.jpg",
-  },
-  {
-    uid: "3",
-    name: "blog-3",
-    url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847340/tfhrzplk8u4fapjio8pc.jpg",
-  },
-];
+// const picList = [
+//   {
+//     uid: "1",
+//     name: "blog-1",
+//     url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847325/p8khtj1rzaaqjivq429a.jpg",
+//   },
+//   {
+//     uid: "2",
+//     name: "blog-3",
+//     url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847336/xflzenddoc49ctpuepwq.jpg",
+//   },
+//   {
+//     uid: "3",
+//     name: "blog-3",
+//     url: "https://res.cloudinary.com/decscyfze/image/upload/v1653847340/tfhrzplk8u4fapjio8pc.jpg",
+//   },
+// ];
 
 const Loader: React.FC = () => {
   return (
@@ -73,21 +106,6 @@ export default function UpdateBlog(): ReactElement {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [fileList, setFileList] = useState<UploadFile<{ url: string }>[]>([]);
-
-  const initPictures = () => {
-    if (state && state.pictures) {
-      const picturesObjInitial: Array<UploadFile<{ url: string }>> = [];
-      state.pictures.map((p, index) => {
-        console.log(index);
-
-        console.log(p);
-        picturesObjInitial.push({uid: index.toString(), name: `pic-${index}`, url: p});
-      });
-      setFileList([...picturesObjInitial]);
-    }
-  };
-
-  console.log(fileList);
 
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
@@ -117,12 +135,6 @@ export default function UpdateBlog(): ReactElement {
     </div>
   );
 
-  console.log(state);
-
-  useEffect(() => {
-    initPictures();
-  }, [state]);
-
   useEffect(() => {
     if (!postID) {
       navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG}`);
@@ -141,8 +153,6 @@ export default function UpdateBlog(): ReactElement {
         });
       })();
     }
-
-    initPictures();
   }, []);
 
   return (
@@ -185,10 +195,15 @@ export default function UpdateBlog(): ReactElement {
                 method="POST"
                 action={`${DB_URI}${ADMIN_ENDPOINT.UPLOAD}`}
                 listType="picture-card"
-                fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
-                defaultFileList={[...fileList]}
+                defaultFileList={state.pictures && state.pictures?.map((url, index) => {
+                  return {
+                    uid: index.toString(),
+                    name: `pic-${index}`,
+                    url: url,
+                  };
+                })}
               >
                 {uploadButton}
               </Upload>

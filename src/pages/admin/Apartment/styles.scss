@@ -1,7 +1,22 @@
 @use "../../../styles/" as *;
 
+.apartment-page-container {
+    h2 {
+        font-size: 22px;
+        font-weight: bold;
+    }
+}
+
 .btn-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
 }

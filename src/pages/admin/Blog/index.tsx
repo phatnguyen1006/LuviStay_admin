@@ -14,7 +14,6 @@ import type { ColumnsType, ColumnType } from "antd/lib/table";
 import { FilterConfirmProps } from "antd/lib/table/interface";
 import Highlighter from "react-highlight-words";
 import BlogDetail from "components/modal/BlogDetail";
-import "./styles.scss";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
 import { getComfirmedBlog, getPendingBlog } from "app/query";
@@ -25,6 +24,7 @@ import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { convertMongoDatetoDMY } from "app/utils/extension";
 import { CLIENT_SITE_URL } from "app/constants";
 import { CLIENT_ENDPOINT } from "app/api/endpoint";
+import "./styles.scss";
 
 const { TabPane } = Tabs;
 
@@ -332,9 +332,9 @@ export default function BlogPage(): ReactElement {
   }
 
   return (
-    <div>
+    <div className="blog-page-container">
       <h2 style={{ marginBottom: 30 }}>Post Management</h2>
-      <div className="blog-container">
+      {/* <div className="blog-container">
         <Button
           className="btn-container"
           type="primary"
@@ -343,7 +343,7 @@ export default function BlogPage(): ReactElement {
           <GoPlus />
           &nbsp; New Post
         </Button>
-      </div>
+      </div> */}
       {/* <Table columns={columns} dataSource={data} /> */}
       <Tabs onChange={callback}>
         <TabPane tab="Accepted" key="accepted">

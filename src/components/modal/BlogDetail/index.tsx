@@ -37,9 +37,7 @@ export default function BlogDetail({
       onCancel={hideModal}
       footer={[
         <Space key="footer" size="middle">
-          <Button type="text">
-            Cancel
-          </Button>
+          <Button type="text">Cancel</Button>
           <Button
             key="delete"
             danger
@@ -61,17 +59,23 @@ export default function BlogDetail({
         <strong>Date: </strong> {currentBlog.date}
       </p>
       <p>
-        <strong>Content: </strong></p><p>
-        - {currentBlog.content}
+        <strong>Content: </strong>
       </p>
-      <p><strong>Pictures: </strong></p>
-      <div className="blog-img-container">
-      {currentBlog.pictures.map((p, index) => (
-        <div key={index} className="blog-img-content">
-          <img src={p} width="100%" height="100%" />
-        </div>
-      ))}
-      </div>
+      <p>- {currentBlog.content}</p>
+      {currentBlog.pictures.length >= 1 && (
+        <>
+          <p>
+            <strong>Pictures: </strong>
+          </p>
+          <div className="blog-img-container">
+            {currentBlog.pictures.map((p, index) => (
+              <div key={index} className="blog-img-content">
+                <img src={p} width="100%" height="100%" />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </Modal>
   );
 }

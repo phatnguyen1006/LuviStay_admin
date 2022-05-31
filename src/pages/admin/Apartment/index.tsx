@@ -14,7 +14,6 @@ import {
 } from "@ant-design/icons";
 import { GoPlus } from "react-icons/go";
 import Highlighter from "react-highlight-words";
-import "./styles.scss";
 import { ApartmentStatus } from "./types";
 import type { ColumnsType, ColumnType } from "antd/lib/table";
 import ApartmentDetail from "components/modal/ApartmentDetail";
@@ -22,6 +21,7 @@ import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { Apartment, IAddress, TagType } from "app/model";
 import { IFlag, parseAddress } from "app/utils/extension";
 import { getApartmentQuery } from "app/query";
+import "./styles.scss";
 
 const { TabPane } = Tabs;
 
@@ -319,18 +319,20 @@ export default function ApartmentPage(): ReactElement {
   }
 
   return (
-    <div>
-      <h2 style={{ marginBottom: 30 }}>Apartment Management</h2>
-      <Button
-        className="btn-container"
-        type="primary"
-        onClick={() =>
-          navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_NEW}`)
-        }
-      >
-        <GoPlus />
-        &nbsp; New Apartment
-      </Button>
+    <div className="apartment-page-container">
+      <div className="title-container">
+        <h2>Apartment Management</h2>
+        <Button
+          className="btn-container"
+          type="primary"
+          onClick={() =>
+            navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_NEW}`)
+          }
+        >
+          <GoPlus />
+          &nbsp; New Apartment
+        </Button>
+      </div>
       <Tabs onChange={callback}>
         <TabPane tab="All" key={ApartmentStatus.all}>
           <Table
