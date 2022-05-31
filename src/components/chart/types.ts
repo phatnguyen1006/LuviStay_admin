@@ -1,5 +1,5 @@
 export enum ChartType {
-    history = "Tổng quát",
-    year = "Năm",
+    all = "all",
+    year = "year",
     month = "month",
 }

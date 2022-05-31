@@ -110,19 +110,20 @@ export const menus: Array<IMenuItem> = [
     icon: () => <BarChartOutlined />,
     title: "Revenue Management",
     endPoint: "/revenue",
-    subMenuKey: "revenue_sub",
-    subMenu: [
-      {
-        key: "month",
-        title: "Month",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_MONTH}`,
-      },
-      {
-        key: "year",
-        title: "Year",
-        path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
-      },
-    ],
+    path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE}`
+    // subMenuKey: "revenue_sub",
+    // subMenu: [
+    //   {
+    //     key: "month",
+    //     title: "Month",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_MONTH}`,
+    //   },
+    //   {
+    //     key: "year",
+    //     title: "Year",
+    //     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE_YEAR}`,
+    //   },
+    // ],
   },
   // {
   //   key: "revenue",

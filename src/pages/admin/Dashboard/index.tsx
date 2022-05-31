@@ -34,7 +34,8 @@ const DashBoard = (): JSX.Element => {
                 onChange={handleChange}
               >
                 <Option value={ChartType.year}>{ChartType.year}</Option>
-                <Option value={ChartType.history}>{ChartType.history}</Option>
+                <Option value={ChartType.month}>{ChartType.month}</Option>
+                <Option value={ChartType.all}>{ChartType.all}</Option>
               </Select>
               <BsSliders className="filter-icon" />
             </div>

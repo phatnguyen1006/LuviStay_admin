@@ -1,0 +1,85 @@
+@use "../../../styles/" as *;
+
+.revenue-page-container {
+  h2 {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  strong {
+    font-weight: bold;
+  }
+}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+// .body-revenue-page {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   align-items: flex-start;
+// }
+
+// .main-page-container {
+//   // height: 78vh;
+//   width: 72%;
+//   > * + * {
+//     margin-top: 50px;
+//   }
+// }
+
+// .sub-layout-container {
+//   // height: 78vh;
+//   width: 26%;
+//   > * + * {
+//     margin-top: 50px;
+//   }
+// }
+
+.body-revenue-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  > * + * {
+    margin-top: 50px;
+  }
+}
+
+.chart-layout {
+  height: 50%;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+
+.statistic-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.table-revenue-container {
+  width: 72%;
+  > * + * {
+    margin-top: 50px;
+  }
+}
+
+.summary-revenue-container {
+  width: 26%;
+  > * + * {
+    margin-top: 50px;
+  }
+}
