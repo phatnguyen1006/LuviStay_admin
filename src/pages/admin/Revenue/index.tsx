@@ -76,6 +76,13 @@ const apartments = [
     monthlyRevenue: 20293525,
     apartmentId: "62568ab0d6d1a4a941990909",
   },
+  {
+    beginDate: "2022-06-02T00:00:00.000Z",
+    apartmentName: "Furama Resort Danang",
+    bookingCalendarId: "62962ed22b33af9a7861ae31",
+    monthlyRevenue: 20293525,
+    apartmentId: "62568ab0d6d1a4a941990909",
+  },
 ];
 
 const RevenuePage = (): JSX.Element => {
@@ -350,21 +357,24 @@ const RevenuePage = (): JSX.Element => {
               // loading={isLoading}
             />
           </section>
-          <section className="summary-revenue-container">
-            <Statistic
-              title={<h3>Summary</h3>}
-              value={11.28}
-              precision={2}
-              valueStyle={{ color: "#3f8600" }}
-              prefix={<ArrowUpOutlined />}
-              suffix="%"
-            />
-            <Statistic
-              title={<h3>This month revenue</h3>}
-              value={112893}
-              suffix="VNĐ"
-            />
-          </section>
+          <Card className="summary-revenue-container">
+            <Space direction="vertical">
+              <Statistic
+                title={<h3>Summary</h3>}
+                value={11.28}
+                precision={2}
+                valueStyle={{ color: "#3f8600" }}
+                prefix={<ArrowUpOutlined />}
+                suffix="%"
+              />
+              <Statistic
+                style={{ marginTop: 30 }}
+                title={<h3>This month revenue</h3>}
+                value={112893}
+                suffix="VNĐ"
+              />
+            </Space>
+          </Card>
         </section>
       </section>
     </div>
