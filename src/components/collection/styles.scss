@@ -1,0 +1,19 @@
+// @use "../../styles/" as *;
+
+.picture-collection-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: baseline;
+    > * + * {
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+// .photo-content {
+//     width: max-content;
+//     margin-right: 10px;
+//     margin-bottom: 10px;
+// }

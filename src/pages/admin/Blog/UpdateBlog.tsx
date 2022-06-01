@@ -167,7 +167,7 @@ export default function UpdateBlog(): ReactElement {
             }}
           >
             <Form.Item name="content" label="Content">
-              <Input.TextArea />
+              <Input.TextArea rows={8} />
             </Form.Item>
 
             <Form.Item

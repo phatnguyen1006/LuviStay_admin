@@ -3,10 +3,13 @@ export const ADMIN_ENDPOINT = {
   ADMIN_SIGNIN: "/admin/login-admin-account",
   // apartment
   ALL_APARTMENT: "/apartment/all",
+  ONE_APARTMENT: "/apartment/detail", // :id
   NEW_APARTMENT: "/apartment/all",
   DELETE_APARTMENT: "/apartment/delete-apartment",
   ACCEPT_APARTMENT: "/apartment/confirm-pending-apartment", // ?apartmentId
   DENY_APARTMENT: "/apartment/remove-pending-apartment", // ?apartmentId
+  // room
+  ROOM_OF_APARTMENT: "/room/apartment", //:id
   // user
   ALL_USER: "/user/user-list",
   ONE_USER: "/user/get", // :id

@@ -1,6 +1,6 @@
 import axiosClient from "../axiosClient";
 import { ResponseStatus } from "app/definitions/Enum";
-import { Apartment, DataResponse } from "app/model";
+import { Apartment, DataResponse, Room } from "app/model";
 import { ADMIN_ENDPOINT } from "../endpoint";
 
 export const apartmentAPI = {
@@ -10,17 +10,25 @@ export const apartmentAPI = {
     else url = ADMIN_ENDPOINT.ALL_APARTMENT;
     return await axiosClient.get(url);
   },
-  deleteOneBlog: async (id?: string): Promise<DataResponse<Apartment>> => {
+  fetchOneApartmentByID: async (id: string): Promise<DataResponse<Apartment>> => {
+    const url = `${ADMIN_ENDPOINT.ONE_APARTMENT}/${id}`;
+    return await axiosClient.get(url);
+  },
+  fetchAllRoomsOfApartment: async (id: string): Promise<DataResponse<Array<Room>>> => {
+    const url = `${ADMIN_ENDPOINT.ROOM_OF_APARTMENT}/${id}`;
+    return await axiosClient.get(url);
+  },
+  deleteOneApartment: async (id?: string): Promise<DataResponse<Apartment>> => {
     if (!id) return;
     const url = `${ADMIN_ENDPOINT.DELETE_APARTMENT}`;
     return await axiosClient.put(url, { apartmentId: id });
   },
-  acceptOneBlog: async (id?: string): Promise<DataResponse<Apartment>> => {
+  acceptOneApartment: async (id?: string): Promise<DataResponse<Apartment>> => {
     if (!id) return;
     const url = `${ADMIN_ENDPOINT.ACCEPT_APARTMENT}`;
     return await axiosClient.put(url, { apartmentId: id });
   },
-  denyOneBlog: async (id?: string): Promise<DataResponse<null>> => {
+  denyOneApartment: async (id?: string): Promise<DataResponse<null>> => {
     if (!id) return;
     const url = `${ADMIN_ENDPOINT.DENY_APARTMENT}?apartmentId=${id}`;
     return await axiosClient.delete(url);

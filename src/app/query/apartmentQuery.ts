@@ -1,5 +1,5 @@
 import { apartmentAPI } from "app/api/apartment";
-import { Apartment } from "app/model";
+import { Apartment, Room } from "app/model";
 
 export const getApartmentQuery = async (
   key,
@@ -11,6 +11,35 @@ export const getApartmentQuery = async (
   } catch (error) {
     console.log("Failed to fetch apartments");
     throw Error("Failed to fetch apartments");
+  }
+};
+
+export const getOneApartmentQuery = async (
+  key,
+  id?: string
+): Promise<Apartment> => {
+  try {
+    if (!id) return;
+    const response = await apartmentAPI.fetchOneApartmentByID(id);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch apartments by id");
+    throw Error("Failed to fetch apartments by id");
+  }
+};
+
+export const getRoomsofApartmentQuery = async ({
+  queryKey,
+}): Promise<Array<Room>> => {
+  try {
+    const [_, id] = queryKey;
+
+    if (!id) return;
+    const response = await apartmentAPI.fetchAllRoomsOfApartment(id);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch rooms of apartments");
+    throw Error("Failed to fetch rooms of apartments");
   }
 };
 

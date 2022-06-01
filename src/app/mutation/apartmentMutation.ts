@@ -2,7 +2,7 @@ import { apartmentAPI } from "app/api/apartment";
 
 export const acceptOneApartment = async (id: string) => {
   try {
-    const response = await apartmentAPI.acceptOneBlog(id);
+    const response = await apartmentAPI.acceptOneApartment(id);
     if (response.succces) {
       return response.data;
     }
@@ -14,7 +14,7 @@ export const acceptOneApartment = async (id: string) => {
 
 export const denyOneApartment = async (id: string) => {
   try {
-    const response = await apartmentAPI.denyOneBlog(id);
+    const response = await apartmentAPI.denyOneApartment(id);
     if (response.succces) {
       return response.data;
     }

@@ -79,9 +79,30 @@ const apartments = [
   {
     beginDate: "2022-06-02T00:00:00.000Z",
     apartmentName: "Furama Resort Danang",
-    bookingCalendarId: "62962ed22b33af9a7861ae31",
+    bookingCalendarId: "62962ed22b33af9a7861ae32",
     monthlyRevenue: 20293525,
     apartmentId: "62568ab0d6d1a4a941990909",
+  },
+  {
+    beginDate: "2022-06-02T00:00:00.000Z",
+    apartmentName: "Furama Resort Danang",
+    bookingCalendarId: "62962ed22b33af9a7861ae33",
+    monthlyRevenue: 20293525,
+    apartmentId: "62568ab0d6d1a4a941990909",
+  },
+  {
+    beginDate: "2022-06-02T00:00:00.000Z",
+    apartmentName: "Furama Resort Danang",
+    bookingCalendarId: "62962ed22b33af9a7861ae34",
+    monthlyRevenue: 20293525,
+    apartmentId: "62568ab0d6d1a4a941990909",
+  },
+  {
+    beginDate: "2022-06-02T00:00:00.000Z",
+    apartmentName: "Furama Resort Danang",
+    bookingCalendarId: "62962ed22b33af9a7861ae36",
+    monthlyRevenue: 20293525,
+    apartmentId: "62568ab0d6d1a4a941990979",
   },
 ];
 

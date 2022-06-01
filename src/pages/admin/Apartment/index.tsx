@@ -1,5 +1,5 @@
 import { ReactElement, useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { Tabs, Table, Button, Space, Tag, message, Input } from "antd";
 import type { InputRef } from "antd";
@@ -21,9 +21,9 @@ import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { Apartment, IAddress, TagType } from "app/model";
 import { IFlag, parseAddress } from "app/utils/extension";
 import { getApartmentQuery } from "app/query";
-import "./styles.scss";
 import { acceptOneApartment, denyOneApartment } from "app/mutation";
 import Snipper from "components/Snipper";
+import "./styles.scss";
 
 const { TabPane } = Tabs;
 
@@ -269,9 +269,13 @@ export default function ApartmentPage(): ReactElement {
           <a>
             <EditOutlined title="Update" />
           </a>
-          <a style={{ color: "lightgreen" }}>
+          <Link
+            to={`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_DETAIL}/${record._id}`}
+            style={{ color: "lightgreen" }}
+            state={record}
+          >
             <FileTextOutlined title="Detail" />
-          </a>
+          </Link>
           <a style={{ color: "red" }} onClick={() => showModal(record)}>
             <DeleteOutlined title="Delete" />
           </a>
@@ -386,7 +390,7 @@ export default function ApartmentPage(): ReactElement {
     <div className="apartment-page-container">
       <div className="title-container">
         <h2>Apartment Management</h2>
-        <Button
+        {/* <Button
           className="btn-container"
           type="primary"
           onClick={() =>
@@ -395,7 +399,7 @@ export default function ApartmentPage(): ReactElement {
         >
           <GoPlus />
           &nbsp; New Apartment
-        </Button>
+        </Button> */}
       </div>
       <Tabs onChange={callback}>
         <TabPane tab="All" key={ApartmentStatus.all}>
