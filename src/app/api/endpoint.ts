@@ -10,6 +10,9 @@ export const ADMIN_ENDPOINT = {
   DENY_APARTMENT: "/apartment/remove-pending-apartment", // ?apartmentId
   // room
   ROOM_OF_APARTMENT: "/room/apartment", //:id
+  AVAILABLE_ROOM: "/room/available-apartment",
+  UPDATE_ROOM: "/room",
+  DELETE_ROOM: "/room",
   // user
   ALL_USER: "/user/user-list",
   ONE_USER: "/user/get", // :id

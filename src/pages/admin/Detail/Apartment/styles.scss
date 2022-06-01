@@ -13,7 +13,7 @@
     font-weight: bold;
   }
   > * + * {
-    margin-top: 20px;
+    margin-top: 30px;
   }
 }
 
@@ -37,6 +37,12 @@
   font-family: "Open Sans", sans-serif;
   line-height: 1.5;
   padding-bottom: 30px;
+}
+
+.room-table-container {
+  > * + * {
+    margin-top: 20px;
+  }
 }
 
 .loader-container {

@@ -1,4 +1,4 @@
-export type MonthlyRevenueResponse = {
+export type MonthlyRevenue = {
   beginDate: string;
   apartmentName: string;
   bookingCalendarId: string;
@@ -6,8 +6,18 @@ export type MonthlyRevenueResponse = {
   apartmentId: string;
 };
 
-export type YearlyRevenueResponse = {
+export type YearlyRevenue = {
   bookingCalendarId: string;
   revenueOfMonth: number;
   month: number;
+};
+
+export type MonthlyRevenueResponse = {
+  result: MonthlyRevenue[];
+  totalRevenueApartmentOfMonth: number;
+};
+
+export type YearlyRevenueResponse = {
+  result: YearlyRevenue[];
+  totalRevenueMonth: number;
 };

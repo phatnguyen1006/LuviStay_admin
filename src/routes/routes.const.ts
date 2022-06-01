@@ -17,6 +17,7 @@ export const ADMIN_ROUTE = {
   APARTMENT: "/apartment",
   APARTMENT_DETAIL: "/apartment",
   APARTMENT_NEW: "/apartment/new",
+  APARTMENT_UPDATE: "/apartment/update",
   APARTMENT_HOTEL: "/apartment/hotel",
   APARTMENT_MOTEL: "/apartment/motel",
   APARTMENT_RESORT: "/apartment/resort",

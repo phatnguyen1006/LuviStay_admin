@@ -14,10 +14,6 @@ export const apartmentAPI = {
     const url = `${ADMIN_ENDPOINT.ONE_APARTMENT}/${id}`;
     return await axiosClient.get(url);
   },
-  fetchAllRoomsOfApartment: async (id: string): Promise<DataResponse<Array<Room>>> => {
-    const url = `${ADMIN_ENDPOINT.ROOM_OF_APARTMENT}/${id}`;
-    return await axiosClient.get(url);
-  },
   deleteOneApartment: async (id?: string): Promise<DataResponse<Apartment>> => {
     if (!id) return;
     const url = `${ADMIN_ENDPOINT.DELETE_APARTMENT}`;

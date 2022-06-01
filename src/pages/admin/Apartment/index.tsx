@@ -266,9 +266,12 @@ export default function ApartmentPage(): ReactElement {
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <a>
+          <Link
+            to={`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_UPDATE}/${record._id}`}
+            state={record}
+          >
             <EditOutlined title="Update" />
-          </a>
+          </Link>
           <Link
             to={`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT_DETAIL}/${record._id}`}
             style={{ color: "lightgreen" }}

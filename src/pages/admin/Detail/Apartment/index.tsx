@@ -1,12 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Collapse, message, Rate, Space, Spin, Tag } from "antd";
+import {
+  Button,
+  Collapse,
+  Input,
+  message,
+  Rate,
+  Space,
+  Spin,
+  Table,
+  Tag,
+} from "antd";
+import type { InputRef } from "antd";
 import { Apartment, Room } from "app/model";
 import { ReactElement } from "react";
-import { parseAddress } from "app/utils/extension";
+import { numberWithCommas, parseAddress } from "app/utils/extension";
 import { useQuery } from "react-query";
 import { getOneApartmentQuery, getRoomsofApartmentQuery } from "app/query";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { ColumnType, FilterConfirmProps } from "antd/lib/table/interface";
+import Highlighter from "react-highlight-words";
+import RoomDetail from "components/modal/RoomDetail";
 import "./styles.scss";
 
 const PicturesCollection = React.lazy(
@@ -14,6 +33,17 @@ const PicturesCollection = React.lazy(
 );
 
 const { Panel } = Collapse;
+
+interface DataType {
+  _id: string;
+  name: string;
+  capacity: string;
+  square: string;
+  status: boolean;
+  price: number;
+}
+
+type DataIndex = keyof DataType;
 
 export default function ApartmentDetailPage(): ReactElement {
   const location = useLocation();
@@ -35,10 +65,178 @@ export default function ApartmentDetailPage(): ReactElement {
 
   console.log(rooms);
 
+  const [visible, setVisible] = useState<boolean>();
+  const [currentEditingRoom, setEditingCurrentRoom] = useState<Room>();
+
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
+  // modal func
+  const showModal = (data: Room) => {
+    setEditingCurrentRoom(data);
+    setVisible(true);
+  };
+
+  const hideModal = () => {
+    setEditingCurrentRoom(null);
+    setVisible(false);
+  };
+
+  const refetchRoomData = () => {
     roomRefetch();
+  };
+
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: DataIndex
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (
+    dataIndex: DataIndex
+  ): ColumnType<DataType> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            handleSearch(selectedKeys as string[], confirm, dataIndex)
+          }
+          style={{ marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() =>
+              handleSearch(selectedKeys as string[], confirm, dataIndex)
+            }
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText((selectedKeys as string[])[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      ...getColumnSearchProps("name"),
+    },
+    {
+      title: "Capacity (person)",
+      dataIndex: "capacity",
+      key: "capacity",
+      render: (p) => <p>{p}</p>,
+    },
+    {
+      title: "Square (m^2)",
+      dataIndex: "square",
+      key: "square",
+    },
+    {
+      title: "Status",
+      dataIndex: "isAvailable",
+      key: "isAvailable",
+      render: (status) => {
+        let color = "volcano";
+        if (status) color = "green";
+        return <Tag color={color}>{status ? "Available" : "Reserved"}</Tag>;
+      },
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      render: (price: number) => <p>{numberWithCommas(price)} VNĐ</p>,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (text, record) => (
+        <Space size="middle">
+          <a style={{ color: "#c1b086" }} onClick={() => showModal(record)}>
+            <EditOutlined title="Update" />
+          </a>
+          <a style={{ color: "red" }}>
+            <DeleteOutlined title="Delete" />
+          </a>
+        </Space>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    console.log("recall");
+    refetchRoomData();
   }, [state]);
 
   useEffect(() => {
@@ -120,17 +318,23 @@ export default function ApartmentDetailPage(): ReactElement {
           </Panel>
         </Collapse>
         <div className="room-table-container">
-          <strong>Rooms</strong>
+          <strong>Rooms:</strong>
           {isRoomLoading ? (
             <SpinLoader />
           ) : rooms.length > 0 ? (
-            rooms.map((room, index) => <p key={index}>{room.name}</p>)
+            <Table rowKey={"_id"} dataSource={rooms} columns={columns} />
           ) : (
-            <p>
+            <p style={{ color: "gray", textAlign: "center" }}>
               <strong>Hiện không có phòng</strong>
             </p>
           )}
         </div>
+        <RoomDetail
+          visible={visible}
+          hideModal={hideModal}
+          currentRoom={currentEditingRoom}
+          refetchRoomData={refetchRoomData}
+        />
       </div>
     )
   );

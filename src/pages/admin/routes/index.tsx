@@ -12,7 +12,7 @@ const AdminExportFile = React.lazy(() => import("../ExportFile"));
 const AdminSetting = React.lazy(() => import("../Setting"));
 
 const ApartmentDetail = React.lazy(() => import("../Detail/Apartment"));
-const NewApartment = React.lazy(() => import("../Apartment/NewApartment"));
+const UpdateApartment = React.lazy(() => import("../Apartment/UpdateApartment"));
 const NewUser = React.lazy(() => import("../User/NewUser"));
 const UpdateUser = React.lazy(() => import("../User/UpdateUser"));
 const NewBlog = React.lazy(() => import("../Blog/NewBlog"));
@@ -25,7 +25,8 @@ export default function AdminRoutes() {
         <Route path={`${ADMIN_ROUTE.DASHBOARD}`} element={<AdminDashboard />} />
         <Route path={`${ADMIN_ROUTE.APARTMENT}`} element={<AdminApartment />} />
         <Route path={`${ADMIN_ROUTE.APARTMENT_DETAIL}/:id`} element={<ApartmentDetail />} />
-        <Route path={`${ADMIN_ROUTE.APARTMENT_NEW}`} element={<NewApartment />} />
+        <Route path={`${ADMIN_ROUTE.APARTMENT_UPDATE}`} element={<AdminApartment />} />
+        <Route path={`${ADMIN_ROUTE.APARTMENT_UPDATE}/:id`} element={<UpdateApartment />} />
         <Route path={`${ADMIN_ROUTE.USER}`} element={<AdminUser />} />
         <Route path={`${ADMIN_ROUTE.USER_NEW}`} element={<NewUser />} />
         <Route path={`${ADMIN_ROUTE.USER_UPDATE}`} element={<AdminUser />} />
