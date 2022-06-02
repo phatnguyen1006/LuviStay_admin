@@ -159,7 +159,7 @@ export default function UpdateBlog(): ReactElement {
       ) : (
         state && (
           <Form
-            name="validate_other"
+            name="update-blog"
             {...formItemLayout}
             onFinish={onFinish}
             initialValues={{

@@ -1,18 +1,29 @@
 import axiosClient from "../axiosClient";
 import { ResponseStatus } from "app/definitions/Enum";
-import { Apartment, DataResponse, Room } from "app/model";
+import { Apartment, ApartmentPayload, DataResponse, Room } from "app/model";
 import { ADMIN_ENDPOINT } from "../endpoint";
 
 export const apartmentAPI = {
-  fetchAllApartment: async (page?: number): Promise<DataResponse<Array<Apartment>>> => {
+  fetchAllApartment: async (
+    page?: number
+  ): Promise<DataResponse<Array<Apartment>>> => {
     let url = "";
     if (page) url = `${ADMIN_ENDPOINT.ALL_APARTMENT}?page=${page}`;
     else url = ADMIN_ENDPOINT.ALL_APARTMENT;
     return await axiosClient.get(url);
   },
-  fetchOneApartmentByID: async (id: string): Promise<DataResponse<Apartment>> => {
+  fetchOneApartmentByID: async (
+    id: string
+  ): Promise<DataResponse<Apartment>> => {
     const url = `${ADMIN_ENDPOINT.ONE_APARTMENT}/${id}`;
     return await axiosClient.get(url);
+  },
+  updateOneApartment: async (payload: {
+    apartmentID: string;
+    apartmentData: ApartmentPayload;
+  }): Promise<DataResponse<Apartment>> => {
+    const url = `${ADMIN_ENDPOINT.UPDATE_APARTMENT}`;
+    return await axiosClient.put(url, payload);
   },
   deleteOneApartment: async (id?: string): Promise<DataResponse<Apartment>> => {
     if (!id) return;

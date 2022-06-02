@@ -14,12 +14,22 @@ export const getApartmentQuery = async (
   }
 };
 
-export const getOneApartmentQuery = async (
-  key,
-  id?: string
-): Promise<Apartment> => {
+export const getOneApartment = async (key, id?: string): Promise<Apartment> => {
   try {
     if (!id) return;
+    const response = await apartmentAPI.fetchOneApartmentByID(id);
+    return response.data;
+  } catch (error) {
+    console.log("Failed to fetch apartments by id");
+    throw Error("Failed to fetch apartments by id");
+  }
+};
+
+export const getOneApartmentQuery = async ({
+  queryKey,
+}): Promise<Apartment> => {
+  try {
+    const [_, id] = queryKey;
     const response = await apartmentAPI.fetchOneApartmentByID(id);
     return response.data;
   } catch (error) {

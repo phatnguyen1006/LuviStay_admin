@@ -66,7 +66,9 @@ export default function HistoryChart({
         label: "History Revenue",
         data:
           (historyData &&
-            historyData?.result?.map((year) => year.totalRevenueMonthOfYear).reverse()) ??
+            historyData?.result
+              ?.map((year) => year.totalRevenueMonthOfYear)
+              .reverse()) ??
           [],
         borderColor: "#c1b086",
         backgroundColor: "#c1b086",
@@ -81,10 +83,12 @@ export default function HistoryChart({
       // },
     ],
   };
-  
 
   useEffect(() => {
-    historyData && setLabels(historyData.result.map((year) => year.year.toString()).reverse());
+    historyData &&
+      setLabels(
+        historyData.result.map((year) => year.year.toString()).reverse()
+      );
   }, [historyData]);
 
   const SpinLoader: React.FC = () => {
@@ -95,9 +99,9 @@ export default function HistoryChart({
     );
   };
 
-  return isLoading ? (
-    <SpinLoader />
-  ) : (
-    historyData && <Line options={options} data={data} />
+  return (
+    <Spin spinning={isLoading} tip="Loading...">
+      <Line options={options} data={data} />
+    </Spin>
   );
 }

@@ -1,65 +1,54 @@
-import { ReactElement, useState } from "react";
-import { Button, message, Steps } from "antd";
+import { ReactElement, useEffect, useState } from "react";
+import { Button, message, Spin, Steps } from "antd";
 import { UpdateAparemtForm } from "components/forms";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Apartment } from "app/model";
+import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
+import { getOneApartmentQuery } from "app/query";
+import { useQuery } from "react-query";
 import "./styles.scss";
 
-const { Step } = Steps;
-
-const steps = [
-  {
-    title: "New Apartment",
-    content: <UpdateAparemtForm />,
-  },
-  {
-    title: "Apartment's Room",
-    content: "Apartment-room",
-  },
-  {
-    title: "Finish",
-    content: "Finish",
-  },
-];
-
 export default function NewApartment(): ReactElement {
-  const [current, setCurrent] = useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id: apartmentID } = useParams();
 
-  const next = () => {
-    setCurrent(current + 1);
+  const state = (location.state as Apartment) || null;
+
+  const {
+    data: apartmentData = state,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+    refetch,
+  } = useQuery(["", apartmentID], getOneApartmentQuery, {
+    enabled: !state,
+  });
+
+  const refetchApartmentData = (): void => {
+    refetch();
   };
 
-  const prev = () => {
-    setCurrent(current - 1);
-  };
+  useEffect(() => {
+    if (!apartmentID) {
+      navigate(`${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT}`);
+      return;
+    }
+  }, []);
+
+  if (isError) {
+    message.error(error.toString());
+    return <></>;
+  }
 
   return (
     <div className="update-apartment-page">
-      {/* <Steps current={current}>
-        {steps.map((item) => (
-          <Step key={item.title} title={item.title} />
-        ))}
-      </Steps>
-      <div className="steps-content">{steps[current].content}</div>
-      <div className="steps-action">
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => next()}>
-            Next
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button
-            type="primary"
-            onClick={() => message.success("Processing complete!")}
-          >
-            Done
-          </Button>
-        )}
-        {current > 0 && (
-          <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
-            Previous
-          </Button>
-        )}
-      </div> */}
-      <UpdateAparemtForm />
+      {isLoading ? (
+        <Spin />
+      ) : (
+        apartmentData && <UpdateAparemtForm apartment={apartmentData} />
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ export enum TagType {
 }
 
 export type Apartment = {
+  _id?: string;
   name: string;
   owner: string;
   address: {

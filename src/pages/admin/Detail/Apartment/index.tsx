@@ -18,7 +18,7 @@ import { Apartment, Room } from "app/model";
 import { ReactElement } from "react";
 import { numberWithCommas, parseAddress } from "app/utils/extension";
 import { useMutation, useQuery } from "react-query";
-import { getOneApartmentQuery, getRoomsofApartmentQuery } from "app/query";
+import { getOneApartment, getRoomsofApartmentQuery } from "app/query";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import {
   DeleteOutlined,
@@ -317,12 +317,10 @@ export default function ApartmentDetailPage(): ReactElement {
 
       (async () => {
         setLoading(true);
-        await getOneApartmentQuery("apartment-detail", apartmentID).then(
-          (res) => {
-            setState(res);
-            setLoading(false);
-          }
-        );
+        await getOneApartment(null, apartmentID).then((res) => {
+          setState(res);
+          setLoading(false);
+        });
       })();
     }
 
