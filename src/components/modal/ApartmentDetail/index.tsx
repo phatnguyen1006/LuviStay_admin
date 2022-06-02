@@ -2,9 +2,8 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import React, { ReactElement, useState } from "react";
 import { Modal, Space, Button } from "antd";
 import { IProps } from "./types";
-import "./styles.scss";
 import { parseAddress } from "app/utils/extension";
-// fake Api
+import "./styles.scss";
 
 export default function ApartmentDetail({
   visible,
@@ -44,7 +43,12 @@ export default function ApartmentDetail({
         <strong>Apartment Name: </strong>
         {currentApartment.name}
       </p>
-      <img src={currentApartment.thumbnail} />
+      <div className="thumbnail-img-container">
+        <img
+          style={{ maxWidth: 400, minWidth: 100 }}
+          src={currentApartment.thumbnail}
+        />
+      </div>
       <p>
         <strong>Address: </strong> {parseAddress(currentApartment.address)}
       </p>

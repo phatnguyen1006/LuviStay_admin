@@ -28,7 +28,7 @@ export const ADMIN_ENDPOINT = {
   DELETE_BLOG: "/blog/delete", // :id
   // revenue
   MONTHLY_REVENUE: "/revenue/monthly", // ?year=2022&month=6
-  YEARLY_REVENUE: "/yearly", // ?year=2022
+  YEARLY_REVENUE: "/revenue/yearly", // ?year=2022
   ALL_REVENUE: "/revenue/all-yearly",
   // utils
   UPLOAD: "/blog/upload",

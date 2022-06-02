@@ -29,7 +29,7 @@ export const city = [
     "Hòa Bình",
     "Hậu Giang",
     "Hưng Yên",
-    "Thành phố Hồ Chí Minh",
+    "Hồ Chí Minh",
     "Khánh Hòa",
     "Kiên Giang",
     "Kon Tum",

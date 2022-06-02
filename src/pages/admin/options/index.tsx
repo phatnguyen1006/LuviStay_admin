@@ -32,7 +32,7 @@ export const menus: Array<IMenuItem> = [
   {
     key: "apartment",
     icon: () => <InsertRowLeftOutlined />,
-    title: "Apartment Management",
+    title: "Apartment",
     endPoint: "/apartment",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.APARTMENT}`,
     // subMenuKey: "apartment_sub",
@@ -67,7 +67,7 @@ export const menus: Array<IMenuItem> = [
   {
     key: "user",
     icon: () => <UserOutlined />,
-    title: "User Management",
+    title: "User",
     endPoint: "/user",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.USER}`,
     // subMenuKey: "user_sub",
@@ -87,7 +87,7 @@ export const menus: Array<IMenuItem> = [
   {
     key: "post",
     icon: () => <FileTextOutlined />,
-    title: "Post Management",
+    title: "Post",
     endPoint: "/post",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.BLOG}`,
 
@@ -108,7 +108,7 @@ export const menus: Array<IMenuItem> = [
   {
     key: "revenue",
     icon: () => <BarChartOutlined />,
-    title: "Revenue Management",
+    title: "Revenue",
     endPoint: "/revenue",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.REVENUE}`
     // subMenuKey: "revenue_sub",
@@ -147,13 +147,13 @@ export const menus: Array<IMenuItem> = [
   {
     key: "export-file",
     icon: () => <FileExcelOutlined />,
-    title: "Export File",
+    title: "Statistic",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.EXPORT_FILE}`,
   },
   {
     key: "settings",
     icon: () => <SettingOutlined />,
-    title: "General Setting",
+    title: "Setting",
     path: `${APP_ROUTE.ADMIN}${ADMIN_ROUTE.SETTINGS}`,
   },
 ];
