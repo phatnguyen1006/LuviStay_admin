@@ -30,6 +30,11 @@ export const apartmentAPI = {
     const url = `${ADMIN_ENDPOINT.DELETE_APARTMENT}`;
     return await axiosClient.put(url, { apartmentId: id });
   },
+  activeOneApartment: async (id?: string): Promise<DataResponse<Apartment>> => {
+    if (!id) return;
+    const url = `${ADMIN_ENDPOINT.ACTIVE_APARTMENT}`;
+    return await axiosClient.put(url, { apartmentId: id });
+  },
   acceptOneApartment: async (id?: string): Promise<DataResponse<Apartment>> => {
     if (!id) return;
     const url = `${ADMIN_ENDPOINT.ACCEPT_APARTMENT}`;

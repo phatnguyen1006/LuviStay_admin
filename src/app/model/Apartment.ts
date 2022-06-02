@@ -24,8 +24,8 @@ export type Apartment = {
   description: string;
   voucher: string;
   isPending: boolean;
+  isDisable: boolean;
 };
-
 
 export type ApartmentPayload = {
   _id?: string;

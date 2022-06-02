@@ -1,16 +1,26 @@
 import { ReactElement, useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
-import { Tabs, Table, Button, Space, Tag, message, Input } from "antd";
+import {
+  Tabs,
+  Table,
+  Button,
+  Space,
+  Tag,
+  message,
+  Input,
+  Popconfirm,
+} from "antd";
 import type { InputRef } from "antd";
 import type { FilterConfirmProps } from "antd/lib/table/interface";
 import {
-  DeleteOutlined,
   EditOutlined,
   CheckOutlined,
   CloseOutlined,
   SearchOutlined,
   FileTextOutlined,
+  UndoOutlined,
+  StopOutlined,
 } from "@ant-design/icons";
 import { GoPlus } from "react-icons/go";
 import Highlighter from "react-highlight-words";
@@ -21,7 +31,12 @@ import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import { Apartment, IAddress, TagType } from "app/model";
 import { IFlag, parseAddress } from "app/utils/extension";
 import { getApartmentQuery } from "app/query";
-import { acceptOneApartment, denyOneApartment } from "app/mutation";
+import {
+  acceptOneApartment,
+  activeOneApartmentMutation,
+  denyOneApartment,
+  disableOneApartmentMutation,
+} from "app/mutation";
 import Snipper from "components/Snipper";
 import "./styles.scss";
 
@@ -45,6 +60,30 @@ export default function ApartmentPage(): ReactElement {
     refetch,
   } = useQuery(["apartments", 1], getApartmentQuery);
 
+  const { mutate: deleteMutate, isLoading: isDeleteLoading } = useMutation(
+    disableOneApartmentMutation,
+    {
+      onSuccess: () => {
+        message.success("Disable apartment successfully");
+        refetchApartmentData();
+      },
+      onError: () => {
+        message.error("Failed to disable apartment. Please try again");
+      },
+    }
+  );
+  const { mutate: activeMutate, isLoading: isActiveLoading } = useMutation(
+    activeOneApartmentMutation,
+    {
+      onSuccess: () => {
+        message.success("Active apartment successfully");
+        refetchApartmentData();
+      },
+      onError: () => {
+        message.error("Failed to Delete apartment. Please try again");
+      },
+    }
+  );
   const { mutate: acceptMutate, isLoading: isAccepting } = useMutation(
     acceptOneApartment,
     {
@@ -192,16 +231,14 @@ export default function ApartmentPage(): ReactElement {
     },
     render: (text) =>
       searchedColumn === dataIndex ? (
-        <a onClick={showModal}>
-          <Highlighter
-            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-            searchWords={[searchText]}
-            autoEscape
-            textToHighlight={text ? text.toString() : ""}
-          />
-        </a>
+        <Highlighter
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
       ) : (
-        <a onClick={showModal}>{text}</a>
+        text
       ),
   });
 
@@ -262,6 +299,33 @@ export default function ApartmentPage(): ReactElement {
       },
     },
     {
+      title: "Status",
+      key: "isDisable",
+      dataIndex: "isDisable",
+      filters: [
+        {
+          text: "Unavailable",
+          value: true,
+        },
+        {
+          text: "Available",
+          value: false,
+        },
+      ],
+      onFilter: (value, record) => record.isDisable === value,
+      render: (isDisable) => {
+        let color = "green";
+        if (isDisable === true) {
+          color = "volcano";
+        }
+        return (
+          <Tag color={color} key={isDisable}>
+            {isDisable ? "Unavailable" : "Available"}
+          </Tag>
+        );
+      },
+    },
+    {
       title: "Action",
       key: "action",
       render: (text, record) => (
@@ -279,9 +343,43 @@ export default function ApartmentPage(): ReactElement {
           >
             <FileTextOutlined title="Detail" />
           </Link>
-          <a style={{ color: "red" }} onClick={() => showModal(record)}>
-            <DeleteOutlined title="Delete" />
-          </a>
+          {record.isDisable ? (
+            <a
+              onClick={() => {
+                if (record.isDisable) {
+                  setIDLoading(record._id);
+                  activeMutate(record._id);
+                }
+              }}
+            >
+              {isActiveLoading && idLoading == record._id ? (
+                <Snipper />
+              ) : (
+                <UndoOutlined title="Active" />
+              )}
+            </a>
+          ) : (
+            <Popconfirm
+              placement="top"
+              title={"Are you sure to disable?"}
+              onConfirm={() => {
+                if (!record.isDisable) {
+                  setIDLoading(record._id);
+                  deleteMutate(record._id);
+                }
+              }}
+              okText="Yes"
+              cancelText="No"
+            >
+              <a style={{ color: "red" }}>
+                {isDeleteLoading && idLoading === record._id ? (
+                  <Snipper />
+                ) : (
+                  <StopOutlined title="Disable" />
+                )}
+              </a>
+            </Popconfirm>
+          )}
         </Space>
       ),
     },

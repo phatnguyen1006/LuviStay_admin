@@ -6,6 +6,7 @@ export const ADMIN_ENDPOINT = {
   ONE_APARTMENT: "/apartment/detail", // :id
   NEW_APARTMENT: "/apartment/all",
   UPDATE_APARTMENT: "/apartment/update",
+  ACTIVE_APARTMENT: "/apartment/activate-admin-apartment",
   DELETE_APARTMENT: "/apartment/delete-apartment",
   ACCEPT_APARTMENT: "/apartment/confirm-pending-apartment", // ?apartmentId
   DENY_APARTMENT: "/apartment/remove-pending-apartment", // ?apartmentId

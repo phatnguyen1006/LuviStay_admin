@@ -1,3 +1,5 @@
+@use "../../styles/" as *;
+
 .signin-container {
     /* w-screen h-screen flex items-center justify-center px-auto bg-slate-200 */
     width: 100vw;
@@ -7,7 +9,7 @@
     justify-content: center;
     padding-left: auto;
     padding-right: auto;
-    background-color: #779abd;
+    background-color: $secondary;
 }
 
 .bg-logo-full {
@@ -29,6 +31,7 @@
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     box-shadow: 10px 10px 10px;
+    border-radius: 15px;
     background-color: whitesmoke;
     z-index: 20;
 }
