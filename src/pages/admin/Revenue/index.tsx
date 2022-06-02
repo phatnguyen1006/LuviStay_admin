@@ -302,7 +302,10 @@ const RevenuePage = (): JSX.Element => {
       </section> */}
       <section className="body-revenue-page">
         <section className="chart-layout">
-          <Chart chartType={chartType} />
+          <Chart
+            chartType={chartType}
+            chartData={(monthlyRevenuesData as MonthlyRevenueResponse).result}
+          />
         </section>
         <section className="statistic-container">
           <section className="table-revenue-container">

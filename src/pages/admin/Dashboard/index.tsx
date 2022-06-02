@@ -57,7 +57,7 @@ const DashBoard = (): JSX.Element => {
             </div> */}
           </div>
           <div className="chart-container">
-            <Chart chartType={chartType} />
+            {/* <Chart chartType={chartType} /> */}
           </div>
         </div>
         <section className="news-view">
