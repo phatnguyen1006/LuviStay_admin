@@ -1,0 +1,12 @@
+@use "../../styles/" as *;
+
+.image-slider-container {
+    width: 100%;
+    height: 360px;
+}
+
+.image-slider-content {
+    // width={"100%"} height={"100%"}
+    width: 100%;
+    height: 100%;
+}

@@ -75,21 +75,8 @@ export default function YearlyChart(props: ChartProps) {
     "November",
     "December",
   ];
-  const historyLabels = ["2018", "2019", "2020", "2021", "2022"];
-  let labels = yearLabels;
-
-  (() => {
-    if (chartType === ChartType.year) {
-      labels = yearLabels;
-    } else if (chartType === ChartType.all) {
-      labels = historyLabels;
-    }
-  })();
-
-  console.log(
-    "check ",
-    chartData && chartData.map((data) => data.revenueOfMonth)
-  );
+  // const historyLabels = ["2018", "2019", "2020", "2021", "2022"];
+  const labels = yearLabels;
 
   const data = {
     labels: labels,

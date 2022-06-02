@@ -1,127 +1,66 @@
 @use "../../../styles/" as *;
+@use "../../../styles/animation";
 
-// h2 {
-//     font-size: 40px;
-//     font-weight: 700;
-//     padding: 0;
-//     margin: 0;
-// }
-
-h3 {
-    font-size: 30px;
-    font-weight: 500;
+.dashboard-page-container {
+  h2 {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  strong {
+    font-weight: bold;
+  }
+  > * + * {
+    margin-top: 30px;
+  }
 }
 
-// ._container {
-//     background-image: url("../../../../public/images/logo-square-primary.png");
-//     width: 100vw;
-//     height: 100%;
-//     display: flex;
-//     justify-content: center;
-// }
-
-.dashboard-section-container {
-    width: 100%;
+.body-section {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  // flex: 3 1;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.turnover-section-container {
-    width: 60%;
-    padding: 20px;
-    border: 1.2px solid #001529;
-    border-radius: 15px;
+.body-main-layout {
+  width: 70%;
+  > * + * {
+    margin-top: 10px;
+  }
 }
 
-.turnover-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: max-content;
-    // padding-right: 20px;
+.more-information {
+  padding: 0 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
-.custom-selection-btn {
-    position: relative;
-    width: 90px;
-    height: 30px;
-    overflow: hidden;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.progress-bar-container {
+  width: 100%;
+  border-radius: 15px;
+  background-color: $secondary;
+  display: flex;
+  justify-content: space-between;
 }
 
-.filter-btn-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 20%;
-    height: max-content;
-    background-color: red;
+.body-sub-layout {
+  width: 30%;
+  // background-color: aquamarine;
+  height: 70vh;
+  border: 0.5px solid $secondary;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
 }
 
-.selection-antd {
-    position: absolute;
-    left: 0;
-    width: 100%;
+.standing-view {
+  
 }
-
-.filter-icon {
-    position: absolute;
-    right: 0;
-    width: 30%;
-}
-
-.selection-icon-prefix {
-    width: max-content;
-    height: max-content;
-    margin-right: 10px;
-}
-
-.custom-selection-btn-with-icon {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 1px 2px 1px 2px;
-    width: max-content;
-    height: max-content;
-}
-
-.chart-container {
-    width: 100%;
-}
-
-.second-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    // > * + * {
-    //     margin-left: 2rem;
-    // }
-}
-
-.news-view {
-    width: 35%;
-    height: 400px;
-    padding: 20px;
-    border: 1.2px solid #001529;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: left;
-    // background-color: $primary;
-    background-color: #001529;
-    color: $primary;
-    & > h3 {
-        color: $primary;
-    }
-}
-
-// // rewrite antd css
-// .ant-select-selection-item,
-// .ant-select-selector {
-//     padding: 0 !important;
-// }

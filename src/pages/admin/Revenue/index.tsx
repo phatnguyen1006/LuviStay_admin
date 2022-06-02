@@ -35,9 +35,9 @@ import {
   SorterResult,
 } from "antd/lib/table/interface";
 import { ArrowUpOutlined, SearchOutlined } from "@ant-design/icons";
-import "./styles.scss";
 import { useQuery } from "react-query";
 import { getMonthlyRevenueQuery, getYearlyRevenueQuery } from "app/query";
+import "./styles.scss";
 
 const { Option } = Select;
 
