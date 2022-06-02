@@ -1,8 +1,20 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import React, { ReactElement, useState } from "react";
-import { Modal, Space, Button, Form, Input, InputNumber, Select } from "antd";
+import {
+  Modal,
+  Space,
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Popconfirm,
+  message,
+} from "antd";
 import { IProps, IRoomStatus } from "./types";
 import "./styles.scss";
+import { useMutation } from "react-query";
+import { deleteOneRoomMutation, updateOneRoomMutation } from "app/mutation";
 
 const { Option } = Select;
 
@@ -25,7 +37,7 @@ const validateMessages = {
 /* eslint-enable no-template-curly-in-string */
 
 const suffixSelector = (
-  <Form.Item name="suffix" noStyle>
+  <Form.Item noStyle>
     <p>VNĐ</p>
   </Form.Item>
 );
@@ -38,8 +50,43 @@ export default function RoomDetail({
 }: IProps): ReactElement {
   const [onUpdate, setOnUpdate] = useState<boolean>(false);
 
+  const { mutate: updateRoomMutate, isLoading: isUpdating } = useMutation(
+    updateOneRoomMutation,
+    {
+      onSuccess: () => {
+        message.success("Update room successfully");
+        refetchRoomData();
+        hideModal();
+      },
+      onError: () => {
+        message.error("Failed to update room. Please try again");
+      },
+    }
+  );
+  const { mutate: deleteRoomMutate, isLoading: isDeleteLoading } = useMutation(
+    deleteOneRoomMutation,
+    {
+      onSuccess: () => {
+        message.success("Delete room successfully");
+        refetchRoomData();
+        hideModal();
+      },
+      onError: () => {
+        message.error("Failed to delete room. Please try again");
+      },
+    }
+  );
+
   const onFinish = (values: any) => {
     console.log(values);
+
+    values = {
+      ...values,
+      isDisable: values.isDisable === IRoomStatus.unavailable ? true : false,
+      roomId: currentRoom._id,
+    };
+
+    updateRoomMutate(values);
   };
 
   if (!currentRoom) {
@@ -67,20 +114,21 @@ export default function RoomDetail({
               }}
               form="room-detail"
               htmlType="submit"
-              // loading={isLoading}
+              loading={isUpdating}
             >
               Update
             </Button>
-            <Button
-              key="delete"
-              danger
-              onClick={() => {
-                // mutate(currentUser._id);
-              }}
-              // loading={isLoading}
+            <Popconfirm
+              placement="topLeft"
+              title={"Are you sure to delete?"}
+              onConfirm={() => deleteRoomMutate(currentRoom._id)}
+              okText="Yes"
+              cancelText="No"
             >
-              Delete
-            </Button>
+              <Button key="disable" danger loading={isDeleteLoading}>
+                Disable
+              </Button>
+            </Popconfirm>
           </Space>,
         ]}
       >
@@ -95,7 +143,9 @@ export default function RoomDetail({
             bedName: currentRoom.bedName,
             capacity: currentRoom.capacity,
             square: currentRoom.square,
-            isAvailable: currentRoom.isAvailable ? IRoomStatus.available : IRoomStatus.reserved,
+            isDisable: !currentRoom.isDisable
+              ? IRoomStatus.available
+              : IRoomStatus.unavailable,
             price: currentRoom.price,
           }}
           onChange={() => setOnUpdate(true)}
@@ -110,8 +160,8 @@ export default function RoomDetail({
 
           <Form.Item
             name="bedName"
-            label="Beds"
-            rules={[{ required: true, message: "please provide beds" }]}
+            label="Bed Name"
+            rules={[{ required: true, message: "please provide bed name" }]}
           >
             <Input />
           </Form.Item>
@@ -137,7 +187,7 @@ export default function RoomDetail({
           </Form.Item>
 
           <Form.Item
-            name="isAvailable"
+            name="isDisable"
             label="Status"
             rules={[{ required: true, message: "please provide status" }]}
           >
@@ -146,7 +196,7 @@ export default function RoomDetail({
               onChange={() => setOnUpdate(true)}
             >
               <Option value={IRoomStatus.available}>Available</Option>
-              <Option value={IRoomStatus.reserved}>Reserved</Option>
+              <Option value={IRoomStatus.unavailable}>Unavailable</Option>
             </Select>
           </Form.Item>
 

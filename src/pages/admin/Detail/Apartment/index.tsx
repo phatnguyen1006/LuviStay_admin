@@ -11,12 +11,13 @@ import {
   Table,
   Tag,
   Image,
+  Popconfirm,
 } from "antd";
 import type { InputRef } from "antd";
 import { Apartment, Room } from "app/model";
 import { ReactElement } from "react";
 import { numberWithCommas, parseAddress } from "app/utils/extension";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { getOneApartmentQuery, getRoomsofApartmentQuery } from "app/query";
 import { ADMIN_ROUTE, APP_ROUTE } from "routes/routes.const";
 import {
@@ -28,6 +29,8 @@ import { ColumnType, FilterConfirmProps } from "antd/lib/table/interface";
 import Highlighter from "react-highlight-words";
 import RoomDetail from "components/modal/RoomDetail";
 import "./styles.scss";
+import { deleteOneRoomMutation } from "app/mutation";
+import Snipper from "components/Snipper";
 
 const PicturesCollection = React.lazy(
   () => import("components/collection/PictureCollection")
@@ -64,7 +67,18 @@ export default function ApartmentDetailPage(): ReactElement {
     refetch: roomRefetch,
   } = useQuery(["apartment-room", apartmentID], getRoomsofApartmentQuery);
 
-  console.log(rooms);
+  const { mutate: deleteRoomMutate, isLoading: isDeleteLoading } = useMutation(
+    deleteOneRoomMutation,
+    {
+      onSuccess: () => {
+        message.success("Delete room successfully");
+        refetchRoomData();
+      },
+      onError: () => {
+        message.error("Failed to delete room. Please try again");
+      },
+    }
+  );
 
   const [visible, setVisible] = useState<boolean>();
   const [currentEditingRoom, setEditingCurrentRoom] = useState<Room>();
@@ -205,12 +219,12 @@ export default function ApartmentDetailPage(): ReactElement {
     },
     {
       title: "Status",
-      dataIndex: "isAvailable",
-      key: "isAvailable",
+      dataIndex: "isDisable",
+      key: "isDisable",
       render: (status) => {
-        let color = "volcano";
-        if (status) color = "green";
-        return <Tag color={color}>{status ? "Available" : "Reserved"}</Tag>;
+        let color = "green";
+        if (status) color = "volcano";
+        return <Tag color={color}>{status ? "Unavailable" : "Available"}</Tag>;
       },
     },
     {
@@ -227,9 +241,28 @@ export default function ApartmentDetailPage(): ReactElement {
           <a style={{ color: "#c1b086" }} onClick={() => showModal(record)}>
             <EditOutlined title="Update" />
           </a>
-          <a style={{ color: "red" }}>
-            <DeleteOutlined title="Delete" />
-          </a>
+          <Popconfirm
+            placement="top"
+            title={"Are you sure to delete?"}
+            onConfirm={() => {
+              if (!record.isDisable) {
+                setEditingCurrentRoom(record._id);
+                deleteRoomMutate(record._id);
+              }
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <a style={{ color: record.isDisable ? "gray" : "red" }}>
+              {isDeleteLoading && currentEditingRoom == record._id ? (
+                <Snipper />
+              ) : (
+                <DeleteOutlined
+                  title={record.isDisable ? "Disabled" : "Disable"}
+                />
+              )}
+            </a>
+          </Popconfirm>
         </Space>
       ),
     },

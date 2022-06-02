@@ -16,6 +16,6 @@ export const roomAPI = {
   },
   deleteOneRoom: async (id: string): Promise<DataResponse<null>> => {
     const url = `${ADMIN_ENDPOINT.DELETE_ROOM}`;
-    return await axiosClient.delete(url, { data: { roomId: id } });
+    return await axiosClient.put(url, { roomId: id });
   },
 };

@@ -9,5 +9,5 @@ export interface IProps {
 
 export enum IRoomStatus {
   available = "Available",
-  reserved = "Reserved",
+  unavailable = "Unavailable",
 }

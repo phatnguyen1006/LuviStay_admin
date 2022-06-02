@@ -11,6 +11,7 @@ export type Room = {
   thumbnail: string;
   isAvailable: boolean;
   facilities: Array<string>;
+  isDisable: boolean;
 };
 
 export type RoomPayload = {

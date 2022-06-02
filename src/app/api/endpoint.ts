@@ -12,7 +12,7 @@ export const ADMIN_ENDPOINT = {
   ROOM_OF_APARTMENT: "/room/apartment", //:id
   AVAILABLE_ROOM: "/room/available-apartment",
   UPDATE_ROOM: "/room",
-  DELETE_ROOM: "/room",
+  DELETE_ROOM: "/room/disable-admin-room",
   // user
   ALL_USER: "/user/user-list",
   ONE_USER: "/user/get", // :id
