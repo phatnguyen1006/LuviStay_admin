@@ -10,6 +10,7 @@ import {
   Spin,
   Table,
   Tag,
+  Image,
 } from "antd";
 import type { InputRef } from "antd";
 import { Apartment, Room } from "app/model";
@@ -293,7 +294,12 @@ export default function ApartmentDetailPage(): ReactElement {
       <div className="apartment-detail-page-container">
         <h2 style={{ marginBottom: 30, color: "#c1b086" }}>{state.name}</h2>
         <div className="center-thumbnail">
-          <img src={state.thumbnail} alt="Apartment hotel thumbnail" />
+          <Image
+            alt="Apartment hotel thumbnail"
+            className="photo-content"
+            width={200}
+            src={state.thumbnail}
+          />
         </div>
         <div className="sub-information-container">
           <p>

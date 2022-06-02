@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Progress, Select, Space, Table } from "antd";
 import Chart from "components/chart";
@@ -6,9 +7,10 @@ import { BsSliders } from "react-icons/bs";
 import StandingWindow from "components/standing";
 import Slider from "components/slider";
 import HistoryChart from "components/chart/HistoryChart";
-import "./styles.scss";
-import { CircleProgress } from "./CircleProgress";
 import { Standing } from "./Standing";
+import "./styles.scss";
+
+const CircleProgress = React.lazy(() => import("./CircleProgress"));
 
 const DashBoard = (): JSX.Element => {
   return (

@@ -1,6 +1,7 @@
+import React, { ReactElement } from "react";
 import "./styles.scss";
 
-export const CircleProgress: React.FC = () => {
+export default function CircleProgress(): ReactElement {
   return (
     <div className="progress-bar-container">
       <div className="progressbar">
@@ -41,7 +42,7 @@ export const CircleProgress: React.FC = () => {
             {" "}
           </circle>
         </svg>
-        <span className="progressbar__text shadow-scss">SCSS</span>
+        <span className="progressbar__text shadow-scss">Overall</span>
       </div>
     </div>
   );
