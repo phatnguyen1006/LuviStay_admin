@@ -35,9 +35,9 @@ import {
   SorterResult,
 } from "antd/lib/table/interface";
 import { ArrowUpOutlined, SearchOutlined } from "@ant-design/icons";
+import "./styles.scss";
 import { useQuery } from "react-query";
 import { getMonthlyRevenueQuery, getYearlyRevenueQuery } from "app/query";
-import "./styles.scss";
 
 const { Option } = Select;
 
@@ -326,14 +326,21 @@ const RevenuePage = (): JSX.Element => {
           </section>
           <Card className="summary-revenue-container">
             <Space direction="vertical">
-              <Statistic
+              {yearlyRevenuesData && yearlyCompareRevenuesData ? <Statistic
                 title={<h3>Summary</h3>}
                 value={yearlyRevenuesData.totalRevenueMonth/yearlyCompareRevenuesData.totalRevenueMonth}
                 precision={2}
                 valueStyle={{ color: "#3f8600" }}
                 prefix={<ArrowUpOutlined />}
                 suffix="%"
-              />
+              /> : <Statistic
+              title={<h3>Summary</h3>}
+              value={0.00}
+              precision={2}
+              valueStyle={{ color: "#3f8600" }}
+              prefix={<ArrowUpOutlined />}
+              suffix="%"
+            /> }
               <Statistic
                 style={{ marginTop: 30 }}
                 title={<h3>Total</h3>}
