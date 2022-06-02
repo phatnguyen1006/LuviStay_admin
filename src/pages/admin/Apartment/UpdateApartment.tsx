@@ -1,6 +1,7 @@
 import { ReactElement, useState } from "react";
 import { Button, message, Steps } from "antd";
 import { UpdateAparemtForm } from "components/forms";
+import "./styles.scss";
 
 const { Step } = Steps;
 
@@ -31,8 +32,8 @@ export default function NewApartment(): ReactElement {
   };
 
   return (
-    <div>
-      <Steps current={current}>
+    <div className="update-apartment-page">
+      {/* <Steps current={current}>
         {steps.map((item) => (
           <Step key={item.title} title={item.title} />
         ))}
@@ -57,7 +58,8 @@ export default function NewApartment(): ReactElement {
             Previous
           </Button>
         )}
-      </div>
+      </div> */}
+      <UpdateAparemtForm />
     </div>
   );
 }

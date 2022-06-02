@@ -14,7 +14,11 @@ export const roomAPI = {
     const url = `${ADMIN_ENDPOINT.UPDATE_ROOM}`;
     return await axiosClient.put(url, payload);
   },
-  deleteOneRoom: async (id: string): Promise<DataResponse<null>> => {
+  activeOneRoom: async (id: string): Promise<DataResponse<null>> => {
+    const url = `${ADMIN_ENDPOINT.ACTIVE_ROOM}`;
+    return await axiosClient.put(url, { roomId: id });
+  },
+  disableOneRoom: async (id: string): Promise<DataResponse<null>> => {
     const url = `${ADMIN_ENDPOINT.DELETE_ROOM}`;
     return await axiosClient.put(url, { roomId: id });
   },

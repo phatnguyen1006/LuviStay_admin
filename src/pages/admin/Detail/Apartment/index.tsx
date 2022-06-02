@@ -24,12 +24,13 @@ import {
   DeleteOutlined,
   EditOutlined,
   SearchOutlined,
+  UndoOutlined,
 } from "@ant-design/icons";
 import { ColumnType, FilterConfirmProps } from "antd/lib/table/interface";
 import Highlighter from "react-highlight-words";
 import RoomDetail from "components/modal/RoomDetail";
 import "./styles.scss";
-import { deleteOneRoomMutation } from "app/mutation";
+import { deleteOneRoomMutation, activeOneRoomMutation } from "app/mutation";
 import Snipper from "components/Snipper";
 
 const PicturesCollection = React.lazy(
@@ -66,6 +67,19 @@ export default function ApartmentDetailPage(): ReactElement {
     isError: isRoomError,
     refetch: roomRefetch,
   } = useQuery(["apartment-room", apartmentID], getRoomsofApartmentQuery);
+
+  const { mutate: activeRoomMutate, isLoading: isActiveLoading } = useMutation(
+    activeOneRoomMutation,
+    {
+      onSuccess: () => {
+        message.success("Active room successfully");
+        refetchRoomData();
+      },
+      onError: () => {
+        message.error("Failed to active room. Please try again");
+      },
+    }
+  );
 
   const { mutate: deleteRoomMutate, isLoading: isDeleteLoading } = useMutation(
     deleteOneRoomMutation,
@@ -241,28 +255,46 @@ export default function ApartmentDetailPage(): ReactElement {
           <a style={{ color: "#c1b086" }} onClick={() => showModal(record)}>
             <EditOutlined title="Update" />
           </a>
-          <Popconfirm
-            placement="top"
-            title={"Are you sure to delete?"}
-            onConfirm={() => {
-              if (!record.isDisable) {
-                setEditingCurrentRoom(record._id);
-                deleteRoomMutate(record._id);
-              }
-            }}
-            okText="Yes"
-            cancelText="No"
-          >
-            <a style={{ color: record.isDisable ? "gray" : "red" }}>
-              {isDeleteLoading && currentEditingRoom == record._id ? (
+
+          {record.isDisable ? (
+            <a
+              onClick={() => {
+                if (record.isDisable) {
+                  setEditingCurrentRoom(record._id);
+                  activeRoomMutate(record._id);
+                }
+              }}
+            >
+              {isActiveLoading && currentEditingRoom == record._id ? (
                 <Snipper />
               ) : (
-                <DeleteOutlined
-                  title={record.isDisable ? "Disabled" : "Disable"}
-                />
+                <UndoOutlined title="Active" />
               )}
             </a>
-          </Popconfirm>
+          ) : (
+            <Popconfirm
+              placement="top"
+              title={"Are you sure to delete?"}
+              onConfirm={() => {
+                if (!record.isDisable) {
+                  setEditingCurrentRoom(record._id);
+                  deleteRoomMutate(record._id);
+                }
+              }}
+              okText="Yes"
+              cancelText="No"
+            >
+              <a style={{ color: "red" }}>
+                {isDeleteLoading && currentEditingRoom == record._id ? (
+                  <Snipper />
+                ) : (
+                  <DeleteOutlined
+                    title={record.isDisable ? "Disabled" : "Disable"}
+                  />
+                )}
+              </a>
+            </Popconfirm>
+          )}
         </Space>
       ),
     },

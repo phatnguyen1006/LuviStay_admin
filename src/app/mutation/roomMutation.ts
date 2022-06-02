@@ -13,9 +13,21 @@ export const updateOneRoomMutation = async (payload: RoomPayload) => {
   }
 };
 
+export const activeOneRoomMutation = async (id: string) => {
+  try {
+    const response = await roomAPI.activeOneRoom(id);
+    if (response.succces) {
+      return response.data;
+    }
+  } catch (error) {
+    console.log("Failed to active room");
+    throw Error("Failed to active room");
+  }
+};
+
 export const deleteOneRoomMutation = async (id: string) => {
   try {
-    const response = await roomAPI.deleteOneRoom(id);
+    const response = await roomAPI.disableOneRoom(id);
     if (response.succces) {
       return response.data;
     }

@@ -143,9 +143,6 @@ export default function RoomDetail({
             bedName: currentRoom.bedName,
             capacity: currentRoom.capacity,
             square: currentRoom.square,
-            isDisable: !currentRoom.isDisable
-              ? IRoomStatus.available
-              : IRoomStatus.unavailable,
             price: currentRoom.price,
           }}
           onChange={() => setOnUpdate(true)}
@@ -186,7 +183,7 @@ export default function RoomDetail({
             <span className="ant-form-text"> m^2</span>
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="isDisable"
             label="Status"
             rules={[{ required: true, message: "please provide status" }]}
@@ -198,7 +195,7 @@ export default function RoomDetail({
               <Option value={IRoomStatus.available}>Available</Option>
               <Option value={IRoomStatus.unavailable}>Unavailable</Option>
             </Select>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             name="price"
