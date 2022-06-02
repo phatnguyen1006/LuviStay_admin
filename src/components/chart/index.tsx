@@ -12,6 +12,8 @@ import {
 import { ChartType } from "./types";
 import { Line } from "react-chartjs-2";
 import faker from "faker";
+import { YearlyRevenue } from "app/model";
+import "./styles.scss";
 
 ChartJS.register(
   CategoryScale,
@@ -25,10 +27,27 @@ ChartJS.register(
 
 interface ChartProps {
   chartType: ChartType;
-  chartData: Array<any>
+  labelForChartData: number;
+  labelForComapreData?: number;
+  chartData: YearlyRevenue[];
+  chartCompareData?: YearlyRevenue[];
 }
 
-export default function Chart({ chartType, chartData }: ChartProps) {
+const Loader: React.FC = () => {
+  return (
+    <div className="loader-container">
+      <div className="lds-ripple">
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  );
+};
+
+export default function YearlyChart(props: ChartProps) {
+  const { chartType, labelForChartData, chartData, labelForComapreData, chartCompareData } = props;
+  console.log(props);
+
   const options = {
     responsive: true,
     plugins: {
@@ -67,27 +86,32 @@ export default function Chart({ chartType, chartData }: ChartProps) {
     }
   })();
 
+  console.log(
+    "check ",
+    chartData && chartData.map((data) => data.revenueOfMonth)
+  );
+
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "Dataset 1",
-        data: labels.map((label, index) =>
-          faker.datatype.number({ min: -1000, max: 1000 })
-        ),
+        label: labelForChartData.toString(),
+        data: chartData && chartData.map((data) => data.revenueOfMonth),
         borderColor: "#c1b086",
         backgroundColor: "#c1b086",
       },
-      // {
-      //   label: "Dataset 2",
-      //   data: labels.map(() =>
-      //     faker.datatype.number({ min: -1000, max: 1000 })
-      //   ),
-      //   borderColor: "#001529",
-      //   backgroundColor: "#001529",
-      // },
+      {
+        label: labelForComapreData ? labelForComapreData.toString() : "No history to compare",
+        data: chartCompareData
+          ? (chartCompareData as YearlyRevenue[]).map(
+              (data) => data.revenueOfMonth
+            )
+          : [],
+        borderColor: "#001529",
+        backgroundColor: "#001529",
+      },
     ],
   };
 
-  return <Line options={options} data={data} />;
+  return chartData ? <Line options={options} data={data} /> : <Loader />;
 }

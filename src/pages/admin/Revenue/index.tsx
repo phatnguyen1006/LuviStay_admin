@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
@@ -11,7 +11,7 @@ import {
   Tag,
 } from "antd";
 import type { DatePickerProps, InputRef, TableProps } from "antd";
-import Chart from "components/chart";
+import YearlyChart from "components/chart";
 import { ChartType } from "components/chart/types";
 import { BsSliders } from "react-icons/bs";
 import {
@@ -76,7 +76,7 @@ const RevenuePage = (): JSX.Element => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
   const {
-    data: monthlyRevenuesData = [],
+    data: monthlyRevenuesData = null,
     isLoading: isMonthlyLoading,
     error: monthlyError,
     isError: isMonthlyError,
@@ -84,12 +84,22 @@ const RevenuePage = (): JSX.Element => {
   } = useQuery(["monthly-revenue", { month, year }], getMonthlyRevenueQuery);
 
   const {
-    data: yearlyRevenuesData = [],
+    data: yearlyRevenuesData = null,
     isLoading: isYearlyLoading,
     error: yearError,
     isError: isYearError,
     refetch: yearlyRefetch,
   } = useQuery(["yearly-revenue", { year }], getYearlyRevenueQuery);
+  const {
+    data: yearlyCompareRevenuesData = null,
+    isLoading: compareIsLoading,
+    error: compareError,
+    isError: compareIsError,
+    refetch: comapreRefetch,
+  } = useQuery(
+    ["yearly-compare-revenue", { year: year - 1 }],
+    getYearlyRevenueQuery
+  );
 
   const [chartType, setchartType] = useState<ChartType>(ChartType.month);
 
@@ -272,40 +282,23 @@ const RevenuePage = (): JSX.Element => {
           </Select>
         </Space>
       </div>
-      {/* <section className="body-revenue-page">
-        <div className="main-page-container">
-          <div>
-            <Chart chartType={chartType} />
-          </div>
-          <div>
-            <Table
-              rowKey="bookingCalendarId"
-              columns={columns as ColumnsType<any>}
-              dataSource={apartments}
-              // loading={isLoading}
-            />
-          </div>
-        </div>
-        <div
-          className="sub-layout-container"
-        >
-            <Statistic
-              title={<h3>Summary</h3>}
-              value={11.28}
-              precision={2}
-              valueStyle={{ color: "#3f8600" }}
-              prefix={<ArrowUpOutlined />}
-              suffix="%"
-            />
-            <Statistic title={<h3>This month revenue</h3>} value={112893} suffix="VNĐ" />
-        </div>
-      </section> */}
       <section className="body-revenue-page">
         <section className="chart-layout">
-          <Chart
-            chartType={chartType}
-            chartData={(monthlyRevenuesData as MonthlyRevenueResponse).result}
-          />
+          {yearlyRevenuesData && (
+            <YearlyChart
+              chartType={ChartType.year}
+              labelForChartData={year}
+              chartData={
+                yearlyRevenuesData &&
+                (yearlyRevenuesData as YearlyRevenueResponse).result
+              }
+              labelForComapreData={year-1}
+              chartCompareData={
+                yearlyCompareRevenuesData &&
+                (yearlyCompareRevenuesData as YearlyRevenueResponse).result
+              }
+            />
+          )}
         </section>
         <section className="statistic-container">
           <section className="table-revenue-container">
@@ -314,6 +307,7 @@ const RevenuePage = (): JSX.Element => {
                 rowKey="bookingCalendarId"
                 columns={columns as ColumnsType<any>}
                 dataSource={
+                  monthlyRevenuesData &&
                   (monthlyRevenuesData as MonthlyRevenueResponse).result
                 }
                 loading={isMonthlyLoading}
@@ -323,6 +317,7 @@ const RevenuePage = (): JSX.Element => {
                 rowKey="bookingCalendarId"
                 columns={yearlyColumns as ColumnsType<any>}
                 dataSource={
+                  yearlyRevenuesData &&
                   (yearlyRevenuesData as YearlyRevenueResponse).result
                 }
                 loading={isYearlyLoading}
@@ -333,7 +328,7 @@ const RevenuePage = (): JSX.Element => {
             <Space direction="vertical">
               <Statistic
                 title={<h3>Summary</h3>}
-                value={11.28}
+                value={yearlyRevenuesData.totalRevenueMonth/yearlyCompareRevenuesData.totalRevenueMonth}
                 precision={2}
                 valueStyle={{ color: "#3f8600" }}
                 prefix={<ArrowUpOutlined />}
@@ -344,9 +339,11 @@ const RevenuePage = (): JSX.Element => {
                 title={<h3>Total</h3>}
                 value={
                   chartType === ChartType.month
-                    ? (monthlyRevenuesData as MonthlyRevenueResponse)
+                    ? monthlyRevenuesData &&
+                      (monthlyRevenuesData as MonthlyRevenueResponse)
                         .totalRevenueApartmentOfMonth
-                    : (yearlyRevenuesData as YearlyRevenueResponse)
+                    : yearlyRevenuesData &&
+                      (yearlyRevenuesData as YearlyRevenueResponse)
                         .totalRevenueMonth
                 }
                 suffix="VNĐ"

@@ -313,7 +313,7 @@ export default function ApartmentDetailPage(): ReactElement {
               dangerouslySetInnerHTML={{ __html: state.description }}
             ></div>
           </Panel>
-          <Panel header={<strong>Pictures</strong>} key="3">
+          <Panel header={<strong>Pictures</strong>} key="2">
             <PicturesCollection pictures={state.pictures} />
           </Panel>
         </Collapse>
