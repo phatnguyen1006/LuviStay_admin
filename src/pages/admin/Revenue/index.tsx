@@ -339,7 +339,7 @@ const RevenuePage = (): JSX.Element => {
                     color:
                       1 -
                         yearlyRevenuesData.totalRevenueMonth /
-                          yearlyCompareRevenuesData.totalRevenueMonth >
+                          yearlyCompareRevenuesData.totalRevenueMonth <
                       0
                         ? "#3f8600"
                         : "#cf1322",
@@ -347,7 +347,7 @@ const RevenuePage = (): JSX.Element => {
                   prefix={
                     1 -
                       yearlyRevenuesData.totalRevenueMonth /
-                        yearlyCompareRevenuesData.totalRevenueMonth >
+                        yearlyCompareRevenuesData.totalRevenueMonth <
                     0 ? (
                       <ArrowUpOutlined />
                     ) : (
