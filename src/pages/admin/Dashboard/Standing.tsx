@@ -36,6 +36,9 @@ export const Standing: React.FC = () => {
   return (
     <Table
       className="table-around"
+      pagination={{
+        pageSize: 3,
+      }}
       rowKey={"bookingCalendarId"}
       title={() => (
         <h3>

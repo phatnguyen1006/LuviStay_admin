@@ -35,7 +35,7 @@
 }
 
 .more-information {
-  padding: 0 30px;
+  padding: 0 20px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -47,6 +47,7 @@
   background-color: $secondary;
   display: flex;
   justify-content: space-between;
+  align-items: stretch;
 }
 
 .body-sub-layout {
@@ -58,7 +59,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 10px;
+  padding: 0 10px;
 }
 
 .table-around {

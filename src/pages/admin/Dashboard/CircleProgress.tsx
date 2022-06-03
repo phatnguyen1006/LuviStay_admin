@@ -7,9 +7,9 @@ export default function CircleProgress(): ReactElement {
       <div className="progressbar">
         <svg className="progressbar__svg">
           <circle
-            cx="80"
+            cx="75"
             cy="80"
-            r="60"
+            r="50"
             className="progressbar__svg-circle circle-js shadow-js"
           >
             {" "}
@@ -20,9 +20,9 @@ export default function CircleProgress(): ReactElement {
       <div className="progressbar">
         <svg className="progressbar__svg">
           <circle
-            cx="80"
+            cx="75"
             cy="80"
-            r="60"
+            r="50"
             className="progressbar__svg-circle circle-ts shadow-ts"
           >
             {" "}
@@ -34,15 +34,15 @@ export default function CircleProgress(): ReactElement {
       <div className="progressbar">
         <svg className="progressbar__svg">
           <circle
-            cx="80"
+            cx="75"
             cy="80"
-            r="60"
-            className="progressbar__svg-circle circle-scss shadow-scss"
+            r="50"
+            className="progressbar__svg-circle circle-html shadow-html"
           >
             {" "}
           </circle>
         </svg>
-        <span className="progressbar__text shadow-scss">Overall</span>
+        <span className="progressbar__text shadow-html">Overall</span>
       </div>
     </div>
   );
