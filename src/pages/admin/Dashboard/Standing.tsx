@@ -2,6 +2,7 @@ import { Table } from "antd";
 import { getMonthlyRevenueQuery } from "app/query";
 import { numberWithCommas } from "app/utils/extension";
 import { useQuery } from "react-query";
+import "./styles.scss";
 
 const columns = [
   {
@@ -34,6 +35,7 @@ export const Standing: React.FC = () => {
 
   return (
     <Table
+      className="table-around"
       rowKey={"bookingCalendarId"}
       title={() => (
         <h3>
