@@ -10,9 +10,6 @@
 #### Nguyễn Trọng Phát - 19521998
 #### Nguyễn Trà Vi - 19522512
 
-# Mô hình sử dụng:
-MERN Stack
-
 # Link website: 
 ### https://admin-luvistay.vercel.app
 
