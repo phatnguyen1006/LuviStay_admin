@@ -34,7 +34,7 @@ import {
   FilterConfirmProps,
   SorterResult,
 } from "antd/lib/table/interface";
-import { ArrowUpOutlined, SearchOutlined } from "@ant-design/icons";
+import { ArrowDownOutlined, ArrowUpOutlined, SearchOutlined } from "@ant-design/icons";
 import "./styles.scss";
 import { useQuery } from "react-query";
 import { getMonthlyRevenueQuery, getYearlyRevenueQuery } from "app/query";
@@ -292,7 +292,7 @@ const RevenuePage = (): JSX.Element => {
                 yearlyRevenuesData &&
                 (yearlyRevenuesData as YearlyRevenueResponse).result
               }
-              labelForComapreData={year-1}
+              labelForComapreData={year - 1}
               chartCompareData={
                 yearlyCompareRevenuesData &&
                 (yearlyCompareRevenuesData as YearlyRevenueResponse).result
@@ -326,21 +326,46 @@ const RevenuePage = (): JSX.Element => {
           </section>
           <Card className="summary-revenue-container">
             <Space direction="vertical">
-              {yearlyRevenuesData && yearlyCompareRevenuesData ? <Statistic
-                title={<h3>Summary</h3>}
-                value={yearlyRevenuesData.totalRevenueMonth/yearlyCompareRevenuesData.totalRevenueMonth}
-                precision={2}
-                valueStyle={{ color: "#3f8600" }}
-                prefix={<ArrowUpOutlined />}
-                suffix="%"
-              /> : <Statistic
-              title={<h3>Summary</h3>}
-              value={0.00}
-              precision={2}
-              valueStyle={{ color: "#3f8600" }}
-              prefix={<ArrowUpOutlined />}
-              suffix="%"
-            /> }
+              {yearlyRevenuesData && yearlyCompareRevenuesData ? (
+                <Statistic
+                  title={<h3>Summary</h3>}
+                  value={Math.abs(
+                    1 -
+                      yearlyRevenuesData.totalRevenueMonth /
+                        yearlyCompareRevenuesData.totalRevenueMonth
+                  )}
+                  precision={2}
+                  valueStyle={{
+                    color:
+                      1 -
+                        yearlyRevenuesData.totalRevenueMonth /
+                          yearlyCompareRevenuesData.totalRevenueMonth >
+                      0
+                        ? "#3f8600"
+                        : "#cf1322",
+                  }}
+                  prefix={
+                    1 -
+                      yearlyRevenuesData.totalRevenueMonth /
+                        yearlyCompareRevenuesData.totalRevenueMonth >
+                    0 ? (
+                      <ArrowUpOutlined />
+                    ) : (
+                      <ArrowDownOutlined />
+                    )
+                  }
+                  suffix="%"
+                />
+              ) : (
+                <Statistic
+                  title={<h3>Summary</h3>}
+                  value={0.0}
+                  precision={2}
+                  valueStyle={{ color: "#3f8600" }}
+                  prefix={<ArrowUpOutlined />}
+                  suffix="%"
+                />
+              )}
               <Statistic
                 style={{ marginTop: 30 }}
                 title={<h3>Total</h3>}
