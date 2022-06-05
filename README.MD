@@ -1,5 +1,3 @@
-# Link website: 
-### https://admin-luvistay.vercel.app
 <div id="top"></div>
 <!--
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
@@ -38,9 +36,8 @@
 <h3 align="center">LuviStay</h3>
 
   <p align="center">
-    About the Project
     <br />
-    <a href="https://admin-luvistay.vercel.app">View Demo</a>
+    <a href="https://admin-luvistay.vercel.app">View Website</a>
     </p>
 </div>
 
@@ -59,6 +56,7 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
+        <li><a href="#installation">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
@@ -169,10 +167,9 @@ This is an example of how to list things you need to use the software and how to
 - [x] Statistic
     - [x] Download Apartment Statistic
     - [x] Download Revenue Statistic
-- [] Setting
-    - [ ] Langguage
+- [ ] Setting
+    - [ ] Language
     - [ ] Bright/Dark Mode
-    - [ ] 
 - [x] Notification
 - [x] Search
 - [x] Logout
@@ -185,14 +182,15 @@ This is an example of how to list things you need to use the software and how to
 ## Contributing
 
 ### Group 12:
-
-#### Võ Sỹ Huy - 19521641 
-#### Lê Khôi - 19521707
-#### Nguyễn Ngọc Khôi - 19521709
-#### Nguyễn Khuê - 19521712
-#### Nguyễn Hữu Long - 19521789
-#### Nguyễn Trọng Phát - 19521998
-#### Nguyễn Trà Vi - 19522512
+<ol>
+    <li>Võ Sỹ Huy - 19521641</li>
+    <li>lê Khôi - 19521707</li>
+    <li>Nguyễn Ngọc Khôi - 19521641</li>
+    <li>Nguyễn Khuê - 19521641</li>
+    <li>Nguyễn Hữu Long - 19521641</li>
+    <li>Nguyễn Trọng Phát - 19521641</li>
+    <li>Nguyễn Trà Vi - 19521641</li>
+</ol>
 
 
 
