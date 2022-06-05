@@ -38,17 +38,10 @@
 <h3 align="center">LuviStay</h3>
 
   <p align="center">
-    Mô tả về dự án
+    About the Project
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
-  </p>
+    <a href="https://admin-luvistay.vercel.app">View Demo</a>
+    </p>
 </div>
 
 
@@ -66,16 +59,13 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <!-- <li><a href="#prerequisites">Prerequisites</a></li> -->
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <!-- <li><a href="#license">License</a></li> -->
     <li><a href="#contact">Contact</a></li>
-    <!-- <li><a href="#acknowledgments">Acknowledgments</a></li> -->
   </ol>
 </details>
 
@@ -186,7 +176,6 @@ This is an example of how to list things you need to use the software and how to
 - [x] Notification
 - [x] Search
 - [x] Logout
-<!-- See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues). -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -206,12 +195,6 @@ This is an example of how to list things you need to use the software and how to
 #### Nguyễn Trà Vi - 19522512
 
 
-<!-- LICENSE -->
-<!-- ## License -->
-
-<!-- Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p> -->
 
 <!-- CONTACT -->
 ## Contact
@@ -221,17 +204,6 @@ Nguyễn Trọng Phát - [@linkedin_handle](https://www.facebook.com/tsone.ylov)
 Project Link: [@github_handle](https://github.com/phatnguyen1006/LuviStay_admin.git)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS
-## Acknowledgments
-
-<!-- * []()
-* []()
-* []() -->
-
-<!-- <p align="right">(<a href="#top">back to top</a>)</p> --> -->
 
 
 
