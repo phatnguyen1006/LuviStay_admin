@@ -31,12 +31,12 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
+<!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 
 
@@ -50,7 +50,7 @@
 <h3 align="center">LuviStay</h3>
 
   <p align="center">
-    project_description
+    Mô tả về dự án
     <br />
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
@@ -96,9 +96,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](public/images/ScreenShot_Project.png)
+[![Product Name Screen Shot][product-screenshot]](https://admin-luvistay.vercel.app)
 
-Trang LuviStay Admin này được tạo ra nhằm quản lí kinh doanh cho trang LuviStay. Website này chỉ được cung cấp cho những người có thẩm quyền.
+Trang LuviStay Admin được tạo ra nhằm quản lí kinh doanh cho trang LuviStay. Website này chỉ được cung cấp cho những người có thẩm quyền.
 
 <!-- `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
 
@@ -135,19 +135,19 @@ Trang LuviStay Admin này được tạo ra nhằm quản lí kinh doanh cho tra
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+<!-- 1. Get a free API Key at [https://example.com](https://example.com) -->
+1. Clone repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/phatnguyen1006/LuviStay_admin.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
-   npm install
+   npm i
    ```
-4. Enter your API in `config.js`
+<!-- 4. Enter your API in `config.js`
    ```js
    const API_KEY = 'ENTER YOUR API';
-   ```
+   ``` -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -156,9 +156,16 @@ Trang LuviStay Admin này được tạo ra nhằm quản lí kinh doanh cho tra
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+<!-- Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://example.com)_ -->
+
+1. Mở Terminal
+    ```sh
+    ctrl + shift + `
+2. Chạy Website ở localhost
+    ```sh
+    npm start
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -167,12 +174,39 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+- [x] Dashboard
+- [x] Apartment
+    - [x] Accept An Apartment
+    - [x] Decline An Apartment
+    - [x] Update An Apartment
+    - [x] See Detail of An Apartment
+    - [x] Activate An Apartment
+    - [x] Disable An Apartment
+- [x] User
+    - [x] Create New User
+    - [x] Delete An User
+    - [x] Update An User
+    - [x] See Detail of An User
+- [x] Post
+    - [x] Accept A Post
+    - [x] Decline A Post
+    - [x] Update A Post
+    - [x] See Detail A Post
+    - [x] Delete A Post
+- [x] Revenue
+    - [x] Select A Month of A Year
+    - [x] Select A Year
+- [x] Statistic
+    - [x] Download Apartment Statistic
+    - [x] Download Revenue Statistic
+- [] Setting
+    - [ ] Langguage
+    - [ ] Bright/Dark Mode
+    - [ ] 
+- [x] Notification
+- [x] Search
+- [x] Logout
+<!-- See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues). -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -181,29 +215,23 @@ See the [open issues](https://github.com/github_username/repo_name/issues) for a
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+### Thành viên: Nhóm 12
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
+#### Võ Sỹ Huy - 19521641 
+#### Lê Khôi - 19521707
+#### Nguyễn Ngọc Khôi - 19521709
+#### Nguyễn Khuê - 19521712
+#### Nguyễn Hữu Long - 19521789
+#### Nguyễn Trọng Phát - 19521998
+#### Nguyễn Trà Vi - 19522512
 
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+<!-- Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
+<p align="right">(<a href="#top">back to top</a>)</p> -->
 
 <!-- CONTACT -->
 ## Contact
@@ -219,9 +247,9 @@ Project Link: [@github_handle](https://github.com/phatnguyen1006/LuviStay_admin.
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+<!-- * []()
 * []()
-* []()
-* []()
+* []() -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -241,4 +269,4 @@ Project Link: [@github_handle](https://github.com/phatnguyen1006/LuviStay_admin.
 [license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: public/images/ScreenShot_Project.png
