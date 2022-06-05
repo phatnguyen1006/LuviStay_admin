@@ -1,15 +1,3 @@
-# LuviStay Admin - Booking Hotel
-
-# Thành viên: Nhóm 12
-
-#### Võ Sỹ Huy - 19521641 
-#### Lê Khôi - 19521707
-#### Nguyễn Ngọc Khôi - 19521709
-#### Nguyễn Khuê - 19521712
-#### Nguyễn Hữu Long - 19521789
-#### Nguyễn Trọng Phát - 19521998
-#### Nguyễn Trà Vi - 19522512
-
 # Link website: 
 ### https://admin-luvistay.vercel.app
 <div id="top"></div>
@@ -78,16 +66,16 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
+        <!-- <li><a href="#prerequisites">Prerequisites</a></li> -->
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+    <!-- <li><a href="#license">License</a></li> -->
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <!-- <li><a href="#acknowledgments">Acknowledgments</a></li> -->
   </ol>
 </details>
 
@@ -98,7 +86,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://admin-luvistay.vercel.app)
 
-Trang LuviStay Admin được tạo ra nhằm quản lí kinh doanh cho trang LuviStay. Website này chỉ được cung cấp cho những người có thẩm quyền.
+This website is created to manage business operation of LuviStay. Only managers are authorized to login this page
 
 <!-- `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
 
@@ -123,19 +111,19 @@ Trang LuviStay Admin được tạo ra nhằm quản lí kinh doanh cho trang Lu
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Để có thể chạy được project này ở localhost, bạn sẽ cần làm theo các bước sau
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-<!-- This is an example of how to list things you need to use the software and how to install them.
+This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
-  ``` -->
+  ```
 
 ### Installation
 
-<!-- 1. Get a free API Key at [https://example.com](https://example.com) -->
 1. Clone repo
    ```sh
    git clone https://github.com/phatnguyen1006/LuviStay_admin.git
@@ -144,10 +132,6 @@ Trang LuviStay Admin được tạo ra nhằm quản lí kinh doanh cho trang Lu
    ```sh
    npm i
    ```
-<!-- 4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ``` -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -156,14 +140,10 @@ Trang LuviStay Admin được tạo ra nhằm quản lí kinh doanh cho trang Lu
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-<!-- Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_ -->
-
-1. Mở Terminal
+1. Open the Terminal
     ```sh
     ctrl + shift + `
-2. Chạy Website ở localhost
+2. Run Project at Localhost
     ```sh
     npm start
 
@@ -215,7 +195,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_ --
 <!-- CONTRIBUTING -->
 ## Contributing
 
-### Thành viên: Nhóm 12
+### Group 12:
 
 #### Võ Sỹ Huy - 19521641 
 #### Lê Khôi - 19521707
@@ -227,7 +207,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_ --
 
 
 <!-- LICENSE -->
-## License
+<!-- ## License -->
 
 <!-- Distributed under the MIT License. See `LICENSE.txt` for more information.
 
@@ -236,7 +216,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_ --
 <!-- CONTACT -->
 ## Contact
 
-Nguyễn Trọng Phát - [@linkedin_handle](https://www.linkedin.com/in/phatnguyen1006) - email@email_client.com
+Nguyễn Trọng Phát - [@linkedin_handle](https://www.facebook.com/tsone.ylov)
 
 Project Link: [@github_handle](https://github.com/phatnguyen1006/LuviStay_admin.git)
 
@@ -244,14 +224,14 @@ Project Link: [@github_handle](https://github.com/phatnguyen1006/LuviStay_admin.
 
 
 
-<!-- ACKNOWLEDGMENTS -->
+<!-- ACKNOWLEDGMENTS
 ## Acknowledgments
 
 <!-- * []()
 * []()
 * []() -->
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<!-- <p align="right">(<a href="#top">back to top</a>)</p> --> -->
 
 
 
