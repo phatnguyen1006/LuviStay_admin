@@ -34,9 +34,7 @@
   </a>
 
 <h3 align="center">LuviStay</h3>
-
   <p align="center">
-    <br />
     <a href="https://admin-luvistay.vercel.app">View Website</a>
     </p>
 </div>
@@ -197,9 +195,9 @@ This is an example of how to list things you need to use the software and how to
 <!-- CONTACT -->
 ## Contact
 
-Nguyễn Trọng Phát - [@linkedin_handle](https://www.facebook.com/tsone.ylov)
+Nguyễn Trọng Phát - [Facebook](https://www.facebook.com/tsone.ylov)
 
-Project Link: [@github_handle](https://github.com/phatnguyen1006/LuviStay_admin.git)
+Project Link: [Github](https://github.com/phatnguyen1006/LuviStay_admin.git)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
