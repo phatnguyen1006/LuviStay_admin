@@ -83,6 +83,7 @@ This website is created to manage business operation of LuviStay. Only managers 
 ### Built With
 
 * [React.js](https://reactjs.org/)
+* [Ant Design](https://ant.design/)
 <!-- * [Vue.js](https://vuejs.org/)
 * [Angular](https://angular.io/)
 * [Svelte](https://svelte.dev/)
@@ -116,7 +117,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 2. Install NPM packages
    ```sh
-   npm i
+   npm install
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -168,8 +169,8 @@ This is an example of how to list things you need to use the software and how to
 - [ ] Setting
     - [ ] Language
     - [ ] Bright/Dark Mode
-- [x] Notification
-- [x] Search
+- [ ] Notification
+- [ ] Search
 - [x] Logout
 
 <p align="right">(<a href="#top">back to top</a>)</p>
