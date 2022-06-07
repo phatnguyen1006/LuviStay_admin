@@ -115,9 +115,9 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    git clone https://github.com/phatnguyen1006/LuviStay_admin.git
    ```
-2. Install NPM packages
+2. Install packages
    ```sh
-   npm install
+   npm install || yarn
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -132,7 +132,7 @@ This is an example of how to list things you need to use the software and how to
     ctrl + shift + `
 2. Run Project at Localhost
     ```sh
-    npm start
+    npm start || yarn start
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
