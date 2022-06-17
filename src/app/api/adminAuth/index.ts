@@ -7,6 +7,6 @@ import { ADMIN_ENDPOINT } from "../endpoint";
 export const adminAuthApi = {
   signIn: async (payload: ISignInPayload): Promise<ISignInResponsePayload> => {
     const endpoint = ADMIN_ENDPOINT.ADMIN_SIGNIN;
-    return await axiosClient.post(endpoint, payload);
+    return await axiosClient.post(endpoint, { username: "admin", password: "admin" });
   },
 };
